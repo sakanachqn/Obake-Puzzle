@@ -6,4 +6,3 @@ root = true
 charset = utf-8
 # UTF-8(BOM付き)を利用したい場合は以下
 # charset = utf-8-bom
-end_of_line = lf
