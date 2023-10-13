@@ -235,9 +235,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deadZone: 0.5
+  isMoveNow: 0
+  isRotateNow: 0
+  isCamNow: 0
+  stickInclination: {x: 0, y: 0}
   objectRotation: {fileID: 570520831}
   camParent: {fileID: 615550332}
   rotateTime: 2
+  objectCheck: {fileID: 0}
+  stickDirection: 4
+  camLR: 2
 --- !u!114 &249858599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eaeabfffcc034645a49c25c9f8eefee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fowardPov: {fileID: 0}
 --- !u!1 &615550332
 GameObject:
   m_ObjectHideFlags: 0
