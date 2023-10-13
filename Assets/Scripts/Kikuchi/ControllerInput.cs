@@ -111,24 +111,6 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             ""id"": ""4b23967c-62b6-4b8b-918a-5271815cdf31"",
             ""actions"": [
                 {
-                    ""name"": ""Left"",
-                    ""type"": ""Button"",
-                    ""id"": ""58adaf01-6958-48b9-971b-c662812410ac"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Right"",
-                    ""type"": ""Button"",
-                    ""id"": ""a2a64f04-27b2-4e44-97b8-86caf229141b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""CamR"",
                     ""type"": ""Button"",
                     ""id"": ""fbc355fe-139b-464e-9c6f-07917e11342c"",
@@ -150,30 +132,8 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""72cbeaa7-3f07-4f6a-8801-8844af6b0ca3"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Left"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2c15ebaf-82e5-4380-98b7-4aa4a3c61106"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Right"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""7ea4ff1a-bfd6-4429-853d-d394c22bb424"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -184,7 +144,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""fbda6c31-8b70-404d-aa73-33ba689ee5ef"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -202,8 +162,6 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         // Rotate
         m_Rotate = asset.FindActionMap("Rotate", throwIfNotFound: true);
-        m_Rotate_Left = m_Rotate.FindAction("Left", throwIfNotFound: true);
-        m_Rotate_Right = m_Rotate.FindAction("Right", throwIfNotFound: true);
         m_Rotate_CamR = m_Rotate.FindAction("CamR", throwIfNotFound: true);
         m_Rotate_CamL = m_Rotate.FindAction("CamL", throwIfNotFound: true);
     }
@@ -313,16 +271,12 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
     // Rotate
     private readonly InputActionMap m_Rotate;
     private List<IRotateActions> m_RotateActionsCallbackInterfaces = new List<IRotateActions>();
-    private readonly InputAction m_Rotate_Left;
-    private readonly InputAction m_Rotate_Right;
     private readonly InputAction m_Rotate_CamR;
     private readonly InputAction m_Rotate_CamL;
     public struct RotateActions
     {
         private @ControllerInput m_Wrapper;
         public RotateActions(@ControllerInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Left => m_Wrapper.m_Rotate_Left;
-        public InputAction @Right => m_Wrapper.m_Rotate_Right;
         public InputAction @CamR => m_Wrapper.m_Rotate_CamR;
         public InputAction @CamL => m_Wrapper.m_Rotate_CamL;
         public InputActionMap Get() { return m_Wrapper.m_Rotate; }
@@ -334,12 +288,6 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_RotateActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_RotateActionsCallbackInterfaces.Add(instance);
-            @Left.started += instance.OnLeft;
-            @Left.performed += instance.OnLeft;
-            @Left.canceled += instance.OnLeft;
-            @Right.started += instance.OnRight;
-            @Right.performed += instance.OnRight;
-            @Right.canceled += instance.OnRight;
             @CamR.started += instance.OnCamR;
             @CamR.performed += instance.OnCamR;
             @CamR.canceled += instance.OnCamR;
@@ -350,12 +298,6 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IRotateActions instance)
         {
-            @Left.started -= instance.OnLeft;
-            @Left.performed -= instance.OnLeft;
-            @Left.canceled -= instance.OnLeft;
-            @Right.started -= instance.OnRight;
-            @Right.performed -= instance.OnRight;
-            @Right.canceled -= instance.OnRight;
             @CamR.started -= instance.OnCamR;
             @CamR.performed -= instance.OnCamR;
             @CamR.canceled -= instance.OnCamR;
@@ -385,8 +327,6 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
     }
     public interface IRotateActions
     {
-        void OnLeft(InputAction.CallbackContext context);
-        void OnRight(InputAction.CallbackContext context);
         void OnCamR(InputAction.CallbackContext context);
         void OnCamL(InputAction.CallbackContext context);
     }

@@ -28,11 +28,13 @@ public class PlayerController : MonoBehaviour
     private ObjectRotation objectRotation;
     //回転させる親オブジェクト
     [SerializeField]
-    private GameObject rotateParent;
-    [SerializeField]
     private GameObject camParent;
+    //回転にかかる時間
     [SerializeField]
     private float rotateTime = 2f;
+
+    //移動先情報確認用クラス
+    private ObjectCheck objectCheck;
 
     /// <summary>
     /// スティックの倒れた方向
@@ -67,11 +69,6 @@ public class PlayerController : MonoBehaviour
         directions[Direction.Right] = right;
         directions[Direction.Up] = foward;
         directions[Direction.Down] = back;
-
-        foreach (KeyValuePair<Direction, Vector3> pair in directions)
-        {
-            Debug.Log(pair.Key + " : " + pair.Value);
-        }
     }
 
     /// <summary>
@@ -94,9 +91,12 @@ public class PlayerController : MonoBehaviour
         Application.targetFrameRate = 60;
         // inpSysの定義読み込み
         inp = ControllerManager.instance.CtrlInput;
+        //オブジェクトの移動先確認クラス読み込み
+        objectCheck = this.GetComponent<ObjectCheck>();
         //キャンセルトークンの取得
         var token = this.GetCancellationTokenOnDestroy();
 
+        //Dictonary Init
         var vec3s = objectRotation.SetFoward();
         SetDirectionDictionary(vec3s[0], vec3s[1], vec3s[2], vec3s[3]);
 
@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour
         if(!isMoveNow && !isRotateNow && !isCamNow)CheckPressCamRotateButton();
     }
 
-
+    #region 移動
 
     /// <summary>
     /// 移動コルーチン
@@ -122,24 +122,23 @@ public class PlayerController : MonoBehaviour
     { 
         while (true)
         {
-            Debug.Log("in");
             if (isMoveNow || isRotateNow || isCamNow) return; //移動中or回転中は早期リターン
             await UniTask.WaitUntil(() => stickDirection != Direction.Null, cancellationToken: token);// stickが倒されるのを待つ
-            Debug.Log("start");
             isMoveNow = true; //移動中フラグ起動
-            ObjectCheck();
-            await UniTask.Delay(TimeSpan.FromSeconds(2), cancellationToken: token);
             var targetPos = this.transform.position + directions[stickDirection]; //目標地点を設定
+            objectCheck.CheckObject(targetPos);
+            await UniTask.Delay(TimeSpan.FromSeconds(3));
             while (isMoveNow)
             {
-                Debug.Log("move");
-                Move(targetPos);
-                if (this.transform.position == targetPos) isMoveNow = false;
-                await UniTask.DelayFrame(1, cancellationToken: token);
+                Move(targetPos); //移動
+                if (this.transform.position == targetPos) isMoveNow = false; //移動しきったらフラグoff
+                await UniTask.DelayFrame(1, cancellationToken: token);　//1f待つ
             }
         }
 
     }
+
+
 
     /// <summary>
     /// 引数で渡された座標まで移動
@@ -150,14 +149,6 @@ public class PlayerController : MonoBehaviour
         this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, Time.deltaTime);
     }
 
-    /// <summary>
-    /// 移動先に何があるか確認
-    /// </summary>
-    private void ObjectCheck()
-    {
-        //Debug.DrawRay(this.transform.position, directions[stickDirection], Color.cyan, Mathf.Infinity);
-        //if(Physics.Raycast()) 
-    }
 
     /// <summary>
     /// 移動方向取得関数
@@ -198,7 +189,31 @@ public class PlayerController : MonoBehaviour
         else if(minus) return -1;
         else return 1;
     }
+    #endregion
 
+    #region 回転
+
+    /// <summary>
+    /// 回転コルーチン
+    /// </summary>
+    /// <param name="token"></param>
+    private async UniTask CamRotateTask(CancellationToken token)
+    {
+        while (true)
+        {
+            if (isMoveNow || isRotateNow || isCamNow) return; //移動中or回転中は早期リターン
+            await UniTask.WaitUntil(() => camLR != LeftRight.Null, cancellationToken: token);　//enumがnull以外になったら
+            isRotateNow = true;//フラグ起動
+            var targetRotate = SetCamTargetRotete();//回転量設定
+            await camParent.transform.DORotate(targetRotate, rotateTime, RotateMode.LocalAxisAdd);//回転処理&回転終わるまで待機
+            camLR = LeftRight.Null;//enum初期化
+            //Dictionaryの各方向のVec3を再設定
+            var vec3s = objectRotation.SetFoward();
+            SetDirectionDictionary(vec3s[0], vec3s[1], vec3s[2], vec3s[3]);
+            //
+            isRotateNow = false;//フラグoff
+        }
+    }
 
     /// <summary>
     /// L1 or R1が押されたかどうかの判定用関数
@@ -222,26 +237,5 @@ public class PlayerController : MonoBehaviour
         return nowRotate;
     }
 
-    /// <summary>
-    /// 回転コルーチン
-    /// </summary>
-    /// <param name="token"></param>
-    private async UniTask CamRotateTask(CancellationToken token)
-    {
-        while (true)
-        {
-            Debug.Log("camIn");
-            if (isMoveNow || isRotateNow || isCamNow) return; //移動中or回転中は早期リターン
-            await UniTask.WaitUntil(() => camLR != LeftRight.Null, cancellationToken: token);
-            Debug.Log("camSt");
-            isRotateNow = true;
-            var targetRotate = SetCamTargetRotete();
-            await camParent.transform.DORotate(targetRotate, rotateTime, RotateMode.LocalAxisAdd);
-            Debug.Log("camEnd");
-            camLR = LeftRight.Null;
-            var vec3s = objectRotation.SetFoward();
-            SetDirectionDictionary(vec3s[0], vec3s[1], vec3s[2], vec3s[3]);
-            isRotateNow = false;
-        }
-    }
+    #endregion
 }

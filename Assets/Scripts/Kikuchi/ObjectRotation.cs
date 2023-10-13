@@ -10,7 +10,7 @@ public class ObjectRotation : MonoBehaviour
     private GameObject fowardPov;
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         fowardPov = this.gameObject;
     }
