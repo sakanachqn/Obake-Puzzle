@@ -9,6 +9,8 @@ public class CSV_Dictionary : MonoBehaviour
 
     private Dictionary<string, GameObject> nameToObject = new Dictionary<string, GameObject>();
 
+    private GameObject[,,] gimmicks = new GameObject[5, 4, 5];
+
     [SerializeField]
     private GameObject woodBox;
     [SerializeField]
@@ -45,7 +47,7 @@ public class CSV_Dictionary : MonoBehaviour
 
         int height = 0;
         
-        csvFile = Resources.Load("CSV/Yokota/csvTest3") as TextAsset;
+        csvFile = Resources.Load("CSV/Yokota/csvTest4") as TextAsset;
         StringReader reader = new StringReader(csvFile.text);
 
         while (reader.Peek() > -1)
@@ -84,23 +86,23 @@ public class CSV_Dictionary : MonoBehaviour
                     string objName = tmpstr.Substring(y, 2);
                     if (x < 5)
                     {
-                        Instantiate(nameToObject[objName], new Vector3(x, y / 2, 0), Quaternion.identity);
+                        gimmicks[x, y / 2, 0] = Instantiate(nameToObject[objName], new Vector3(x, y / 2, 0), Quaternion.identity);
                     }
                     else if (x < 10)
                     {
-                        Instantiate(nameToObject[objName], new Vector3(x - 5, y / 2, 1), Quaternion.identity);
+                        gimmicks[x - 5, y / 2, 0]  = Instantiate(nameToObject[objName], new Vector3(x - 5, y / 2, 1), Quaternion.identity);
                     }
                     else if (x < 15)
                     {
-                        Instantiate(nameToObject[objName], new Vector3(x - 10, y / 2, 2), Quaternion.identity);
+                        gimmicks[x - 10, y / 2, 0] = Instantiate(nameToObject[objName], new Vector3(x - 10, y / 2, 2), Quaternion.identity);
                     }
                     else if (x < 20)
                     {
-                        Instantiate(nameToObject[objName], new Vector3(x - 15, y / 2, 3), Quaternion.identity);
+                        gimmicks[x -15, y / 2, 0] = Instantiate(nameToObject[objName], new Vector3(x - 15, y / 2, 3), Quaternion.identity);
                     }
                     else if (x < 25)
                     {
-                        Instantiate(nameToObject[objName], new Vector3(x - 20, y / 2, 4), Quaternion.identity);
+                        gimmicks[x -20, y / 2, 0] = Instantiate(nameToObject[objName], new Vector3(x - 20, y / 2, 4), Quaternion.identity);
                     }
                 }
             }
