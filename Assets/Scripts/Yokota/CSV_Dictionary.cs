@@ -5,11 +5,9 @@ using UnityEngine;
 
 public class CSV_Dictionary : MonoBehaviour
 {
-    public List<string> Gimmicks = new List<string>();
+    private List<List<string>> allGimmicks = new List<List<string>>();
 
     private Dictionary<string, GameObject> nameToObject = new Dictionary<string, GameObject>();
-
-    private GameObject[,,] gimmicks = new GameObject[5, 4, 5];
 
     [SerializeField]
     private GameObject woodBox;
@@ -25,7 +23,7 @@ public class CSV_Dictionary : MonoBehaviour
     private void Start()
     {
         Init();
-        Gimmicks = ReadCsv();
+        ReadCsv();
     }
 
     void Init()
@@ -37,10 +35,9 @@ public class CSV_Dictionary : MonoBehaviour
         nameToObject.Add("地面", ground);
     }
 
-    public List<string> ReadCsv()
+    public void ReadCsv()
     {   
         string str;
-        List<string> dictionaryGimicks = new List<string>();
 
         TextAsset csvFile;
         List<string[]> csvDatas = new List<string[]>();
@@ -58,56 +55,41 @@ public class CSV_Dictionary : MonoBehaviour
         }
         for (int i = 0; i < height; i++)
         {
+            List<string> dictionaryGimicks = new List<string>();
+
             for (int j = 0; j < csvDatas[i].Length; j++)
             {
                 str = csvDatas[i][j];
                 dictionaryGimicks.Add(str);
             }
+
+            allGimmicks.Add(dictionaryGimicks);
         }
 
-        Debug.Log(dictionaryGimicks.Count);
-
-        for (int x = 0; x < dictionaryGimicks.Count; x++)
+        for (int x = 0; x < allGimmicks.Count; x++)
         {
-            string tmpstr = dictionaryGimicks[x];
-            int length = 0;
-            if (tmpstr.Length == 2)
+            for (int z = 0; z < allGimmicks[x].Count; z++)
             {
-                length = tmpstr.Length;
-            }
-            else
-            {
-                length = tmpstr.Length - 1;
-            }
-            for (int y = 0; y < length; y++)
-            {
-                if (y % 2 == 0)
+                string tmpstr = allGimmicks[x][z];
+                int length = 0;
+                if (tmpstr.Length == 2)
                 {
-                    string objName = tmpstr.Substring(y, 2);
-                    if (x < 5)
+                    length = tmpstr.Length;
+                }
+                else
+                {
+                    length = tmpstr.Length - 1;
+                }
+
+                for (int y = 0; y < length; y++)
+                {
+                    if (y % 2 == 0)
                     {
-                        gimmicks[x, y / 2, 0] = Instantiate(nameToObject[objName], new Vector3(x, y / 2, 0), Quaternion.identity);
-                    }
-                    else if (x < 10)
-                    {
-                        gimmicks[x - 5, y / 2, 0]  = Instantiate(nameToObject[objName], new Vector3(x - 5, y / 2, 1), Quaternion.identity);
-                    }
-                    else if (x < 15)
-                    {
-                        gimmicks[x - 10, y / 2, 0] = Instantiate(nameToObject[objName], new Vector3(x - 10, y / 2, 2), Quaternion.identity);
-                    }
-                    else if (x < 20)
-                    {
-                        gimmicks[x -15, y / 2, 0] = Instantiate(nameToObject[objName], new Vector3(x - 15, y / 2, 3), Quaternion.identity);
-                    }
-                    else if (x < 25)
-                    {
-                        gimmicks[x -20, y / 2, 0] = Instantiate(nameToObject[objName], new Vector3(x - 20, y / 2, 4), Quaternion.identity);
+                        string objName = tmpstr.Substring(y, 2);
+                        Instantiate(nameToObject[objName], new Vector3(x, y / 2, z), Quaternion.identity);
                     }
                 }
             }
         }
-
-        return dictionaryGimicks;
     }
 }

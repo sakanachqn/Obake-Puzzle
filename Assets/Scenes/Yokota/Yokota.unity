@@ -400,7 +400,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3df2101b6e81a6348952a313cb60cfc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Gimmicks: []
   woodBox: {fileID: 844497801237418121, guid: af9b28825a4a5ad4aa3829eb3b21770f, type: 3}
   steelBox: {fileID: 5318677125039019775, guid: 297124da9de83264e86e27b12d2e4e5a,
     type: 3}
