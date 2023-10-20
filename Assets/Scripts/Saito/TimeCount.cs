@@ -24,7 +24,6 @@ public class TimeCount : MonoBehaviour
         countdownSeconds -= Time.deltaTime;
        TimeSpan timeSpan = TimeSpan.FromSeconds(countdownSeconds);
         timeText.text = timeSpan.ToString(@"mm\:ss");
-        Debug.Log(countdownSeconds);
         if(countdownSeconds <= 0)//0秒になったときの処理
         {
             //ゲームオーバーの処理
