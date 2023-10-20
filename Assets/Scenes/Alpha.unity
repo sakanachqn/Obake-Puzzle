@@ -378,11 +378,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3df2101b6e81a6348952a313cb60cfc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ground: {fileID: 2767438692373775443, guid: ea0e73c5a53942d458ed4054ca2c2c8e, type: 3}
   woodBox: {fileID: 2055181204761478010, guid: acf715c73d0515547ba5ad9dfdd5d943, type: 3}
   steelBox: {fileID: 4572065246633513246, guid: 9c93e0e49b15a984b823a59c431b0bea, type: 3}
-  goal: {fileID: 6714672712673778948, guid: bd2c25220e51e6e4e8aa88669916f6b5, type: 3}
   pitFall: {fileID: 6381941255522966723, guid: ad9c634fa44cb8b459c3f16c2b7fb529, type: 3}
-  ground: {fileID: 2767438692373775443, guid: ea0e73c5a53942d458ed4054ca2c2c8e, type: 3}
+  goal: {fileID: 6714672712673778948, guid: bd2c25220e51e6e4e8aa88669916f6b5, type: 3}
+  steelGoal: {fileID: 6714672712673778948, guid: bd2c25220e51e6e4e8aa88669916f6b5, type: 3}
 --- !u!114 &1399575117873991992
 MonoBehaviour:
   m_ObjectHideFlags: 0
