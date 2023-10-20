@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
             isMoveNow = true; //移動中フラグ起動
             var targetPos = this.transform.position + directions[stickDirection]; //目標地点を設定
             objectCheck.CheckObject(targetPos);
-            await UniTask.Delay(TimeSpan.FromSeconds(3));
+            await UniTask.Delay(TimeSpan.FromSeconds(1));
             while (isMoveNow)
             {
                 Move(targetPos); //移動
