@@ -128,7 +128,12 @@ public class PlayerController : MonoBehaviour
             await UniTask.WaitUntil(() => stickDirection != Direction.Null, cancellationToken: token);// stickが倒されるのを待つ
             isMoveNow = true; //移動中フラグ起動
             var targetPos = this.transform.position + directions[stickDirection]; //目標地点を設定
-            objectCheck.CheckObject(targetPos);
+            if (objectCheck.CheckObject(directions[stickDirection]))
+            {
+                DevLog.Log("進めないよ～");
+                isMoveNow = false;
+                continue;
+            }
             await UniTask.Delay(TimeSpan.FromSeconds(1));
             while (isMoveNow)
             {

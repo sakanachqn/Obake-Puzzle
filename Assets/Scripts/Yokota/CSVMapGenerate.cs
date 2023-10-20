@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class CSVMapGenerate : MonoBehaviour
 {
+
     // マップ上すべてのブロックの文字情報
     private List<List<string>> allBlocksStr = new List<List<string>>();
     // 文字からオブジェクトを取り出せるディクショナリ
     private Dictionary<string, GameObject> nameToObject = new Dictionary<string, GameObject>();
     // マップ上すべてのブロックの実体
     private List<List<List<GameObject>>> allBlocksObj = new List<List<List<GameObject>>>();
+
 
     /*
     allBlocksObjについて
@@ -67,7 +69,7 @@ public class CSVMapGenerate : MonoBehaviour
         int height = 0;
         
         // CSVファイルを読み込み
-        csvFile = Resources.Load("CSV/Yokota/Template") as TextAsset;
+        csvFile = Resources.Load("CSV/Yokota/KikuchiTest") as TextAsset;
         // 読み込んだテキストをString型にして格納
         StringReader reader = new StringReader(csvFile.text);
 
