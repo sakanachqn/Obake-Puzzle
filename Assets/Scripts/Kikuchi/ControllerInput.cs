@@ -153,6 +153,129 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""StageSelect"",
+            ""id"": ""df853591-890d-4736-9e37-6d8d5d1df41b"",
+            ""actions"": [
+                {
+                    ""name"": ""CursorMove"",
+                    ""type"": ""Value"",
+                    ""id"": ""923c1cc0-3a94-47a3-a083-723303e99fc3"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Decision"",
+                    ""type"": ""Button"",
+                    ""id"": ""825b1fbe-b69d-43b1-8d8a-604c8eea4645"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Back"",
+                    ""type"": ""Button"",
+                    ""id"": ""dba4b5e2-2600-4937-aa47-96eb1918f1bf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""f2e2730a-14e4-4c03-90eb-eefccf8b3c2a"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""1a7e50dc-7d96-4382-84ef-80e9b6e5335c"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""a8518418-1c98-4abe-a27a-1b5bef2f13e9"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""fe829c08-c446-40a9-95e3-18e363854258"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""bf91c12a-bc09-4267-9efe-776d7f777032"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""655c4ddf-cc6d-4d6d-96ff-8adca9793883"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e827e89e-9a05-4db7-883a-4f40a8cb1a19"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Decision"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef569d8f-e7dc-496e-b462-469b27c7d64b"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -164,6 +287,11 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         m_Rotate = asset.FindActionMap("Rotate", throwIfNotFound: true);
         m_Rotate_CamR = m_Rotate.FindAction("CamR", throwIfNotFound: true);
         m_Rotate_CamL = m_Rotate.FindAction("CamL", throwIfNotFound: true);
+        // StageSelect
+        m_StageSelect = asset.FindActionMap("StageSelect", throwIfNotFound: true);
+        m_StageSelect_CursorMove = m_StageSelect.FindAction("CursorMove", throwIfNotFound: true);
+        m_StageSelect_Decision = m_StageSelect.FindAction("Decision", throwIfNotFound: true);
+        m_StageSelect_Back = m_StageSelect.FindAction("Back", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -321,6 +449,68 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         }
     }
     public RotateActions @Rotate => new RotateActions(this);
+
+    // StageSelect
+    private readonly InputActionMap m_StageSelect;
+    private List<IStageSelectActions> m_StageSelectActionsCallbackInterfaces = new List<IStageSelectActions>();
+    private readonly InputAction m_StageSelect_CursorMove;
+    private readonly InputAction m_StageSelect_Decision;
+    private readonly InputAction m_StageSelect_Back;
+    public struct StageSelectActions
+    {
+        private @ControllerInput m_Wrapper;
+        public StageSelectActions(@ControllerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @CursorMove => m_Wrapper.m_StageSelect_CursorMove;
+        public InputAction @Decision => m_Wrapper.m_StageSelect_Decision;
+        public InputAction @Back => m_Wrapper.m_StageSelect_Back;
+        public InputActionMap Get() { return m_Wrapper.m_StageSelect; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(StageSelectActions set) { return set.Get(); }
+        public void AddCallbacks(IStageSelectActions instance)
+        {
+            if (instance == null || m_Wrapper.m_StageSelectActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_StageSelectActionsCallbackInterfaces.Add(instance);
+            @CursorMove.started += instance.OnCursorMove;
+            @CursorMove.performed += instance.OnCursorMove;
+            @CursorMove.canceled += instance.OnCursorMove;
+            @Decision.started += instance.OnDecision;
+            @Decision.performed += instance.OnDecision;
+            @Decision.canceled += instance.OnDecision;
+            @Back.started += instance.OnBack;
+            @Back.performed += instance.OnBack;
+            @Back.canceled += instance.OnBack;
+        }
+
+        private void UnregisterCallbacks(IStageSelectActions instance)
+        {
+            @CursorMove.started -= instance.OnCursorMove;
+            @CursorMove.performed -= instance.OnCursorMove;
+            @CursorMove.canceled -= instance.OnCursorMove;
+            @Decision.started -= instance.OnDecision;
+            @Decision.performed -= instance.OnDecision;
+            @Decision.canceled -= instance.OnDecision;
+            @Back.started -= instance.OnBack;
+            @Back.performed -= instance.OnBack;
+            @Back.canceled -= instance.OnBack;
+        }
+
+        public void RemoveCallbacks(IStageSelectActions instance)
+        {
+            if (m_Wrapper.m_StageSelectActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IStageSelectActions instance)
+        {
+            foreach (var item in m_Wrapper.m_StageSelectActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_StageSelectActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public StageSelectActions @StageSelect => new StageSelectActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -329,5 +519,11 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
     {
         void OnCamR(InputAction.CallbackContext context);
         void OnCamL(InputAction.CallbackContext context);
+    }
+    public interface IStageSelectActions
+    {
+        void OnCursorMove(InputAction.CallbackContext context);
+        void OnDecision(InputAction.CallbackContext context);
+        void OnBack(InputAction.CallbackContext context);
     }
 }
