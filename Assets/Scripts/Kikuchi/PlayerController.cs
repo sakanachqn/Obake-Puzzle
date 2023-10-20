@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     //回転にかかる時間
     [SerializeField]
     private float rotateTime = 2f;
+    [SerializeField]
+    private float moveTime = 2f;
 
     //移動先情報確認用クラス
     private ObjectCheck objectCheck;
@@ -146,7 +148,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="targetPos">目標地点 Vector3</param>
     private void Move(Vector3 targetPos)
     {
-        this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, Time.deltaTime);
+        this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, Time.deltaTime / moveTime);
     }
 
 
