@@ -235,6 +235,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a619599c9ea714c45ab623fd121e27a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deadZone: 0.5
+  stickDirection: 4
+  camLR: 2
 --- !u!4 &697985730
 Transform:
   m_ObjectHideFlags: 0
@@ -308,6 +311,8 @@ GameObject:
   - component: {fileID: 1204630786}
   - component: {fileID: 1204630785}
   - component: {fileID: 1204630784}
+  - component: {fileID: 1204630791}
+  - component: {fileID: 1204630790}
   m_Layer: 0
   m_Name: pl
   m_TagString: Untagged
@@ -339,11 +344,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e7da364970b8b44aca1c622ebfde96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deadZone: 0.5
-  objectRotation: {fileID: 1039893996}
-  camParent: {fileID: 188350661}
-  rotateTime: 2
   moveTime: 1
+  rotateTime: 2
+  objectRotation: {fileID: 1039893996}
 --- !u!65 &1204630786
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -422,6 +425,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1204630790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204630783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a49788aad0e39449aa35adc00131b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateParent: {fileID: 188350661}
+--- !u!114 &1204630791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204630783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08fda0fe115599a42918d1992322d4ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1376160565
 GameObject:
   m_ObjectHideFlags: 0
