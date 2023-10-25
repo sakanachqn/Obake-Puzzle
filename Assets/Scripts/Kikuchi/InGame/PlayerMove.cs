@@ -9,7 +9,11 @@ public class PlayerMove : MonoBehaviour
 {
 
     private ControllerManager ctrlManager;
-
+    [SerializeField]
+    private Material material;
+    private Color testRed = new Color(1f, 0, 0, 0.5f);
+    private Color testColor;
+    
     /// <summary>
     /// enumに対応したvec3を保存する変数
     /// </summary>
@@ -29,6 +33,8 @@ public class PlayerMove : MonoBehaviour
     private void Start()
     {
         ctrlManager = ControllerManager.instance;
+        material = GetComponent<MeshRenderer>().material;
+        testColor = material.color;
     }
     /// <summary>
     /// 移動コルーチン
@@ -42,9 +48,12 @@ public class PlayerMove : MonoBehaviour
             await UniTask.WaitUntil(() => ctrlManager.stickDirection != ControllerManager.Direction.Null, cancellationToken: token);// stickが倒されるのを待つ
             PlayerController.isNowAction = true; //移動中フラグ起動
             var targetPos = this.transform.position + directions[ctrlManager.stickDirection]; //目標地点を設定
-            if (CheckObject(directions[ctrlManager.stickDirection]))
+            if (CheckObject(this.transform.position ,directions[ctrlManager.stickDirection]) || CheckOffMap(directions[ctrlManager.stickDirection]))
             {
                 DevLog.Log("進めないよ～");
+                material.color = testRed;
+                await UniTask.Delay(500);
+                material.color = testColor;
                 PlayerController.isNowAction = false;
                 continue;
             }
@@ -69,14 +78,31 @@ public class PlayerMove : MonoBehaviour
     /// <summary>
     /// 移動先にobjectがあるかのチェック
     /// </summary>
-    private bool CheckObject(Vector3 targetDirec)
+    /// <param name="targetDirec">スティックの方角</param>
+    /// <returns>移動先にobjがあったらtrue</returns>
+    private bool CheckObject(Vector3 startPos , Vector3 targetDirec)
     {
-        Debug.DrawRay(this.transform.position, targetDirec, Color.cyan, 3);
-        if (Physics.Raycast(this.transform.position, targetDirec, out var hitObj, 1))
+        //移動したい方向にrayを飛ばしてオブジェクトがあるか確認
+        if (Physics.Raycast(startPos, targetDirec, out var hitObj, 1))
         {
-            Debug.Log(hitObj.collider.name);
             return true;
         }
         else return false;
+    }
+
+    /// <summary>
+    /// マップ外かどうかのチェック
+    /// </summary>
+    /// <param name="targetDirec">スティックの方角</param>
+    /// <returns>オブジェクトがなかったらtrue</returns>
+    private bool CheckOffMap(Vector3 targetDirec)
+    {
+        Vector3 startPos = this.transform.position + targetDirec;
+        //移動先から真下にray飛ばして地面があるか確認
+        if (CheckObject(startPos ,Vector3.down))
+        {
+            return false;
+        }
+        else return true;
     }
 }

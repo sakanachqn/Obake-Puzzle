@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
     //正面方向取得用クラス格納用変数
     [SerializeField]
     private ObjectRotation objectRotation;
-
     public ObjectRotation objRotate
     {
         get => objectRotation;
