@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
         var vec3s = objectRotation.SetFoward();
         playerMove.SetDirectionDictionary(vec3s[0], vec3s[1], vec3s[2], vec3s[3]);
 
+        //Playerの移動/カメラの回転処理の開始
 　       await UniTask.WhenAll(playerMove.MoveTask(token, moveTime), playerRotate.CamRotateTask(token,rotateTime));
     }
 
