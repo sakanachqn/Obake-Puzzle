@@ -21,6 +21,7 @@ public class PlayerRotate : MonoBehaviour
     {
         ctrlManager = ControllerManager.instance;
         playerController = GetComponent<PlayerController>();
+        if (rotateParent == null) rotateParent = Camera.main.transform.parent.gameObject;
     }
 
     /// <summary>
@@ -31,7 +32,7 @@ public class PlayerRotate : MonoBehaviour
     {
         while (true)
         {
-            if (!PlayerController.isNowAction) return; //移動中or回転中は早期リターン
+            if (PlayerController.isNowAction) return; //移動中or回転中は早期リターン
             await UniTask.WaitUntil(() => ctrlManager.camLR != LeftRight.Null, cancellationToken: token);　//enumがnull以外になったら
             PlayerController.isNowAction = true;//フラグ起動
             var targetRotate = SetCamTargetRotete();//回転量設定

@@ -55,7 +55,14 @@ public class PlayerController : MonoBehaviour
         //キャンセルトークンの取得
         var token = this.GetCancellationTokenOnDestroy();
 
+        await UniTask.WaitUntil(() => CSVMapGenerate.IsMapGenerate);
+
         //Dictonary Init
+        if(objectRotation == null)
+        {
+            var temp = Camera.main.transform.parent.gameObject;
+           objectRotation = temp.transform.Find("RotateManager").GetComponent<ObjectRotation>();
+        }
         var vec3s = objectRotation.SetFoward();
         playerMove.SetDirectionDictionary(vec3s[0], vec3s[1], vec3s[2], vec3s[3]);
 

@@ -85,6 +85,7 @@ public class PlayerMove : MonoBehaviour
         //移動したい方向にrayを飛ばしてオブジェクトがあるか確認
         if (Physics.Raycast(startPos, targetDirec, out var hitObj, 1))
         {
+            if (hitObj.collider.tag == "Pitfall") return false;
             return true;
         }
         else return false;

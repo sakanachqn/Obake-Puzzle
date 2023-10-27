@@ -13,6 +13,8 @@ public class CSVMapGenerate : MonoBehaviour
     // マップ上すべてのブロックの実体
     private List<List<List<GameObject>>> allBlocksObj = new List<List<List<GameObject>>>();
 
+    //菊池加筆　生成中かどうかのフラグ
+    public static bool IsMapGenerate = false;
 
     /*
     allBlocksObjについて
@@ -40,6 +42,7 @@ public class CSVMapGenerate : MonoBehaviour
         Init();
         ReadCsv();
         MapGenerate();
+        IsMapGenerate = true;　//菊池加筆　生成終了時にフラグ起動
     }
 
     /// <summary>
