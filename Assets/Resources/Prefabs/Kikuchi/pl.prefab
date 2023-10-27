@@ -322,6 +322,9 @@ MonoBehaviour:
   areaFade: {fileID: 2708745252650239796, guid: bf55d0418c659a145918b19c4ed2a7c1, type: 3}
   areaFadePos: 0.505
   changeMat: {fileID: 2100000, guid: d7b2c0f961f51e344b678159f3e98273, type: 2}
+  fadeTime: 1
+  underAlpha: 0.3
+  gobj: {fileID: 4890653357701729965, guid: 5527962e7949f1d4c87ef13cd220d2db, type: 3}
 --- !u!1 &6509280314134876165
 GameObject:
   m_ObjectHideFlags: 0

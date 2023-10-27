@@ -14,10 +14,10 @@ public class AreaColorFade : MonoBehaviour
     private void Start()
     {
         mat = GetComponent<MeshRenderer>().material;
-        mat.DOFade(underAlpha, fadeTime).SetLoops(-1, LoopType.Yoyo);
 
     }
-    void Update()
+    public void ColorFade()
     {
+        mat.DOFade(underAlpha, fadeTime).SetLoops(-1, LoopType.Yoyo);
     }
 }
