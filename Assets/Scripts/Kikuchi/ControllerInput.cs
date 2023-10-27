@@ -184,6 +184,15 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tutorial"",
+                    ""type"": ""Button"",
+                    ""id"": ""d5505478-71b8-4eb6-8a30-2ee89e632173"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -243,15 +252,59 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""655c4ddf-cc6d-4d6d-96ff-8adca9793883"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""name"": ""LeftStick"",
+                    ""id"": ""01903508-d465-4341-bf30-1a0dcae9c426"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""1271550a-2c7f-4492-86bd-8e8592024807"",
+                    ""path"": ""<Gamepad>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""CursorMove"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""64048719-7d0d-4499-82f8-803862e4b2fb"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""97447c3b-f203-4b22-a3e2-9474753bc4b3"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""5c63c049-2075-4229-b024-d954eb885432"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -274,6 +327,17 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""755f8ffb-758f-4d85-9836-01314fff5e54"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tutorial"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -292,6 +356,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         m_StageSelect_CursorMove = m_StageSelect.FindAction("CursorMove", throwIfNotFound: true);
         m_StageSelect_Decision = m_StageSelect.FindAction("Decision", throwIfNotFound: true);
         m_StageSelect_Back = m_StageSelect.FindAction("Back", throwIfNotFound: true);
+        m_StageSelect_Tutorial = m_StageSelect.FindAction("Tutorial", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -456,6 +521,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_StageSelect_CursorMove;
     private readonly InputAction m_StageSelect_Decision;
     private readonly InputAction m_StageSelect_Back;
+    private readonly InputAction m_StageSelect_Tutorial;
     public struct StageSelectActions
     {
         private @ControllerInput m_Wrapper;
@@ -463,6 +529,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         public InputAction @CursorMove => m_Wrapper.m_StageSelect_CursorMove;
         public InputAction @Decision => m_Wrapper.m_StageSelect_Decision;
         public InputAction @Back => m_Wrapper.m_StageSelect_Back;
+        public InputAction @Tutorial => m_Wrapper.m_StageSelect_Tutorial;
         public InputActionMap Get() { return m_Wrapper.m_StageSelect; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -481,6 +548,9 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @Back.started += instance.OnBack;
             @Back.performed += instance.OnBack;
             @Back.canceled += instance.OnBack;
+            @Tutorial.started += instance.OnTutorial;
+            @Tutorial.performed += instance.OnTutorial;
+            @Tutorial.canceled += instance.OnTutorial;
         }
 
         private void UnregisterCallbacks(IStageSelectActions instance)
@@ -494,6 +564,9 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @Back.started -= instance.OnBack;
             @Back.performed -= instance.OnBack;
             @Back.canceled -= instance.OnBack;
+            @Tutorial.started -= instance.OnTutorial;
+            @Tutorial.performed -= instance.OnTutorial;
+            @Tutorial.canceled -= instance.OnTutorial;
         }
 
         public void RemoveCallbacks(IStageSelectActions instance)
@@ -525,5 +598,6 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         void OnCursorMove(InputAction.CallbackContext context);
         void OnDecision(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
+        void OnTutorial(InputAction.CallbackContext context);
     }
 }

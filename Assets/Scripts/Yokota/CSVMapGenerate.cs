@@ -128,11 +128,15 @@ public class CSVMapGenerate : MonoBehaviour
                 {
                     // tmpstrの(y+1)文字目を取り出す
                     string objName = tmpstr.Substring(y, 1);
+
                     // 文字列からオブジェクトを取り出して生成
                     Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
 
+                    // プレイヤーをさすオブジェクトのときはスルーする
+                    if (objName == "7")　break;
                     // オブジェクトをリストに格納
-                    yAxisObjList.Add(nameToObject[objName]);
+                    else yAxisObjList.Add(nameToObject[objName]);
+
                 }
 
                 // y軸にとったオブジェクトのリストをリストに格納
