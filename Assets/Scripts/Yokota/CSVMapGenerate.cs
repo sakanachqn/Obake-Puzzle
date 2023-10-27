@@ -31,6 +31,8 @@ public class CSVMapGenerate : MonoBehaviour
     private GameObject goal;
     [SerializeField,Header("ゴール（鉄箱）")]
     private GameObject steelGoal;
+    [SerializeField,Header("プレイヤー")]
+    private GameObject player;
     
 
     private void Start()
@@ -51,6 +53,7 @@ public class CSVMapGenerate : MonoBehaviour
         nameToObject.Add("4", pitFall);
         nameToObject.Add("5", goal);
         nameToObject.Add("6", steelGoal);
+        nameToObject.Add("7", player);
     }
 
     /// <summary>
