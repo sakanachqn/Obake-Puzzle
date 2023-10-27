@@ -371,8 +371,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3df2101b6e81a6348952a313cb60cfc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ground: {fileID: 2767438692373775443, guid: ea0e73c5a53942d458ed4054ca2c2c8e, type: 3}
   woodBox: {fileID: 844497801237418121, guid: af9b28825a4a5ad4aa3829eb3b21770f, type: 3}
   steelBox: {fileID: 5318677125039019775, guid: 297124da9de83264e86e27b12d2e4e5a, type: 3}
-  goal: {fileID: 8164769874983079534, guid: 8cd8dea5440809f43a904d1d9cdd8cf7, type: 3}
   pitFall: {fileID: 8608686027150799488, guid: d3e0181a26a28854d91c85a46b6fc13c, type: 3}
-  ground: {fileID: 2767438692373775443, guid: ea0e73c5a53942d458ed4054ca2c2c8e, type: 3}
+  goal: {fileID: 8164769874983079534, guid: 8cd8dea5440809f43a904d1d9cdd8cf7, type: 3}
+  steelGoal: {fileID: 0}
+  player: {fileID: 7391634053113451744, guid: ac626b7065cf7214da9c354310d1c2cc, type: 3}
