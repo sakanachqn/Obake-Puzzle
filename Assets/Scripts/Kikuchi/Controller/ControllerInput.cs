@@ -53,6 +53,24 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""e9b6115e-8b31-4ee6-be47-1b73ea198b9d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""bb76e095-5aa0-4309-850c-6e212007a53a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -141,6 +159,28 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SkillB"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d7559f09-3866-4f76-9b6d-4caa758c0fe1"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48abc58d-bea4-43d1-bdf6-577ce441915e"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -389,6 +429,8 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_SkillA = m_Player.FindAction("SkillA", throwIfNotFound: true);
         m_Player_SkillB = m_Player.FindAction("SkillB", throwIfNotFound: true);
+        m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
+        m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         // Rotate
         m_Rotate = asset.FindActionMap("Rotate", throwIfNotFound: true);
         m_Rotate_CamR = m_Rotate.FindAction("CamR", throwIfNotFound: true);
@@ -463,6 +505,8 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_SkillA;
     private readonly InputAction m_Player_SkillB;
+    private readonly InputAction m_Player_Select;
+    private readonly InputAction m_Player_Cancel;
     public struct PlayerActions
     {
         private @ControllerInput m_Wrapper;
@@ -470,6 +514,8 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @SkillA => m_Wrapper.m_Player_SkillA;
         public InputAction @SkillB => m_Wrapper.m_Player_SkillB;
+        public InputAction @Select => m_Wrapper.m_Player_Select;
+        public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -488,6 +534,12 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @SkillB.started += instance.OnSkillB;
             @SkillB.performed += instance.OnSkillB;
             @SkillB.canceled += instance.OnSkillB;
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
+            @Cancel.started += instance.OnCancel;
+            @Cancel.performed += instance.OnCancel;
+            @Cancel.canceled += instance.OnCancel;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -501,6 +553,12 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @SkillB.started -= instance.OnSkillB;
             @SkillB.performed -= instance.OnSkillB;
             @SkillB.canceled -= instance.OnSkillB;
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
+            @Cancel.started -= instance.OnCancel;
+            @Cancel.performed -= instance.OnCancel;
+            @Cancel.canceled -= instance.OnCancel;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -647,6 +705,8 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnSkillA(InputAction.CallbackContext context);
         void OnSkillB(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
     }
     public interface IRotateActions
     {

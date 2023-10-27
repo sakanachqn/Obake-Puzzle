@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
         get => playerMove;
     }
 
+    private SkillManager skillManager;
+
     //プレイヤーカメラ回転クラス
     private PlayerRotate playerRotate;
 
@@ -45,6 +47,7 @@ public class PlayerController : MonoBehaviour
     {
         playerMove = GetComponent<PlayerMove>();
         playerRotate = GetComponent<PlayerRotate>();
+        skillManager = GetComponent<SkillManager>();
     }
 
 
@@ -67,7 +70,11 @@ public class PlayerController : MonoBehaviour
         playerMove.SetDirectionDictionary(vec3s[0], vec3s[1], vec3s[2], vec3s[3]);
 
         //Playerの移動/カメラの回転処理の開始
-　       await UniTask.WhenAll(playerMove.MoveTask(token, moveTime), playerRotate.CamRotateTask(token,rotateTime));
+　       await UniTask.WhenAll(
+            playerMove.MoveTask(token, moveTime),
+            playerRotate.CamRotateTask(token, rotateTime)
+            , skillManager.FireSkill(token)
+            );
     }
 
 }
