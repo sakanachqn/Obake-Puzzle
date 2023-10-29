@@ -33,10 +33,23 @@ public class GoalController : MonoBehaviour
 
         //画像移動
         transform.DOMove(new Vector3(X,Y,Z),S);
-        
+
     }
 
+    void Update()
+    {
+        if (ControllerManager.instance.CtrlInput.Menu.PushBBotton.WasPerformedThisFrame())//Bボタンを押したときの処理
+        {
+            //シーン遷移のコードをここに書く
+        }
 
+        else if (ControllerManager.instance.CtrlInput.Menu.PushABotton.WasPerformedThisFrame())//Aボタンを押したときの処理
+        {
+            //シーン遷移のコードをここに書く
+        }
+
+    }
+    
     
 
 
