@@ -380,6 +380,54 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""TitleGimmick"",
+            ""id"": ""dfaaba88-71f5-49e3-944a-d89f04e51f25"",
+            ""actions"": [
+                {
+                    ""name"": ""Obake"",
+                    ""type"": ""Button"",
+                    ""id"": ""09c6a6f4-8fc3-4b8c-b7e3-c63c916409a3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectMap"",
+                    ""type"": ""Button"",
+                    ""id"": ""aecc0058-bfc1-4dbb-8814-40a5eaeaacad"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""dd38f865-f23f-4a4c-9c71-a071bf45285f"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Obake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e264eeb4-c155-4e73-a9ad-5ac35dd471dc"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectMap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -399,6 +447,10 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         m_StageSelect_Decision = m_StageSelect.FindAction("Decision", throwIfNotFound: true);
         m_StageSelect_Back = m_StageSelect.FindAction("Back", throwIfNotFound: true);
         m_StageSelect_Tutorial = m_StageSelect.FindAction("Tutorial", throwIfNotFound: true);
+        // TitleGimmick
+        m_TitleGimmick = asset.FindActionMap("TitleGimmick", throwIfNotFound: true);
+        m_TitleGimmick_Obake = m_TitleGimmick.FindAction("Obake", throwIfNotFound: true);
+        m_TitleGimmick_SelectMap = m_TitleGimmick.FindAction("SelectMap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -642,6 +694,60 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         }
     }
     public StageSelectActions @StageSelect => new StageSelectActions(this);
+
+    // TitleGimmick
+    private readonly InputActionMap m_TitleGimmick;
+    private List<ITitleGimmickActions> m_TitleGimmickActionsCallbackInterfaces = new List<ITitleGimmickActions>();
+    private readonly InputAction m_TitleGimmick_Obake;
+    private readonly InputAction m_TitleGimmick_SelectMap;
+    public struct TitleGimmickActions
+    {
+        private @ControllerInput m_Wrapper;
+        public TitleGimmickActions(@ControllerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Obake => m_Wrapper.m_TitleGimmick_Obake;
+        public InputAction @SelectMap => m_Wrapper.m_TitleGimmick_SelectMap;
+        public InputActionMap Get() { return m_Wrapper.m_TitleGimmick; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(TitleGimmickActions set) { return set.Get(); }
+        public void AddCallbacks(ITitleGimmickActions instance)
+        {
+            if (instance == null || m_Wrapper.m_TitleGimmickActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_TitleGimmickActionsCallbackInterfaces.Add(instance);
+            @Obake.started += instance.OnObake;
+            @Obake.performed += instance.OnObake;
+            @Obake.canceled += instance.OnObake;
+            @SelectMap.started += instance.OnSelectMap;
+            @SelectMap.performed += instance.OnSelectMap;
+            @SelectMap.canceled += instance.OnSelectMap;
+        }
+
+        private void UnregisterCallbacks(ITitleGimmickActions instance)
+        {
+            @Obake.started -= instance.OnObake;
+            @Obake.performed -= instance.OnObake;
+            @Obake.canceled -= instance.OnObake;
+            @SelectMap.started -= instance.OnSelectMap;
+            @SelectMap.performed -= instance.OnSelectMap;
+            @SelectMap.canceled -= instance.OnSelectMap;
+        }
+
+        public void RemoveCallbacks(ITitleGimmickActions instance)
+        {
+            if (m_Wrapper.m_TitleGimmickActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ITitleGimmickActions instance)
+        {
+            foreach (var item in m_Wrapper.m_TitleGimmickActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_TitleGimmickActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public TitleGimmickActions @TitleGimmick => new TitleGimmickActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -659,5 +765,10 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         void OnDecision(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
         void OnTutorial(InputAction.CallbackContext context);
+    }
+    public interface ITitleGimmickActions
+    {
+        void OnObake(InputAction.CallbackContext context);
+        void OnSelectMap(InputAction.CallbackContext context);
     }
 }

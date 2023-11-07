@@ -358,6 +358,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "TitleGimmick",
+            "id": "dfaaba88-71f5-49e3-944a-d89f04e51f25",
+            "actions": [
+                {
+                    "name": "Obake",
+                    "type": "Button",
+                    "id": "09c6a6f4-8fc3-4b8c-b7e3-c63c916409a3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectMap",
+                    "type": "Button",
+                    "id": "aecc0058-bfc1-4dbb-8814-40a5eaeaacad",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "dd38f865-f23f-4a4c-9c71-a071bf45285f",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Obake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e264eeb4-c155-4e73-a9ad-5ac35dd471dc",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
