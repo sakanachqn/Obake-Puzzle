@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CSVMapGenerate : MonoBehaviour
 {
+
     // マップ上すべてのブロックの文字情報
     private List<List<string>> allBlocksStr = new List<List<string>>();
     // 文字からオブジェクトを取り出せるディクショナリ
@@ -12,27 +13,36 @@ public class CSVMapGenerate : MonoBehaviour
     // マップ上すべてのブロックの実体
     private List<List<List<GameObject>>> allBlocksObj = new List<List<List<GameObject>>>();
 
+    //菊池加筆　生成中かどうかのフラグ
+    public static bool IsMapGenerate = false;
+
     /*
     allBlocksObjについて
     allBlocksObj[x座標][z座標][y座標]でそのオブジェクトの情報をとることができます。
     */
 
+    [SerializeField, Header("地面")]
+    private GameObject ground;
     [SerializeField,Header("木箱")]
     private GameObject woodBox;
     [SerializeField,Header("鉄箱")]
     private GameObject steelBox;
-    [SerializeField,Header("ゴール")]
-    private GameObject goal;
     [SerializeField,Header("落とし穴")]
     private GameObject pitFall;
-    [SerializeField,Header("地面")]
-    private GameObject ground;
+    [SerializeField, Header("ゴール（地面）")]
+    private GameObject goal;
+    [SerializeField,Header("ゴール（鉄箱）")]
+    private GameObject steelGoal;
+    [SerializeField,Header("プレイヤー")]
+    private GameObject player;
+    
 
     private void Start()
     {
         Init();
         ReadCsv();
         MapGenerate();
+        IsMapGenerate = true;　//菊池加筆　生成終了時にフラグ起動
     }
 
     /// <summary>
@@ -40,11 +50,13 @@ public class CSVMapGenerate : MonoBehaviour
     /// </summary>
     private void Init()
     {
-        nameToObject.Add("木箱", woodBox);
-        nameToObject.Add("鉄箱", steelBox);
-        nameToObject.Add("星箱", goal);
-        nameToObject.Add("落穴", pitFall);
-        nameToObject.Add("地面", ground);
+        nameToObject.Add("1", ground);
+        nameToObject.Add("2", woodBox);
+        nameToObject.Add("3", steelBox);
+        nameToObject.Add("4", pitFall);
+        nameToObject.Add("5", goal);
+        nameToObject.Add("6", steelGoal);
+        nameToObject.Add("7", player);
     }
 
     /// <summary>
@@ -63,7 +75,7 @@ public class CSVMapGenerate : MonoBehaviour
         int height = 0;
         
         // CSVファイルを読み込み
-        csvFile = Resources.Load("CSV/Yokota/csvTest4") as TextAsset;
+        csvFile = Resources.Load("CSV/Yokota/KikuchiTest") as TextAsset;
         // 読み込んだテキストをString型にして格納
         StringReader reader = new StringReader(csvFile.text);
 
@@ -119,16 +131,17 @@ public class CSVMapGenerate : MonoBehaviour
                 // x行z列にあるブロックの数だけ繰り返す
                 for (int y = 0; y < tmpstr.Length; y++)
                 {
-                    if (y % 2 == 0)
-                    {
-                        // tmpstrの(y+1)文字目から二文字分の文字列を取り出す
-                        string objName = tmpstr.Substring(y, 2);
-                        // 文字列からオブジェクトを取り出して生成
-                        Instantiate(nameToObject[objName], new Vector3(x, y / 2, z), Quaternion.identity);
+                    // tmpstrの(y+1)文字目を取り出す
+                    string objName = tmpstr.Substring(y, 1);
 
-                        // オブジェクトをリストに格納
-                        yAxisObjList.Add(nameToObject[objName]);
-                    }
+                    // 文字列からオブジェクトを取り出して生成
+                    Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
+
+                    // プレイヤーをさすオブジェクトのときはスルーする
+                    if (objName == "7")　break;
+                    // オブジェクトをリストに格納
+                    else yAxisObjList.Add(nameToObject[objName]);
+
                 }
 
                 // y軸にとったオブジェクトのリストをリストに格納
