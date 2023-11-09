@@ -75,7 +75,7 @@ public class CSVMapGenerate : MonoBehaviour
         int height = 0;
         
         // CSVファイルを読み込み
-        csvFile = Resources.Load("CSV/MapData/Map_01") as TextAsset;
+        csvFile = Resources.Load("CSV/Yokota/KikuchiTest") as TextAsset;
         // 読み込んだテキストをString型にして格納
         StringReader reader = new StringReader(csvFile.text);
 
