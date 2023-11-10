@@ -12,6 +12,8 @@ public class CSVMapGenerate : MonoBehaviour
     // マップ上すべてのブロックの実体
     private List<List<List<GameObject>>> allBlocksObj = new List<List<List<GameObject>>>();
 
+    public int LoadStageNum;
+
     /*
     allBlocksObjについて
     allBlocksObj[x座標][z座標][y座標]でそのオブジェクトの情報をとることができます。
@@ -70,7 +72,10 @@ public class CSVMapGenerate : MonoBehaviour
         int height = 0;
         
         // CSVファイルを読み込み
-        csvFile = Resources.Load("CSV/Yokota/Template") as TextAsset;
+        if (LoadStageNum < 10)
+            csvFile = Resources.Load("CSV/Yokota/Map_0" + LoadStageNum) as TextAsset;
+        else
+            csvFile = Resources.Load("CSV/Yokota/Map_0" + LoadStageNum) as TextAsset;
         // 読み込んだテキストをString型にして格納
         StringReader reader = new StringReader(csvFile.text);
 

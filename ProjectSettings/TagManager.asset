@@ -8,6 +8,7 @@ TagManager:
   - IronBox
   - Goal
   - Pitfall
+  - MapGenerater
   layers:
   - Default
   - TransparentFX
