@@ -232,10 +232,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LoadStageNum: 0
   ground: {fileID: 2767438692373775443, guid: ea0e73c5a53942d458ed4054ca2c2c8e, type: 3}
-  woodBox: {fileID: 2055181204761478010, guid: acf715c73d0515547ba5ad9dfdd5d943, type: 3}
-  steelBox: {fileID: 4572065246633513246, guid: 9c93e0e49b15a984b823a59c431b0bea, type: 3}
+  woodBox: {fileID: 3602502690651206084, guid: 6c618b893bb3a7e449d6203218f68bf7, type: 3}
+  steelBox: {fileID: 9023946215774879443, guid: 6a92ab210c1e15e44b5f8b719562bcf3, type: 3}
   pitFall: {fileID: 6381941255522966723, guid: ad9c634fa44cb8b459c3f16c2b7fb529, type: 3}
-  goal: {fileID: 1993710126538275838, guid: 7b497afad7921b94885b1eb511ceb1e6, type: 3}
+  goal: {fileID: 7543830187988548357, guid: 7e4a43d0f349177408e18568442a9fc7, type: 3}
   steelGoal: {fileID: 1993710126538275838, guid: 7b497afad7921b94885b1eb511ceb1e6, type: 3}
   player: {fileID: 4857497174108993100, guid: 3072f06ef31a08d4ba97dd3a9a91f376, type: 3}
 --- !u!4 &480913645

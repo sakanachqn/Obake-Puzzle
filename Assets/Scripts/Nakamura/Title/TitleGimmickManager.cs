@@ -21,23 +21,21 @@ public class TitleGimmickManager : MonoBehaviour
     [SerializeField]
     private string GotoMapSelect;
 
-    private SceneFade sceneFade;
 
     private void Start()
     {
-        sceneFade = new SceneFade();
     }
 
     /// <summary>
     /// ボタンが押されたら画面遷移する
     /// 最大数までボタンが押されたらオバケが生成される
     /// </summary>
-    private async UniTask Update()
+    private async void Update()
     {
         // ボタンが押されたら画面遷移する
         if (ControllerManager.instance.CtrlInput.TitleGimmick.SelectMap.WasPressedThisFrame())
         {
-            await sceneFade.SceneChange("GotoMapSelect");
+            await SceneFade.instance.SceneChange(GotoMapSelect);
         }
 
         //オバケが最大数超えたら

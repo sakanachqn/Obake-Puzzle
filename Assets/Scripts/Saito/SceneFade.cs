@@ -11,16 +11,16 @@ using UnityEngine.UI;
 //　クラス名を変更
 public class SceneFade : MonoBehaviour
 {
-    public static GameObject FadeCanvas;
+    public static SceneFade instance;
 
     [SerializeField]
-    private float fadetime = 1f;
+    private float fadetime = 2f;
 
     private void Awake()
     {
-        if(FadeCanvas == null)
+        if(instance == null)
         {
-            FadeCanvas = this.gameObject;
+            instance = this;
         }
         else
         {
