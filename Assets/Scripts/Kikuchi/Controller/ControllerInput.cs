@@ -516,6 +516,74 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""02bfda0b-d405-4171-a71f-6b601dcb9e21"",
+            ""actions"": [
+                {
+                    ""name"": ""OpenMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""8908ac55-e7ea-41dd-8b1f-7ef43c3249e2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PushABotton"",
+                    ""type"": ""Button"",
+                    ""id"": ""9116476a-cf74-4ef0-a69a-72de85e45dea"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PushBBotton"",
+                    ""type"": ""Button"",
+                    ""id"": ""769dab10-aa96-4ed1-82f6-e5a7f9243fd1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""aeafd56c-b294-478f-83ba-6338c8f473e2"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""871f06fa-b65f-4350-b3aa-7ddad7274b59"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PushABotton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""736809cb-18f7-4140-acbe-f50fef18cf0e"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PushBBotton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -545,6 +613,11 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         m_TitleGimmick = asset.FindActionMap("TitleGimmick", throwIfNotFound: true);
         m_TitleGimmick_Obake = m_TitleGimmick.FindAction("Obake", throwIfNotFound: true);
         m_TitleGimmick_SelectMap = m_TitleGimmick.FindAction("SelectMap", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_OpenMenu = m_Menu.FindAction("OpenMenu", throwIfNotFound: true);
+        m_Menu_PushABotton = m_Menu.FindAction("PushABotton", throwIfNotFound: true);
+        m_Menu_PushBBotton = m_Menu.FindAction("PushBBotton", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -912,6 +985,68 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         }
     }
     public TitleGimmickActions @TitleGimmick => new TitleGimmickActions(this);
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private List<IMenuActions> m_MenuActionsCallbackInterfaces = new List<IMenuActions>();
+    private readonly InputAction m_Menu_OpenMenu;
+    private readonly InputAction m_Menu_PushABotton;
+    private readonly InputAction m_Menu_PushBBotton;
+    public struct MenuActions
+    {
+        private @ControllerInput m_Wrapper;
+        public MenuActions(@ControllerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @OpenMenu => m_Wrapper.m_Menu_OpenMenu;
+        public InputAction @PushABotton => m_Wrapper.m_Menu_PushABotton;
+        public InputAction @PushBBotton => m_Wrapper.m_Menu_PushBBotton;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        public void AddCallbacks(IMenuActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MenuActionsCallbackInterfaces.Add(instance);
+            @OpenMenu.started += instance.OnOpenMenu;
+            @OpenMenu.performed += instance.OnOpenMenu;
+            @OpenMenu.canceled += instance.OnOpenMenu;
+            @PushABotton.started += instance.OnPushABotton;
+            @PushABotton.performed += instance.OnPushABotton;
+            @PushABotton.canceled += instance.OnPushABotton;
+            @PushBBotton.started += instance.OnPushBBotton;
+            @PushBBotton.performed += instance.OnPushBBotton;
+            @PushBBotton.canceled += instance.OnPushBBotton;
+        }
+
+        private void UnregisterCallbacks(IMenuActions instance)
+        {
+            @OpenMenu.started -= instance.OnOpenMenu;
+            @OpenMenu.performed -= instance.OnOpenMenu;
+            @OpenMenu.canceled -= instance.OnOpenMenu;
+            @PushABotton.started -= instance.OnPushABotton;
+            @PushABotton.performed -= instance.OnPushABotton;
+            @PushABotton.canceled -= instance.OnPushABotton;
+            @PushBBotton.started -= instance.OnPushBBotton;
+            @PushBBotton.performed -= instance.OnPushBBotton;
+            @PushBBotton.canceled -= instance.OnPushBBotton;
+        }
+
+        public void RemoveCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMenuActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MenuActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MenuActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MenuActions @Menu => new MenuActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -941,5 +1076,11 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
     {
         void OnObake(InputAction.CallbackContext context);
         void OnSelectMap(InputAction.CallbackContext context);
+    }
+    public interface IMenuActions
+    {
+        void OnOpenMenu(InputAction.CallbackContext context);
+        void OnPushABotton(InputAction.CallbackContext context);
+        void OnPushBBotton(InputAction.CallbackContext context);
     }
 }
