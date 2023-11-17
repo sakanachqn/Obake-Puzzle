@@ -12,7 +12,11 @@ public class CSVMapGenerate : MonoBehaviour
     // マップ上すべてのブロックの実体
     private List<List<List<GameObject>>> allBlocksObj = new List<List<List<GameObject>>>();
 
+    // 呼び出すマップCSVファイルの番号
     public int LoadStageNum;
+
+    // マップ生成完了フラグ
+    public static bool IsMapGenerate = false;
 
     /*
     allBlocksObjについて
@@ -151,5 +155,8 @@ public class CSVMapGenerate : MonoBehaviour
             // y-z平面のリストをリストに格納
             allBlocksObj.Add(zAxisObjList);
         }
+
+        // マップ生成完了フラグを立てる
+        IsMapGenerate = true;
     }
 }
