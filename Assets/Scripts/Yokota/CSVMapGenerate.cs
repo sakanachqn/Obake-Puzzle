@@ -12,6 +12,12 @@ public class CSVMapGenerate : MonoBehaviour
     // マップ上すべてのブロックの実体
     private List<List<List<GameObject>>> allBlocksObj = new List<List<List<GameObject>>>();
 
+    // 呼び出すマップCSVファイルの番号
+    public int LoadStageNum;
+
+    // マップ生成完了フラグ
+    public static bool IsMapGenerate = false;
+
     /*
     allBlocksObjについて
     allBlocksObj[x座標][z座標][y座標]でそのオブジェクトの情報をとることができます。
@@ -29,6 +35,8 @@ public class CSVMapGenerate : MonoBehaviour
     private GameObject goal;
     [SerializeField,Header("ゴール（鉄箱）")]
     private GameObject steelGoal;
+    [SerializeField,Header("プレイヤー")]
+    private GameObject player;
     
 
     private void Start()
@@ -49,6 +57,7 @@ public class CSVMapGenerate : MonoBehaviour
         nameToObject.Add("4", pitFall);
         nameToObject.Add("5", goal);
         nameToObject.Add("6", steelGoal);
+        nameToObject.Add("7", player);
     }
 
     /// <summary>
@@ -67,7 +76,10 @@ public class CSVMapGenerate : MonoBehaviour
         int height = 0;
         
         // CSVファイルを読み込み
-        csvFile = Resources.Load("CSV/Yokota/Template") as TextAsset;
+        if (LoadStageNum < 10)
+            csvFile = Resources.Load("CSV/Yokota/Map_0" + LoadStageNum) as TextAsset;
+        else
+            csvFile = Resources.Load("CSV/Yokota/Map_0" + LoadStageNum) as TextAsset;
         // 読み込んだテキストをString型にして格納
         StringReader reader = new StringReader(csvFile.text);
 
@@ -125,11 +137,15 @@ public class CSVMapGenerate : MonoBehaviour
                 {
                     // tmpstrの(y+1)文字目を取り出す
                     string objName = tmpstr.Substring(y, 1);
+
                     // 文字列からオブジェクトを取り出して生成
                     Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
 
+                    // プレイヤーをさすオブジェクトのときはスルーする
+                    if (objName == "7")　break;
                     // オブジェクトをリストに格納
-                    yAxisObjList.Add(nameToObject[objName]);
+                    else yAxisObjList.Add(nameToObject[objName]);
+
                 }
 
                 // y軸にとったオブジェクトのリストをリストに格納
@@ -139,5 +155,8 @@ public class CSVMapGenerate : MonoBehaviour
             // y-z平面のリストをリストに格納
             allBlocksObj.Add(zAxisObjList);
         }
+
+        // マップ生成完了フラグを立てる
+        IsMapGenerate = true;
     }
 }
