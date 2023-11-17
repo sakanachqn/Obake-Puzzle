@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
@@ -7,9 +8,11 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
+
 //　修正者:菊池
 //　クラス名を変更
 public class SceneFade : MonoBehaviour
+
 {
     public static GameObject FadeCanvas;
 
@@ -18,7 +21,7 @@ public class SceneFade : MonoBehaviour
 
     private void Awake()
     {
-        if(FadeCanvas == null)
+        if (FadeCanvas == null)
         {
             FadeCanvas = this.gameObject;
         }
@@ -26,6 +29,13 @@ public class SceneFade : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+
+    }
+
+    async void Start()
+    {
+        //await SceneChange("TestPlay");
     }
 
     public async UniTask SceneChange(string Scenename)
@@ -44,7 +54,8 @@ public class SceneFade : MonoBehaviour
             fadetime//所要時間
             );
 
-        SceneManager.LoadScene(Scenename);//””のなかシーン名変更
+        await SceneManager.LoadSceneAsync(Scenename);//””のなかシーン名変更
+
         c.a = 1.0f;
         await DOTween.ToAlpha(
             () => fadeImage.color,
@@ -53,4 +64,5 @@ public class SceneFade : MonoBehaviour
             fadetime//所要時間
             );
     }
+
 }
