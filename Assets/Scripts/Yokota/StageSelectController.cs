@@ -43,7 +43,7 @@ public class StageSelectController : MonoBehaviour
             // メインゲームに進む
             SceneManager.sceneLoaded += GameSceneLoaded;
 
-            SceneManager.LoadScene("Yokota");
+            SceneManager.LoadScene("GameScene");
         }
 
         if (Input.GetKeyDown(KeyCode.LeftArrow) && nowSelectStage > 1)

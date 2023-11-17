@@ -15,9 +15,6 @@ public class SkillManager : MonoBehaviour
     // スキル範囲のフェード用のオブジェクト
     [SerializeField] private GameObject areaFade;
 
-    // スキル範囲のフェード位置
-    [SerializeField] private float areaFadePos = 0.505f;
-
     // コントローラーマネージャー
     private ControllerManager ctrl;
     

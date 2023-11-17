@@ -6,7 +6,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class StartController : MonoBehaviour
+
+//　修正者:菊池
+//　クラス名を変更
+public class SceneFade : MonoBehaviour
 {
     public static GameObject FadeCanvas;
 
@@ -25,10 +28,6 @@ public class StartController : MonoBehaviour
         }
     }
 
-    async void Start()
-    {
-       await SceneChange("Test");
-    }
     public async UniTask SceneChange(string Scenename)
     {
         //フェードの処理

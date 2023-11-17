@@ -58,6 +58,7 @@ public class ControllerManager : MonoBehaviour
             CtrlInput = new ControllerInput();
             CtrlInput.Enable();
         }
+        DontDestroyOnLoad(this.gameObject);
     }
 
     private void Update()
@@ -82,19 +83,6 @@ public class ControllerManager : MonoBehaviour
         else if (stickInclination.x == 1) stickPlayerDirection = Direction.Right;
         else if (stickInclination.y == 1) stickPlayerDirection = Direction.Up;
         else if (stickInclination.y == -1) stickPlayerDirection = Direction.Down;
-    }
-    private void CheckSkillStickDirection()
-    {
-        //スティックの入力取得
-        stickInclination = CtrlInput.Skill.Move.ReadValue<Vector2>();
-        //正規化
-        stickInclination = DeadZone(stickInclination);
-        // 取得したスティックの方向に対応したenumに変換
-        if (stickInclination == Vector2.zero) stickSkillDirection = Direction.Null;
-        else if (stickInclination.x == -1) stickSkillDirection = Direction.Left;
-        else if (stickInclination.x == 1) stickSkillDirection = Direction.Right;
-        else if (stickInclination.y == 1) stickSkillDirection = Direction.Up;
-        else if (stickInclination.y == -1) stickSkillDirection = Direction.Down;
     }
 
     //デッドゾーン設定用関数

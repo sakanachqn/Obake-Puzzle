@@ -7,9 +7,6 @@ using UnityEngine.InputSystem;
 using System;
 using DG.Tweening;
 
-/// <summary>
-/// Playerの入力及び移動周り処理用クラス
-/// </summary>
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
@@ -59,7 +56,7 @@ public class PlayerController : MonoBehaviour
         var token = this.GetCancellationTokenOnDestroy();
 
         await UniTask.WaitUntil(() => CSVMapGenerate.IsMapGenerate);
-
+        CSVMapGenerate.IsMapGenerate = false;
         //Dictonary Init
         if(objectRotation == null)
         {
