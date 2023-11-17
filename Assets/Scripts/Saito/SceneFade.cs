@@ -40,21 +40,19 @@ public class SceneFade : MonoBehaviour
 
     public async UniTask SceneChange(string Scenename)
     {
-        //フェードの処理
+        await FadeOut();
+        await ChangeScene(Scenename);
+        await FadeIn();
+        
+    }
+
+    public async UniTask FadeIn()
+    {
         var fadeImage = GetComponent<Image>();
         fadeImage.enabled = true;
         var c = fadeImage.color;
-        c.a = 0f;//初期値
+        c.a = 1f;//初期値
         fadeImage.color = c;
-
-        await DOTween.ToAlpha(
-            () => fadeImage.color,
-            color => fadeImage.color = color,
-            1.0f,//目標値
-            fadetime//所要時間
-            );
-
-        await SceneManager.LoadSceneAsync(Scenename);//””のなかシーン名変更
 
         c.a = 1.0f;
         await DOTween.ToAlpha(
@@ -65,4 +63,25 @@ public class SceneFade : MonoBehaviour
             );
     }
 
+    public async UniTask FadeOut()
+    {
+        var fadeImage = GetComponent<Image>();
+        fadeImage.enabled = true;
+        var c = fadeImage.color;
+        c.a = 0f;//初期値
+        fadeImage.color = c;
+
+
+        await DOTween.ToAlpha(
+            () => fadeImage.color,
+            color => fadeImage.color = color,
+            1.0f,//目標値
+            fadetime//所要時間
+            );
+    }
+
+    private async UniTask ChangeScene(string SceneName)
+    {
+        await SceneManager.LoadSceneAsync(SceneName);
+    }
 }
