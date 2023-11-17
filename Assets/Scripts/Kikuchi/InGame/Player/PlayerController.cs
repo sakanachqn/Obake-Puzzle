@@ -7,9 +7,6 @@ using UnityEngine.InputSystem;
 using System;
 using DG.Tweening;
 
-/// <summary>
-/// Playerの入力及び移動周り処理用クラス
-/// </summary>
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
@@ -35,6 +32,8 @@ public class PlayerController : MonoBehaviour
         get => playerMove;
     }
 
+    private SkillManager skillManager;
+
     //プレイヤーカメラ回転クラス
     private PlayerRotate playerRotate;
 
@@ -45,6 +44,7 @@ public class PlayerController : MonoBehaviour
     {
         playerMove = GetComponent<PlayerMove>();
         playerRotate = GetComponent<PlayerRotate>();
+        skillManager = GetComponent<SkillManager>();
     }
 
 
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         var token = this.GetCancellationTokenOnDestroy();
 
         await UniTask.WaitUntil(() => CSVMapGenerate.IsMapGenerate);
-
+        CSVMapGenerate.IsMapGenerate = false;
         //Dictonary Init
         if(objectRotation == null)
         {
@@ -67,7 +67,15 @@ public class PlayerController : MonoBehaviour
         playerMove.SetDirectionDictionary(vec3s[0], vec3s[1], vec3s[2], vec3s[3]);
 
         //Playerの移動/カメラの回転処理の開始
-　       await UniTask.WhenAll(playerMove.MoveTask(token, moveTime), playerRotate.CamRotateTask(token,rotateTime));
+　       await UniTask.WhenAll(
+            playerMove.MoveTask(token, moveTime),
+            playerRotate.CamRotateTask(token, rotateTime)
+            );
+    }
+
+    private void Update()
+    {
+        
     }
 
 }

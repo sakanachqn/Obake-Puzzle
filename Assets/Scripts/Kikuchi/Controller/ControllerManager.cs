@@ -31,7 +31,8 @@ public class ControllerManager : MonoBehaviour
     };
 
     //スティックの倒れた方向保存用変数
-    public Direction stickDirection = Direction.Null;
+    public Direction stickPlayerDirection = Direction.Null;
+    public Direction stickSkillDirection = Direction.Null;
 
     /// <summary>
     /// L1 or R1 ボタンの押された方
@@ -57,11 +58,12 @@ public class ControllerManager : MonoBehaviour
             CtrlInput = new ControllerInput();
             CtrlInput.Enable();
         }
+        DontDestroyOnLoad(this.gameObject);
     }
 
     private void Update()
     {
-        if(!PlayerController.isNowAction)CheckStickDirection();
+        if(!PlayerController.isNowAction)CheckPlayerStickDirection();
         if(!PlayerController.isNowAction)CheckPressCamRotateButton();
     }
 
@@ -69,19 +71,18 @@ public class ControllerManager : MonoBehaviour
     /// <summary>
     /// スティックの倒れた方向取得関数
     /// </summary>
-    private void CheckStickDirection()
+    private void CheckPlayerStickDirection()
     {
         //スティックの入力取得
         stickInclination = CtrlInput.Player.Move.ReadValue<Vector2>();
         //正規化
         stickInclination = DeadZone(stickInclination);
         // 取得したスティックの方向に対応したenumに変換
-        if (stickInclination == Vector2.zero) stickDirection = Direction.Null;
-        else if (stickInclination.x == -1) stickDirection = Direction.Left;
-        else if (stickInclination.x == 1) stickDirection = Direction.Right;
-        else if (stickInclination.y == 1) stickDirection = Direction.Up;
-        else if (stickInclination.y == -1) stickDirection = Direction.Down;
-
+        if (stickInclination == Vector2.zero) stickPlayerDirection = Direction.Null;
+        else if (stickInclination.x == -1) stickPlayerDirection = Direction.Left;
+        else if (stickInclination.x == 1) stickPlayerDirection = Direction.Right;
+        else if (stickInclination.y == 1) stickPlayerDirection = Direction.Up;
+        else if (stickInclination.y == -1) stickPlayerDirection = Direction.Down;
     }
 
     //デッドゾーン設定用関数

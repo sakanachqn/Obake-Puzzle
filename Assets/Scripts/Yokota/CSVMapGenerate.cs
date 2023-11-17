@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CSVMapGenerate : MonoBehaviour
 {
-
     // マップ上すべてのブロックの文字情報
     private List<List<string>> allBlocksStr = new List<List<string>>();
     // 文字からオブジェクトを取り出せるディクショナリ
@@ -13,7 +12,10 @@ public class CSVMapGenerate : MonoBehaviour
     // マップ上すべてのブロックの実体
     private List<List<List<GameObject>>> allBlocksObj = new List<List<List<GameObject>>>();
 
-    //菊池加筆　生成中かどうかのフラグ
+    // 呼び出すマップCSVファイルの番号
+    public int LoadStageNum;
+
+    // マップ生成完了フラグ
     public static bool IsMapGenerate = false;
 
     /*
@@ -42,7 +44,6 @@ public class CSVMapGenerate : MonoBehaviour
         Init();
         ReadCsv();
         MapGenerate();
-        IsMapGenerate = true;　//菊池加筆　生成終了時にフラグ起動
     }
 
     /// <summary>
@@ -75,7 +76,10 @@ public class CSVMapGenerate : MonoBehaviour
         int height = 0;
         
         // CSVファイルを読み込み
-        csvFile = Resources.Load("CSV/Yokota/KikuchiTest") as TextAsset;
+        if (LoadStageNum < 10)
+            csvFile = Resources.Load("CSV/Yokota/Map_0" + LoadStageNum) as TextAsset;
+        else
+            csvFile = Resources.Load("CSV/Yokota/Map_0" + LoadStageNum) as TextAsset;
         // 読み込んだテキストをString型にして格納
         StringReader reader = new StringReader(csvFile.text);
 
@@ -151,5 +155,8 @@ public class CSVMapGenerate : MonoBehaviour
             // y-z平面のリストをリストに格納
             allBlocksObj.Add(zAxisObjList);
         }
+
+        // マップ生成完了フラグを立てる
+        IsMapGenerate = true;
     }
 }

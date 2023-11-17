@@ -37,18 +37,18 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""SkillA"",
+                    ""name"": ""Select"",
                     ""type"": ""Button"",
-                    ""id"": ""c6529f72-a31d-4392-ae7b-a7385643b4de"",
+                    ""id"": ""e9b6115e-8b31-4ee6-be47-1b73ea198b9d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SkillB"",
+                    ""name"": ""Cancel"",
                     ""type"": ""Button"",
-                    ""id"": ""e5aeabc9-0826-4797-9da2-14cb3b081f10"",
+                    ""id"": ""bb76e095-5aa0-4309-850c-6e212007a53a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -124,23 +124,23 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4fe151b1-ad0c-46c0-8b4a-691be14be3be"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""id"": ""d7559f09-3866-4f76-9b6d-4caa758c0fe1"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SkillA"",
+                    ""action"": ""Select"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""6b48292e-ed9a-4e6a-bb2c-9d6528961fd4"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""id"": ""48abc58d-bea4-43d1-bdf6-577ce441915e"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SkillB"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -305,7 +305,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""up"",
                     ""id"": ""1271550a-2c7f-4492-86bd-8e8592024807"",
-                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -382,22 +382,40 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""TitleGimmick"",
-            ""id"": ""dfaaba88-71f5-49e3-944a-d89f04e51f25"",
+            ""name"": ""Skill"",
+            ""id"": ""19b61770-03a8-42c3-b595-4297a014e5c0"",
             ""actions"": [
                 {
-                    ""name"": ""Obake"",
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""b5ef92c0-527e-48c2-851d-07c4a0c733ef"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SkillA"",
                     ""type"": ""Button"",
-                    ""id"": ""09c6a6f4-8fc3-4b8c-b7e3-c63c916409a3"",
+                    ""id"": ""0acce40d-014d-472c-a521-7ddbf9bdd9bb"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SelectMap"",
+                    ""name"": ""SkillB"",
                     ""type"": ""Button"",
-                    ""id"": ""aecc0058-bfc1-4dbb-8814-40a5eaeaacad"",
+                    ""id"": ""b74b8dd6-ac04-418d-9d60-33700336a98f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""88cd5aeb-591d-4734-838b-2e2ef475b083"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -407,7 +425,77 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""dd38f865-f23f-4a4c-9c71-a071bf45285f"",
+                    ""id"": ""0422f870-f809-4044-9e99-00d592599c6d"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3e740c0-8c3c-4969-a0e9-94a2a7a0e8fb"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkillA"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ffe1271b-072c-4c0c-9677-66ebf263e923"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkillB"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96234c51-61f8-4da7-9a6e-69d5c714f8b9"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""TitleGimmick"",
+            ""id"": ""c58daace-5052-45c1-9c96-8f76af8f6553"",
+            ""actions"": [
+                {
+                    ""name"": ""Obake"",
+                    ""type"": ""Button"",
+                    ""id"": ""ff2c3b38-1a7c-4480-9e24-589a4216c21a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectMap"",
+                    ""type"": ""Button"",
+                    ""id"": ""ba0187ab-6e6d-49dd-8b31-2db77d63f8a5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""fddc36ea-ee5e-426e-8a4b-ab525f7200c2"",
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -418,12 +506,80 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e264eeb4-c155-4e73-a9ad-5ac35dd471dc"",
+                    ""id"": ""449189fb-70cf-42df-8acc-42e5c27c8ca7"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SelectMap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""02bfda0b-d405-4171-a71f-6b601dcb9e21"",
+            ""actions"": [
+                {
+                    ""name"": ""OpenMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""8908ac55-e7ea-41dd-8b1f-7ef43c3249e2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PushABotton"",
+                    ""type"": ""Button"",
+                    ""id"": ""9116476a-cf74-4ef0-a69a-72de85e45dea"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PushBBotton"",
+                    ""type"": ""Button"",
+                    ""id"": ""769dab10-aa96-4ed1-82f6-e5a7f9243fd1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""aeafd56c-b294-478f-83ba-6338c8f473e2"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""871f06fa-b65f-4350-b3aa-7ddad7274b59"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PushABotton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""736809cb-18f7-4140-acbe-f50fef18cf0e"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PushBBotton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -435,8 +591,8 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_SkillA = m_Player.FindAction("SkillA", throwIfNotFound: true);
-        m_Player_SkillB = m_Player.FindAction("SkillB", throwIfNotFound: true);
+        m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
+        m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         // Rotate
         m_Rotate = asset.FindActionMap("Rotate", throwIfNotFound: true);
         m_Rotate_CamR = m_Rotate.FindAction("CamR", throwIfNotFound: true);
@@ -447,10 +603,21 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         m_StageSelect_Decision = m_StageSelect.FindAction("Decision", throwIfNotFound: true);
         m_StageSelect_Back = m_StageSelect.FindAction("Back", throwIfNotFound: true);
         m_StageSelect_Tutorial = m_StageSelect.FindAction("Tutorial", throwIfNotFound: true);
+        // Skill
+        m_Skill = asset.FindActionMap("Skill", throwIfNotFound: true);
+        m_Skill_Move = m_Skill.FindAction("Move", throwIfNotFound: true);
+        m_Skill_SkillA = m_Skill.FindAction("SkillA", throwIfNotFound: true);
+        m_Skill_SkillB = m_Skill.FindAction("SkillB", throwIfNotFound: true);
+        m_Skill_Select = m_Skill.FindAction("Select", throwIfNotFound: true);
         // TitleGimmick
         m_TitleGimmick = asset.FindActionMap("TitleGimmick", throwIfNotFound: true);
         m_TitleGimmick_Obake = m_TitleGimmick.FindAction("Obake", throwIfNotFound: true);
         m_TitleGimmick_SelectMap = m_TitleGimmick.FindAction("SelectMap", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_OpenMenu = m_Menu.FindAction("OpenMenu", throwIfNotFound: true);
+        m_Menu_PushABotton = m_Menu.FindAction("PushABotton", throwIfNotFound: true);
+        m_Menu_PushBBotton = m_Menu.FindAction("PushBBotton", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -513,15 +680,15 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_SkillA;
-    private readonly InputAction m_Player_SkillB;
+    private readonly InputAction m_Player_Select;
+    private readonly InputAction m_Player_Cancel;
     public struct PlayerActions
     {
         private @ControllerInput m_Wrapper;
         public PlayerActions(@ControllerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @SkillA => m_Wrapper.m_Player_SkillA;
-        public InputAction @SkillB => m_Wrapper.m_Player_SkillB;
+        public InputAction @Select => m_Wrapper.m_Player_Select;
+        public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -534,12 +701,12 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @SkillA.started += instance.OnSkillA;
-            @SkillA.performed += instance.OnSkillA;
-            @SkillA.canceled += instance.OnSkillA;
-            @SkillB.started += instance.OnSkillB;
-            @SkillB.performed += instance.OnSkillB;
-            @SkillB.canceled += instance.OnSkillB;
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
+            @Cancel.started += instance.OnCancel;
+            @Cancel.performed += instance.OnCancel;
+            @Cancel.canceled += instance.OnCancel;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -547,12 +714,12 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @SkillA.started -= instance.OnSkillA;
-            @SkillA.performed -= instance.OnSkillA;
-            @SkillA.canceled -= instance.OnSkillA;
-            @SkillB.started -= instance.OnSkillB;
-            @SkillB.performed -= instance.OnSkillB;
-            @SkillB.canceled -= instance.OnSkillB;
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
+            @Cancel.started -= instance.OnCancel;
+            @Cancel.performed -= instance.OnCancel;
+            @Cancel.canceled -= instance.OnCancel;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -695,6 +862,76 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
     }
     public StageSelectActions @StageSelect => new StageSelectActions(this);
 
+    // Skill
+    private readonly InputActionMap m_Skill;
+    private List<ISkillActions> m_SkillActionsCallbackInterfaces = new List<ISkillActions>();
+    private readonly InputAction m_Skill_Move;
+    private readonly InputAction m_Skill_SkillA;
+    private readonly InputAction m_Skill_SkillB;
+    private readonly InputAction m_Skill_Select;
+    public struct SkillActions
+    {
+        private @ControllerInput m_Wrapper;
+        public SkillActions(@ControllerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Skill_Move;
+        public InputAction @SkillA => m_Wrapper.m_Skill_SkillA;
+        public InputAction @SkillB => m_Wrapper.m_Skill_SkillB;
+        public InputAction @Select => m_Wrapper.m_Skill_Select;
+        public InputActionMap Get() { return m_Wrapper.m_Skill; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SkillActions set) { return set.Get(); }
+        public void AddCallbacks(ISkillActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SkillActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SkillActionsCallbackInterfaces.Add(instance);
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
+            @SkillA.started += instance.OnSkillA;
+            @SkillA.performed += instance.OnSkillA;
+            @SkillA.canceled += instance.OnSkillA;
+            @SkillB.started += instance.OnSkillB;
+            @SkillB.performed += instance.OnSkillB;
+            @SkillB.canceled += instance.OnSkillB;
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
+        }
+
+        private void UnregisterCallbacks(ISkillActions instance)
+        {
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
+            @SkillA.started -= instance.OnSkillA;
+            @SkillA.performed -= instance.OnSkillA;
+            @SkillA.canceled -= instance.OnSkillA;
+            @SkillB.started -= instance.OnSkillB;
+            @SkillB.performed -= instance.OnSkillB;
+            @SkillB.canceled -= instance.OnSkillB;
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
+        }
+
+        public void RemoveCallbacks(ISkillActions instance)
+        {
+            if (m_Wrapper.m_SkillActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ISkillActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SkillActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SkillActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public SkillActions @Skill => new SkillActions(this);
+
     // TitleGimmick
     private readonly InputActionMap m_TitleGimmick;
     private List<ITitleGimmickActions> m_TitleGimmickActionsCallbackInterfaces = new List<ITitleGimmickActions>();
@@ -748,11 +985,73 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         }
     }
     public TitleGimmickActions @TitleGimmick => new TitleGimmickActions(this);
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private List<IMenuActions> m_MenuActionsCallbackInterfaces = new List<IMenuActions>();
+    private readonly InputAction m_Menu_OpenMenu;
+    private readonly InputAction m_Menu_PushABotton;
+    private readonly InputAction m_Menu_PushBBotton;
+    public struct MenuActions
+    {
+        private @ControllerInput m_Wrapper;
+        public MenuActions(@ControllerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @OpenMenu => m_Wrapper.m_Menu_OpenMenu;
+        public InputAction @PushABotton => m_Wrapper.m_Menu_PushABotton;
+        public InputAction @PushBBotton => m_Wrapper.m_Menu_PushBBotton;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        public void AddCallbacks(IMenuActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MenuActionsCallbackInterfaces.Add(instance);
+            @OpenMenu.started += instance.OnOpenMenu;
+            @OpenMenu.performed += instance.OnOpenMenu;
+            @OpenMenu.canceled += instance.OnOpenMenu;
+            @PushABotton.started += instance.OnPushABotton;
+            @PushABotton.performed += instance.OnPushABotton;
+            @PushABotton.canceled += instance.OnPushABotton;
+            @PushBBotton.started += instance.OnPushBBotton;
+            @PushBBotton.performed += instance.OnPushBBotton;
+            @PushBBotton.canceled += instance.OnPushBBotton;
+        }
+
+        private void UnregisterCallbacks(IMenuActions instance)
+        {
+            @OpenMenu.started -= instance.OnOpenMenu;
+            @OpenMenu.performed -= instance.OnOpenMenu;
+            @OpenMenu.canceled -= instance.OnOpenMenu;
+            @PushABotton.started -= instance.OnPushABotton;
+            @PushABotton.performed -= instance.OnPushABotton;
+            @PushABotton.canceled -= instance.OnPushABotton;
+            @PushBBotton.started -= instance.OnPushBBotton;
+            @PushBBotton.performed -= instance.OnPushBBotton;
+            @PushBBotton.canceled -= instance.OnPushBBotton;
+        }
+
+        public void RemoveCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMenuActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MenuActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MenuActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MenuActions @Menu => new MenuActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnSkillA(InputAction.CallbackContext context);
-        void OnSkillB(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
     }
     public interface IRotateActions
     {
@@ -766,9 +1065,22 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         void OnBack(InputAction.CallbackContext context);
         void OnTutorial(InputAction.CallbackContext context);
     }
+    public interface ISkillActions
+    {
+        void OnMove(InputAction.CallbackContext context);
+        void OnSkillA(InputAction.CallbackContext context);
+        void OnSkillB(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
+    }
     public interface ITitleGimmickActions
     {
         void OnObake(InputAction.CallbackContext context);
         void OnSelectMap(InputAction.CallbackContext context);
+    }
+    public interface IMenuActions
+    {
+        void OnOpenMenu(InputAction.CallbackContext context);
+        void OnPushABotton(InputAction.CallbackContext context);
+        void OnPushBBotton(InputAction.CallbackContext context);
     }
 }
