@@ -305,7 +305,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""up"",
                     ""id"": ""1271550a-2c7f-4492-86bd-8e8592024807"",
-                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -468,6 +468,54 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""TitleGimmick"",
+            ""id"": ""c58daace-5052-45c1-9c96-8f76af8f6553"",
+            ""actions"": [
+                {
+                    ""name"": ""Obake"",
+                    ""type"": ""Button"",
+                    ""id"": ""ff2c3b38-1a7c-4480-9e24-589a4216c21a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectMap"",
+                    ""type"": ""Button"",
+                    ""id"": ""ba0187ab-6e6d-49dd-8b31-2db77d63f8a5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""fddc36ea-ee5e-426e-8a4b-ab525f7200c2"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Obake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""449189fb-70cf-42df-8acc-42e5c27c8ca7"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectMap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -493,6 +541,10 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         m_Skill_SkillA = m_Skill.FindAction("SkillA", throwIfNotFound: true);
         m_Skill_SkillB = m_Skill.FindAction("SkillB", throwIfNotFound: true);
         m_Skill_Select = m_Skill.FindAction("Select", throwIfNotFound: true);
+        // TitleGimmick
+        m_TitleGimmick = asset.FindActionMap("TitleGimmick", throwIfNotFound: true);
+        m_TitleGimmick_Obake = m_TitleGimmick.FindAction("Obake", throwIfNotFound: true);
+        m_TitleGimmick_SelectMap = m_TitleGimmick.FindAction("SelectMap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -806,6 +858,60 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         }
     }
     public SkillActions @Skill => new SkillActions(this);
+
+    // TitleGimmick
+    private readonly InputActionMap m_TitleGimmick;
+    private List<ITitleGimmickActions> m_TitleGimmickActionsCallbackInterfaces = new List<ITitleGimmickActions>();
+    private readonly InputAction m_TitleGimmick_Obake;
+    private readonly InputAction m_TitleGimmick_SelectMap;
+    public struct TitleGimmickActions
+    {
+        private @ControllerInput m_Wrapper;
+        public TitleGimmickActions(@ControllerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Obake => m_Wrapper.m_TitleGimmick_Obake;
+        public InputAction @SelectMap => m_Wrapper.m_TitleGimmick_SelectMap;
+        public InputActionMap Get() { return m_Wrapper.m_TitleGimmick; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(TitleGimmickActions set) { return set.Get(); }
+        public void AddCallbacks(ITitleGimmickActions instance)
+        {
+            if (instance == null || m_Wrapper.m_TitleGimmickActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_TitleGimmickActionsCallbackInterfaces.Add(instance);
+            @Obake.started += instance.OnObake;
+            @Obake.performed += instance.OnObake;
+            @Obake.canceled += instance.OnObake;
+            @SelectMap.started += instance.OnSelectMap;
+            @SelectMap.performed += instance.OnSelectMap;
+            @SelectMap.canceled += instance.OnSelectMap;
+        }
+
+        private void UnregisterCallbacks(ITitleGimmickActions instance)
+        {
+            @Obake.started -= instance.OnObake;
+            @Obake.performed -= instance.OnObake;
+            @Obake.canceled -= instance.OnObake;
+            @SelectMap.started -= instance.OnSelectMap;
+            @SelectMap.performed -= instance.OnSelectMap;
+            @SelectMap.canceled -= instance.OnSelectMap;
+        }
+
+        public void RemoveCallbacks(ITitleGimmickActions instance)
+        {
+            if (m_Wrapper.m_TitleGimmickActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ITitleGimmickActions instance)
+        {
+            foreach (var item in m_Wrapper.m_TitleGimmickActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_TitleGimmickActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public TitleGimmickActions @TitleGimmick => new TitleGimmickActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -830,5 +936,10 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         void OnSkillA(InputAction.CallbackContext context);
         void OnSkillB(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
+    }
+    public interface ITitleGimmickActions
+    {
+        void OnObake(InputAction.CallbackContext context);
+        void OnSelectMap(InputAction.CallbackContext context);
     }
 }
