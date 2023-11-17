@@ -18,6 +18,7 @@ public class PlayerMove : MonoBehaviour
     /// enumに対応したvec3を保存する変数
     /// </summary>
     private Dictionary<ControllerManager.Direction, Vector3> directions = new Dictionary<ControllerManager.Direction, Vector3>();
+    public Dictionary<ControllerManager.Direction, Vector3> Directions => directions;
 
     /// <summary>
     /// enumに対応したVec3を保存する関数
@@ -45,10 +46,10 @@ public class PlayerMove : MonoBehaviour
         {
             if (PlayerController.isNowAction) return;
             //移動中or回転中は早期リターン
-            await UniTask.WaitUntil(() => ctrlManager.stickDirection != ControllerManager.Direction.Null, cancellationToken: token);// stickが倒されるのを待つ
+            await UniTask.WaitUntil(() => ctrlManager.stickPlayerDirection != ControllerManager.Direction.Null, cancellationToken: token);// stickが倒されるのを待つ
             PlayerController.isNowAction = true; //移動中フラグ起動
-            var targetPos = this.transform.position + directions[ctrlManager.stickDirection]; //目標地点を設定
-            if (CheckObject(this.transform.position ,directions[ctrlManager.stickDirection]) || CheckOffMap(directions[ctrlManager.stickDirection]))
+            var targetPos = this.transform.position + directions[ctrlManager.stickPlayerDirection]; //目標地点を設定
+            if (CheckObject(this.transform.position ,directions[ctrlManager.stickPlayerDirection]) || CheckOffMap(directions[ctrlManager.stickPlayerDirection]))
             {
                 DevLog.Log("進めないよ～");
                 material.color = testRed;

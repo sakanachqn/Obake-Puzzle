@@ -37,24 +37,6 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""SkillA"",
-                    ""type"": ""Button"",
-                    ""id"": ""c6529f72-a31d-4392-ae7b-a7385643b4de"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SkillB"",
-                    ""type"": ""Button"",
-                    ""id"": ""e5aeabc9-0826-4797-9da2-14cb3b081f10"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Select"",
                     ""type"": ""Button"",
                     ""id"": ""e9b6115e-8b31-4ee6-be47-1b73ea198b9d"",
@@ -139,28 +121,6 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4fe151b1-ad0c-46c0-8b4a-691be14be3be"",
-                    ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SkillA"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6b48292e-ed9a-4e6a-bb2c-9d6528961fd4"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SkillB"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -420,6 +380,94 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Skill"",
+            ""id"": ""19b61770-03a8-42c3-b595-4297a014e5c0"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""b5ef92c0-527e-48c2-851d-07c4a0c733ef"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SkillA"",
+                    ""type"": ""Button"",
+                    ""id"": ""0acce40d-014d-472c-a521-7ddbf9bdd9bb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SkillB"",
+                    ""type"": ""Button"",
+                    ""id"": ""b74b8dd6-ac04-418d-9d60-33700336a98f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""88cd5aeb-591d-4734-838b-2e2ef475b083"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0422f870-f809-4044-9e99-00d592599c6d"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3e740c0-8c3c-4969-a0e9-94a2a7a0e8fb"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkillA"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ffe1271b-072c-4c0c-9677-66ebf263e923"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkillB"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96234c51-61f8-4da7-9a6e-69d5c714f8b9"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -427,8 +475,6 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_SkillA = m_Player.FindAction("SkillA", throwIfNotFound: true);
-        m_Player_SkillB = m_Player.FindAction("SkillB", throwIfNotFound: true);
         m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
         m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         // Rotate
@@ -441,6 +487,12 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         m_StageSelect_Decision = m_StageSelect.FindAction("Decision", throwIfNotFound: true);
         m_StageSelect_Back = m_StageSelect.FindAction("Back", throwIfNotFound: true);
         m_StageSelect_Tutorial = m_StageSelect.FindAction("Tutorial", throwIfNotFound: true);
+        // Skill
+        m_Skill = asset.FindActionMap("Skill", throwIfNotFound: true);
+        m_Skill_Move = m_Skill.FindAction("Move", throwIfNotFound: true);
+        m_Skill_SkillA = m_Skill.FindAction("SkillA", throwIfNotFound: true);
+        m_Skill_SkillB = m_Skill.FindAction("SkillB", throwIfNotFound: true);
+        m_Skill_Select = m_Skill.FindAction("Select", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -503,8 +555,6 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_SkillA;
-    private readonly InputAction m_Player_SkillB;
     private readonly InputAction m_Player_Select;
     private readonly InputAction m_Player_Cancel;
     public struct PlayerActions
@@ -512,8 +562,6 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         private @ControllerInput m_Wrapper;
         public PlayerActions(@ControllerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @SkillA => m_Wrapper.m_Player_SkillA;
-        public InputAction @SkillB => m_Wrapper.m_Player_SkillB;
         public InputAction @Select => m_Wrapper.m_Player_Select;
         public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -528,12 +576,6 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @SkillA.started += instance.OnSkillA;
-            @SkillA.performed += instance.OnSkillA;
-            @SkillA.canceled += instance.OnSkillA;
-            @SkillB.started += instance.OnSkillB;
-            @SkillB.performed += instance.OnSkillB;
-            @SkillB.canceled += instance.OnSkillB;
             @Select.started += instance.OnSelect;
             @Select.performed += instance.OnSelect;
             @Select.canceled += instance.OnSelect;
@@ -547,12 +589,6 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @SkillA.started -= instance.OnSkillA;
-            @SkillA.performed -= instance.OnSkillA;
-            @SkillA.canceled -= instance.OnSkillA;
-            @SkillB.started -= instance.OnSkillB;
-            @SkillB.performed -= instance.OnSkillB;
-            @SkillB.canceled -= instance.OnSkillB;
             @Select.started -= instance.OnSelect;
             @Select.performed -= instance.OnSelect;
             @Select.canceled -= instance.OnSelect;
@@ -700,11 +736,79 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         }
     }
     public StageSelectActions @StageSelect => new StageSelectActions(this);
+
+    // Skill
+    private readonly InputActionMap m_Skill;
+    private List<ISkillActions> m_SkillActionsCallbackInterfaces = new List<ISkillActions>();
+    private readonly InputAction m_Skill_Move;
+    private readonly InputAction m_Skill_SkillA;
+    private readonly InputAction m_Skill_SkillB;
+    private readonly InputAction m_Skill_Select;
+    public struct SkillActions
+    {
+        private @ControllerInput m_Wrapper;
+        public SkillActions(@ControllerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Skill_Move;
+        public InputAction @SkillA => m_Wrapper.m_Skill_SkillA;
+        public InputAction @SkillB => m_Wrapper.m_Skill_SkillB;
+        public InputAction @Select => m_Wrapper.m_Skill_Select;
+        public InputActionMap Get() { return m_Wrapper.m_Skill; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SkillActions set) { return set.Get(); }
+        public void AddCallbacks(ISkillActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SkillActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SkillActionsCallbackInterfaces.Add(instance);
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
+            @SkillA.started += instance.OnSkillA;
+            @SkillA.performed += instance.OnSkillA;
+            @SkillA.canceled += instance.OnSkillA;
+            @SkillB.started += instance.OnSkillB;
+            @SkillB.performed += instance.OnSkillB;
+            @SkillB.canceled += instance.OnSkillB;
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
+        }
+
+        private void UnregisterCallbacks(ISkillActions instance)
+        {
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
+            @SkillA.started -= instance.OnSkillA;
+            @SkillA.performed -= instance.OnSkillA;
+            @SkillA.canceled -= instance.OnSkillA;
+            @SkillB.started -= instance.OnSkillB;
+            @SkillB.performed -= instance.OnSkillB;
+            @SkillB.canceled -= instance.OnSkillB;
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
+        }
+
+        public void RemoveCallbacks(ISkillActions instance)
+        {
+            if (m_Wrapper.m_SkillActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ISkillActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SkillActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SkillActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public SkillActions @Skill => new SkillActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnSkillA(InputAction.CallbackContext context);
-        void OnSkillB(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
     }
@@ -719,5 +823,12 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         void OnDecision(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
         void OnTutorial(InputAction.CallbackContext context);
+    }
+    public interface ISkillActions
+    {
+        void OnMove(InputAction.CallbackContext context);
+        void OnSkillA(InputAction.CallbackContext context);
+        void OnSkillB(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
     }
 }

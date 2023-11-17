@@ -73,8 +73,12 @@ public class PlayerController : MonoBehaviour
 　       await UniTask.WhenAll(
             playerMove.MoveTask(token, moveTime),
             playerRotate.CamRotateTask(token, rotateTime)
-            , skillManager.FireSkill(token)
             );
+    }
+
+    private void Update()
+    {
+        
     }
 
 }
