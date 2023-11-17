@@ -9,6 +9,7 @@ TagManager:
   - Goal
   - Pitfall
   - clone
+  - MapGenerater
   layers:
   - Default
   - TransparentFX

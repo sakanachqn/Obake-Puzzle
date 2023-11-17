@@ -283,7 +283,7 @@
                 {
                     "name": "up",
                     "id": "1271550a-2c7f-4492-86bd-8e8592024807",
-                    "path": "<Gamepad>/dpad/up",
+                    "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
