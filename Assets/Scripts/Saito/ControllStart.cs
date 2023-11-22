@@ -23,7 +23,7 @@ public class ControllStart : MonoBehaviour
         if (_isPlaying) return;
         if (ControllerManager.instance.CtrlInput.Menu.PushBBotton.WasPerformedThisFrame())//Bボタンを押したときの処理
         {
-            _sceneFade.SceneChange("TestPlay").Forget();
+            _sceneFade.SceneChange("StageSelect").Forget();
             _isPlaying = true;
         }
     }
