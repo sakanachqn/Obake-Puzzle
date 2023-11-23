@@ -17,11 +17,12 @@ public class PlayerRotate : MonoBehaviour
 
     private PlayerController playerController;
 
-    private void Start()
+    public void PlayerRotateStart(float rotateTime)
     {
         ctrlManager = ControllerManager.instance;
         playerController = GetComponent<PlayerController>();
         if (rotateParent == null) rotateParent = Camera.main.transform.parent.gameObject;
+        CamRotateTask(this.GetCancellationTokenOnDestroy(), rotateTime).Forget();
     }
 
     /// <summary>

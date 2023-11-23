@@ -60,7 +60,7 @@ public class ControllerManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    private void Update()
+    public void ControllerUpdate()
     {
         if(!PlayerController.IsNowAction)CheckPlayerStickDirection();
         if(!PlayerController.IsNowAction)CheckPressCamRotateButton();

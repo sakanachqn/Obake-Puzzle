@@ -61,17 +61,14 @@ public class SkillManager : MonoBehaviour
         Null
     };
 
-    // キャンセル用のトークン
-    CancellationTokenSource cancelToken;
-    CancellationToken cts;
 
     // 押されたスキルの種類
-    private skillType pressBtn = skillType.Null;
+    //private skillType pressBtn = skillType.Null;
 
     // スキルの種類ごとの処理を定義するデリゲート
     private delegate void SkillTypeProcess();
 
-    private void Start()
+    public void SkillManagerStart()
     {
         // コントローラーマネージャーの取得
         ctrl = ControllerManager.instance;
@@ -85,12 +82,9 @@ public class SkillManager : MonoBehaviour
             fireSkillArea.Add(fireArea.GetChild(i));
         }
 
-        // キャンセル用のトークンの初期化
-        cancelToken = new CancellationTokenSource();
-        cts = cancelToken.Token;
     }
 
-    private void Update()
+    public void SkillManagerUpdate()
     {
         if (ctrl.CtrlInput.Skill.SkillA.WasPressedThisFrame() && !IsNowSkill)
         {

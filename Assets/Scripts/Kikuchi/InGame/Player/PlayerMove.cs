@@ -15,7 +15,7 @@ public class PlayerMove : MonoBehaviour
     private Color testRed = new Color(1f, 0, 0, 0.5f);
     private Color testColor;
 
-    private bool nowMove = false;
+    private bool isGoal = false;
     
     /// <summary>
     /// enumに対応したvec3を保存する変数
@@ -34,12 +34,19 @@ public class PlayerMove : MonoBehaviour
         directions[ControllerManager.Direction.Down] = back;
     }
 
-    private void Start()
+    public void PlayerMoveStart()
     {
         ctrlManager = ControllerManager.instance;
         material = GetComponent<MeshRenderer>().material;
         testColor = material.color;
     }
+
+
+    public async void PLMoveUpdate(float speed)
+    {
+        await MoveTask(this.GetCancellationTokenOnDestroy(), speed);
+    }
+
     /// <summary>
     /// 移動コルーチン
     /// </summary>
@@ -52,13 +59,6 @@ public class PlayerMove : MonoBehaviour
         {
             await MoveCoroutine(token, speed);
         }
-
-
-    }
-
-    public async void PLMoveUpdate()
-    {
-        await MoveTask(this.GetCancellationTokenOnDestroy(), 2f);
     }
 
     private async UniTask MoveCoroutine(CancellationToken token, float speed)
@@ -67,7 +67,7 @@ public class PlayerMove : MonoBehaviour
         var targetPos = this.transform.position + directions[ctrlManager.stickPlayerDirection]; //目標地点を設定
         if (CheckObject(this.transform.position, directions[ctrlManager.stickPlayerDirection]) || CheckOffMap(directions[ctrlManager.stickPlayerDirection]))
         {
-            DevLog.Log("進めないよ～");
+            //DevLog.Log("進めないよ～");
             material.color = testRed;
             await UniTask.Delay(500);
             material.color = testColor;
@@ -77,7 +77,7 @@ public class PlayerMove : MonoBehaviour
         await UniTask.Delay(TimeSpan.FromSeconds(1));
         await this.transform.DOMove(targetPos, speed).SetEase(Ease.Linear);
         PlayerController.IsNowAction = false; //移動しきったらフラグoff
-        nowMove = false;
+        if (isGoal) await SceneFade.instance.SceneChange("ResScene");
     }
 
 
@@ -92,6 +92,12 @@ public class PlayerMove : MonoBehaviour
         if (Physics.Raycast(startPos, targetDirec, out var hitObj, 1))
         {
             if (hitObj.collider.tag == "Pitfall") return false;
+            if (hitObj.collider.tag == "Goal")
+            {
+                Debug.Log("hit");
+                isGoal = true;
+                return false;
+            }
             return true;
         }
         else return false;

@@ -486,54 +486,6 @@ MonoBehaviour:
   prefabImage: {fileID: 6186444433101543557, guid: 59b5026bf01720d4585bedbfb1d410de, type: 3}
   Board: {fileID: 1362395166}
   stageNum: 8
---- !u!1 &1555171978
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1555171980}
-  - component: {fileID: 1555171981}
-  m_Layer: 0
-  m_Name: PlayerInput
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1555171980
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555171978}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1342.4783, y: 554.9004, z: 319.8108}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1555171981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555171978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a619599c9ea714c45ab623fd121e27a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deadZone: 0.5
-  stickPlayerDirection: 4
-  stickSkillDirection: 4
-  camLR: 2
 --- !u!1 &1680508277
 GameObject:
   m_ObjectHideFlags: 0
@@ -866,6 +818,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 769dab10-aa96-4ed1-82f6-e5a7f9243fd1
     m_ActionName: Menu/PushBBotton[/DualSenseGamepadHID/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2c2fb5ae-d22c-4e43-aa4f-8c2f4dbf6d9a
+    m_ActionName: Skill/Cancel[/XInputControllerWindows/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: StageSelect
