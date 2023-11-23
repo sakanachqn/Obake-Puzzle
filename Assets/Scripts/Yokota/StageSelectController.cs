@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class StageSelectController : MonoBehaviour
@@ -11,7 +12,12 @@ public class StageSelectController : MonoBehaviour
     // 今どのイメージににカーソルがあっているか
     private int nowCursorPos = 0;
 
+    [SerializeField]
     private StageSelectView stageSelectView;
+
+    private SceneFade sceneFade;
+
+    private Vector2 stickInclination;
 
     private void Start()
     {
@@ -20,60 +26,31 @@ public class StageSelectController : MonoBehaviour
         stageSelectView = GameObject.Find("Board").GetComponent<StageSelectView>();
 
         inp.Enable();
-
-        stageSelectView.BrightUp(nowCursorPos);
     }
 
-    private void Update()
+    private async void Update()
     {
         // とりあえずキーボードで動くようにしてます。あとから変更します
-        if (Input.GetKeyDown(KeyCode.Y))
+        if (inp.StageSelect.Back.WasPressedThisFrame())
         {
             // タイトルに戻る
+            await sceneFade.SceneChange("TitleScene");
         }
         
-        if (Input.GetKeyDown(KeyCode.A))
+        if (inp.StageSelect.Tutorial.WasPressedThisFrame())
         {
             //チュートリアルに進む
-            SceneManager.LoadScene("TestTutorial");
+            //await sceneFade.SceneChange("")
         }
 
-        if (Input.GetKeyDown(KeyCode.B))
+        if (inp.StageSelect.Decision.WasPressedThisFrame())
         {
             // メインゲームに進む
             SceneManager.sceneLoaded += GameSceneLoaded;
 
-            SceneManager.LoadScene("GameScene");
+            await sceneFade.SceneChange("GameScene");
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && nowSelectStage > 1)
-        {
-            int key = -1;
-            if (CheckSpriteChange(key)) stageSelectView.SpriteChange(key);
-            else nowCursorPos -= 2;
-            nowSelectStage -= 2;
-            DevLog.Log(nowSelectStage.ToString());
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow) && nowSelectStage < stageSelectView.StageNum - 2)
-        {
-            int key = 1;
-            if (CheckSpriteChange(key)) stageSelectView.SpriteChange(key);
-            else nowCursorPos += 2;
-            nowSelectStage += 2;
-            DevLog.Log(nowSelectStage.ToString());
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow) && nowSelectStage % 2 != 0)
-        {
-            nowCursorPos--;
-            nowSelectStage--;
-            DevLog.Log(nowSelectStage.ToString());
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow) && nowSelectStage % 2 == 0)
-        {
-            nowCursorPos++;
-            nowSelectStage++;
-            DevLog.Log(nowSelectStage.ToString());
-        }
         stageSelectView.BrightUp(nowCursorPos);
     }
 
@@ -87,7 +64,7 @@ public class StageSelectController : MonoBehaviour
         }
         else
         {
-            if (nowSelectStage > 5
+            if (nowSelectStage > stageSelectView.StageNum - 3
                 || nowSelectStage < stageSelectView.StageNum - 4) return false;
             else return true;
         }
@@ -100,5 +77,39 @@ public class StageSelectController : MonoBehaviour
         mapGenerater.LoadStageNum = nowSelectStage + 1;
 
         SceneManager.sceneLoaded -= GameSceneLoaded;
+    }
+
+    public void OnNavigate(InputAction.CallbackContext context)
+    {
+        // performedコールバックだけをチェックする
+        if (!context.performed) return;
+
+        // スティックの2軸入力取得
+        stickInclination = context.ReadValue<Vector2>();
+
+        if (stickInclination.x == -1 && nowSelectStage > 1)
+        {
+            int key = -1;
+            if (CheckSpriteChange(key)) stageSelectView.SpriteChange(key);
+            else nowCursorPos -= 2;
+            nowSelectStage -= 2;
+        }
+        if (stickInclination.x == 1 && nowSelectStage < stageSelectView.StageNum - 2)
+        {
+            int key = 1;
+            if (CheckSpriteChange(key)) stageSelectView.SpriteChange(key);
+            else nowCursorPos += 2;
+            nowSelectStage += 2;
+        }
+        if (stickInclination.y == 1 && nowSelectStage % 2 != 0)
+        {
+            nowCursorPos--;
+            nowSelectStage--;
+        }
+        if (stickInclination.y == -1 && nowSelectStage % 2 == 0)
+        {
+            nowCursorPos++;
+            nowSelectStage++;
+        }
     }
 }
