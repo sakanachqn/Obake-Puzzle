@@ -21,6 +21,7 @@ public class SceneFade : MonoBehaviour
         if(instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(this.transform.root.gameObject);
         }
         else
         {
