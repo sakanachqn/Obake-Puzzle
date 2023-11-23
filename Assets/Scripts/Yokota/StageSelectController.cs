@@ -27,7 +27,7 @@ public class StageSelectController : MonoBehaviour
 
         // 動作試験の際に適当に使ったものです。モック版のときはタイトルシーンから使っている
         // イメージからシーンフェードのスクリプトをとってきてください
-        sceneFade = GameObject.Find("FadeImage").GetComponent<SceneFade>();
+        sceneFade = SceneFade.instance;
 
         inp.Enable();
     }

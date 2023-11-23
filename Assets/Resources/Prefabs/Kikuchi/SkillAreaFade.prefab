@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -5380740168304905565}
   m_Layer: 0
   m_Name: SkillAreaFade
-  m_TagString: Untagged
+  m_TagString: clone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 2708745252650239796}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.505, z: 0}
-  m_LocalScale: {x: 1, y: 0.01, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -110,3 +110,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40919b5b9d47c4ab5cf1097be76fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeTime: 1
+  underAlpha: 0.3

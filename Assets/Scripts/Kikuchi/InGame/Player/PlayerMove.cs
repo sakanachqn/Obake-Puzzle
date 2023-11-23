@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class PlayerMove : MonoBehaviour
     private Material material;
     private Color testRed = new Color(1f, 0, 0, 0.5f);
     private Color testColor;
+
+    private bool nowMove = false;
     
     /// <summary>
     /// enumに対応したvec3を保存する変数
@@ -42,39 +45,41 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     public async UniTask MoveTask(CancellationToken token, float speed)
     {
-        while (true)
+        //移動中or回転中は早期リターン
+        if (PlayerController.IsNowAction || SkillManager.IsNowSkill) return;
+
+        if (ctrlManager.stickPlayerDirection != ControllerManager.Direction.Null && !PlayerController.IsNowAction)
         {
-            if (PlayerController.isNowAction) return;
-            //移動中or回転中は早期リターン
-            await UniTask.WaitUntil(() => ctrlManager.stickPlayerDirection != ControllerManager.Direction.Null, cancellationToken: token);// stickが倒されるのを待つ
-            PlayerController.isNowAction = true; //移動中フラグ起動
-            var targetPos = this.transform.position + directions[ctrlManager.stickPlayerDirection]; //目標地点を設定
-            if (CheckObject(this.transform.position ,directions[ctrlManager.stickPlayerDirection]) || CheckOffMap(directions[ctrlManager.stickPlayerDirection]))
-            {
-                DevLog.Log("進めないよ～");
-                material.color = testRed;
-                await UniTask.Delay(500);
-                material.color = testColor;
-                PlayerController.isNowAction = false;
-                continue;
-            }
-            await UniTask.Delay(TimeSpan.FromSeconds(1));
-            while (PlayerController.isNowAction)
-            {
-                Move(targetPos, speed); //移動
-                if (this.transform.position == targetPos) PlayerController.isNowAction = false; //移動しきったらフラグoff
-                await UniTask.DelayFrame(1, cancellationToken: token);　//1f待つ
-            }
+            await MoveCoroutine(token, speed);
         }
+
+
     }
-    /// <summary>
-    /// 引数で渡された座標まで移動
-    /// </summary>
-    /// <param name="targetPos">目標地点 Vector3</param>
-    private void Move(Vector3 targetPos, float speed)
+
+    public async void PLMoveUpdate()
     {
-        this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, Time.deltaTime / speed);
+        await MoveTask(this.GetCancellationTokenOnDestroy(), 2f);
     }
+
+    private async UniTask MoveCoroutine(CancellationToken token, float speed)
+    {
+        PlayerController.IsNowAction = true; //移動中フラグ起動
+        var targetPos = this.transform.position + directions[ctrlManager.stickPlayerDirection]; //目標地点を設定
+        if (CheckObject(this.transform.position, directions[ctrlManager.stickPlayerDirection]) || CheckOffMap(directions[ctrlManager.stickPlayerDirection]))
+        {
+            DevLog.Log("進めないよ～");
+            material.color = testRed;
+            await UniTask.Delay(500);
+            material.color = testColor;
+            PlayerController.IsNowAction = false;
+            return;
+        }
+        await UniTask.Delay(TimeSpan.FromSeconds(1));
+        await this.transform.DOMove(targetPos, speed).SetEase(Ease.Linear);
+        PlayerController.IsNowAction = false; //移動しきったらフラグoff
+        nowMove = false;
+    }
+
 
     /// <summary>
     /// 移動先にobjectがあるかのチェック
