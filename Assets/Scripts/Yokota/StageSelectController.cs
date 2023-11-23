@@ -49,16 +49,16 @@ public class StageSelectController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow) && nowSelectStage > 1)
         {
             int key = -1;
-            if (!CheckSpriteChange(key)) nowCursorPos -= 2;
-            else stageSelectView.SpriteChange(key);
+            if (CheckSpriteChange(key)) stageSelectView.SpriteChange(key);
+            else nowCursorPos -= 2;
             nowSelectStage -= 2;
             DevLog.Log(nowSelectStage.ToString());
         }
         if (Input.GetKeyDown(KeyCode.RightArrow) && nowSelectStage < stageSelectView.StageNum - 2)
         {
             int key = 1;
-            if (!CheckSpriteChange(key)) nowCursorPos += 2;
-            else stageSelectView.SpriteChange(key);
+            if (CheckSpriteChange(key)) stageSelectView.SpriteChange(key);
+            else nowCursorPos += 2;
             nowSelectStage += 2;
             DevLog.Log(nowSelectStage.ToString());
         }
@@ -87,8 +87,8 @@ public class StageSelectController : MonoBehaviour
         }
         else
         {
-            if (nowSelectStage < 5
-                || nowSelectStage > stageSelectView.StageNum - 2) return false;
+            if (nowSelectStage > 5
+                || nowSelectStage < stageSelectView.StageNum - 4) return false;
             else return true;
         }
     }
