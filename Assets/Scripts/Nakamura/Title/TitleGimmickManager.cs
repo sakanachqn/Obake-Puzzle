@@ -16,7 +16,8 @@ public class TitleGimmickManager : MonoBehaviour
     [SerializeField]
     private int maxObakeCount = 30;
 
-    private int obakeCount = 0;
+    //moc版用修正/菊池
+    public static int obakeCount = 0;
 
     [SerializeField]
     private string GotoMapSelect;
@@ -35,6 +36,7 @@ public class TitleGimmickManager : MonoBehaviour
         // ボタンが押されたら画面遷移する
         if (ControllerManager.instance.CtrlInput.TitleGimmick.SelectMap.WasPressedThisFrame())
         {
+            obakeCount = 0;
             await SceneFade.instance.SceneChange(GotoMapSelect);
         }
 
@@ -44,7 +46,7 @@ public class TitleGimmickManager : MonoBehaviour
         //ボタン押されたらオバケを生成する
         if (ControllerManager.instance.CtrlInput.TitleGimmick.Obake.WasPressedThisFrame())
         {
-            Instantiate(obake, obakePosition, Quaternion.identity);
+            Instantiate(obake, obakePosition, Quaternion.Euler(0, 180, 0));
             obakeCount++;
         }
     }

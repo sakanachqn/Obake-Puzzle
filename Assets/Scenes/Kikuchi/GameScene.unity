@@ -490,7 +490,7 @@ MonoBehaviour:
   LoadStageNum: 0
   ground: {fileID: 2767438692373775443, guid: ea0e73c5a53942d458ed4054ca2c2c8e, type: 3}
   woodBox: {fileID: 3602502690651206084, guid: 6c618b893bb3a7e449d6203218f68bf7, type: 3}
-  steelBox: {fileID: 6236695425745755638, guid: 6eb023dc0d091684f8e86bb0bf4ecba6, type: 3}
+  steelBox: {fileID: 697022397175443679, guid: 6a92ab210c1e15e44b5f8b719562bcf3, type: 3}
   pitFall: {fileID: 6381941255522966723, guid: ad9c634fa44cb8b459c3f16c2b7fb529, type: 3}
   goal: {fileID: 7543830187988548357, guid: 7e4a43d0f349177408e18568442a9fc7, type: 3}
   steelGoal: {fileID: 1993710126538275838, guid: 7b497afad7921b94885b1eb511ceb1e6, type: 3}
