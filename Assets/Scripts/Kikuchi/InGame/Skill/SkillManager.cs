@@ -116,14 +116,16 @@ public class SkillManager : MonoBehaviour
         }
     }
 
-    private void ActiveSkill()
+    private async void ActiveSkill()
     {
         var pos = posObj.transform.position;
         DestroySkillArea();
+        await UniTask.Delay(1);
         foreach(KeyValuePair<ControllerManager.Direction, Vector3> kvp in plCon.plMove.Directions)
         {
             if(Physics.Raycast(pos, kvp.Value, out var hit, 1))
             {
+                Debug.Log(hit.collider.name);
                 if(hit.collider.tag == "WoodenBox")
                 {
                     Destroy(hit.collider.gameObject);
@@ -143,7 +145,7 @@ public class SkillManager : MonoBehaviour
         foreach (Transform t in fireSkillArea)
         {
             // スキル範囲の下にRayを飛ばして、地面にヒットしたらスキル範囲を表示
-            if (Physics.Raycast(t.position, Vector3.down, out var hit, Mathf.Infinity))
+            if (Physics.Raycast(t.position, Vector3.down, out var hit, 100))
             {
                 // "Pitfall"タグのオブジェクトにヒットした場合はスキップ
                 if (hit.collider.tag == "Pitfall")
