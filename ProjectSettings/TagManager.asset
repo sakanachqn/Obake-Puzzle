@@ -9,6 +9,8 @@ TagManager:
   - Goal
   - Pitfall
   - clone
+  - MapGenerater
+  - SkillPos
   layers:
   - Default
   - TransparentFX

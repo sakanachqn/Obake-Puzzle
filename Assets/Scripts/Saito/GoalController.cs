@@ -18,7 +18,7 @@ public class GoalController : MonoBehaviour
     void Start()
     {
         StartCoroutine("WaiteImage");
-        ResultImage = GameObject.Find("Image").GetComponent<Image>();
+        ResultImage = GameObject.Find("Ui_012").GetComponent<Image>();
         ResultImage.enabled = false;
     }
 
