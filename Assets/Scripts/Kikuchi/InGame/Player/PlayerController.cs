@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     [Header("移動時間")]
     private float moveTime = 2f;
-    
+
     [SerializeField]
     [Header("回転時間")]
     private float rotateTime = 2f;
@@ -33,12 +33,20 @@ public class PlayerController : MonoBehaviour
     }
 
     private SkillManager skillManager;
+    public SkillManager SkillManager
+    {
+        get => skillManager;
+    }
+
 
     //プレイヤーカメラ回転クラス
     private PlayerRotate playerRotate;
 
     //何かしらのコルーチン中かどうかのフラグ
-    public static bool isNowAction = false;
+    public static bool IsNowAction = false;
+
+    private bool isStartMethodEnd = false;
+    
 
     private void Awake()
     {
@@ -51,7 +59,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
-
         //キャンセルトークンの取得
         var token = this.GetCancellationTokenOnDestroy();
 
@@ -66,16 +73,19 @@ public class PlayerController : MonoBehaviour
         var vec3s = objectRotation.SetFoward();
         playerMove.SetDirectionDictionary(vec3s[0], vec3s[1], vec3s[2], vec3s[3]);
 
-        //Playerの移動/カメラの回転処理の開始
-　       await UniTask.WhenAll(
-            playerMove.MoveTask(token, moveTime),
-            playerRotate.CamRotateTask(token, rotateTime)
-            );
+        playerRotate.PlayerRotateStart(rotateTime);
+        playerMove.PlayerMoveStart();
+        skillManager.SkillManagerStart();
+        isStartMethodEnd = true;
     }
 
     private void Update()
     {
-        
+        if (!isStartMethodEnd) return;
+        if (IsNowAction) return;
+        ControllerManager.instance.ControllerUpdate();
+        playerMove.PLMoveUpdate(moveTime);
+        skillManager.SkillManagerUpdate();
     }
 
 }

@@ -32,7 +32,6 @@ public class ControllerManager : MonoBehaviour
 
     //スティックの倒れた方向保存用変数
     public Direction stickPlayerDirection = Direction.Null;
-    public Direction stickSkillDirection = Direction.Null;
 
     /// <summary>
     /// L1 or R1 ボタンの押された方
@@ -61,10 +60,10 @@ public class ControllerManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    private void Update()
+    public void ControllerUpdate()
     {
-        if(!PlayerController.isNowAction)CheckPlayerStickDirection();
-        if(!PlayerController.isNowAction)CheckPressCamRotateButton();
+        if(!PlayerController.IsNowAction)CheckPlayerStickDirection();
+        if(!PlayerController.IsNowAction)CheckPressCamRotateButton();
     }
 
     #region stick

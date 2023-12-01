@@ -12,9 +12,6 @@ public class SkillManager : MonoBehaviour
     // スキル発動時の範囲を示すTransform
     [SerializeField] private Transform fireArea;
 
-    // スキル範囲のフェード用のオブジェクト
-    [SerializeField] private GameObject areaFade;
-
     // コントローラーマネージャー
     private ControllerManager ctrl;
     
@@ -27,11 +24,19 @@ public class SkillManager : MonoBehaviour
     // スキル範囲のオブジェクトとそのマテリアルの辞書
     private Dictionary<GameObject, Material> hitArea = new Dictionary<GameObject, Material>();
 
-    // 現在スキルが発動中かどうかのフラグ
-    private bool isNowSkill = false;
+    // スキル範囲内のオブジェクト情報用リスト
+    private List<GameObject> hitObj = new List<GameObject>();
 
+    // 現在スキルが発動中かどうかのフラグ
+    public static bool IsNowSkill = false;
+
+    private bool areaViewNow = false;
+    private bool isPosSelectNow = false;
+
+    private GameObject posObj = null;   
     // デフォルトのマテリアル
     private Material mat;
+
 
     // スキル範囲のフェード用の新しいマテリアル
     [SerializeField] private Material changeMat;
@@ -56,16 +61,14 @@ public class SkillManager : MonoBehaviour
         Null
     };
 
-    // キャンセル用のトークン
-    CancellationTokenSource cancelToken;
 
     // 押されたスキルの種類
-    private skillType pressBtn = skillType.Null;
+    //private skillType pressBtn = skillType.Null;
 
     // スキルの種類ごとの処理を定義するデリゲート
     private delegate void SkillTypeProcess();
 
-    private void Start()
+    public void SkillManagerStart()
     {
         // コントローラーマネージャーの取得
         ctrl = ControllerManager.instance;
@@ -79,89 +82,56 @@ public class SkillManager : MonoBehaviour
             fireSkillArea.Add(fireArea.GetChild(i));
         }
 
-        // キャンセル用のトークンの初期化
-        cancelToken = new CancellationTokenSource();
     }
 
-    /// <summary>
-    /// スキル発動ボタンが押されたときに呼ばれるメソッド
-    /// </summary>
-    public void Skill()
+    public void SkillManagerUpdate()
     {
-        // 押されたスキルボタンに対応するスキルが存在し、かつ現在スキルが発動中でない場合
-        if (PressSkillButton() && !isNowSkill)
+        if (ctrl.CtrlInput.Skill.SkillA.WasPressedThisFrame() && !IsNowSkill)
         {
-            isNowSkill = true;
+            IsNowSkill = true;
+        }
+        if(IsNowSkill)
+        {
+            SkillProcess();
+        }
+    }
 
-            // 押されたスキルボタンに応じて処理を分岐
-            switch (pressBtn)
+
+
+    private void SkillProcess()
+    {
+        if(!areaViewNow)ViewSkillArea();
+        if (areaViewNow)
+        {
+            if (ctrl.CtrlInput.Skill.Cancel.WasPressedThisFrame()) DestroySkillArea();
+            // コントローラーマネージャーのstickSkillDirectionがNullでない場合
+            if (ControllerManager.instance.stickPlayerDirection != ControllerManager.Direction.Null && !isPosSelectNow)
             {
-                case skillType.skillA:
-                    // スキルAの処理
-                    break;
-                //case skillType.skillB:
-                //    // スキルBの処理
-                //    break;
-                default:
-                    break;
+                GetSkillPos();
+            }
+            if(ctrl.CtrlInput.Skill.Select.WasPressedThisFrame())
+            {
+                ActiveSkill();
             }
         }
     }
 
-    /// <summary>
-    /// スキルボタンが押されたかどうかを判定するメソッド
-    /// </summary>
-    /// <returns></returns>
-    private bool PressSkillButton()
+    private async void ActiveSkill()
     {
-        // スキルAボタンが押された場合
-        if (ctrl.CtrlInput.Skill.SkillA.WasPressedThisFrame())
-        {
-            pressBtn = skillType.skillA;
-            return true;
-        }
-        // スキルBボタンが押された場合
-        else if (ctrl.CtrlInput.Skill.SkillB.WasPressedThisFrame())
-        {
-            pressBtn = skillType.skillB;
-            return true;
-        }
-        // どのボタンも押されていない場合
-        else
-        {
-            return false;
-        }
-    }
-
-    /// <summary>
-    /// スキル発動時の非同期処理を行うメソッド
-    /// </summary>
-    /// <param name="token"></param>
-    /// <returns></returns>
-    private async UniTask SkillProcess(CancellationToken token)
-    {
-        // スキル範囲の表示
-        ViewSkillArea();
-
-        // プレイヤーの移動を無効化
-        ctrl.CtrlInput.Player.Move.Disable();
-    }
-
-    /// <summary>
-    /// スキルキャンセル時の非同期処理を行うメソッド
-    /// </summary>
-    /// <param name="token"></param>
-    /// <returns></returns>
-    private async UniTask SkillCancel(CancellationToken token)
-    {
-        // キャンセルボタンが押されるまで待機
-        await UniTask.WaitUntil(() => ctrl.CtrlInput.Player.Cancel.WasPressedThisFrame(), cancellationToken: token);
-
-        // スキル範囲の破棄
+        var pos = posObj.transform.position;
         DestroySkillArea();
-
-        // トークンのキャンセル
-        cancelToken.Cancel();
+        await UniTask.Delay(1);
+        foreach(KeyValuePair<ControllerManager.Direction, Vector3> kvp in plCon.plMove.Directions)
+        {
+            if(Physics.Raycast(pos, kvp.Value, out var hit, 1))
+            {
+                Debug.Log(hit.collider.name);
+                if(hit.collider.tag == "WoodenBox")
+                {
+                    Destroy(hit.collider.gameObject);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -175,15 +145,17 @@ public class SkillManager : MonoBehaviour
         foreach (Transform t in fireSkillArea)
         {
             // スキル範囲の下にRayを飛ばして、地面にヒットしたらスキル範囲を表示
-            if (Physics.Raycast(t.position, Vector3.down, out var hit, Mathf.Infinity))
+            if (Physics.Raycast(t.position, Vector3.down, out var hit, 100))
             {
                 // "Pitfall"タグのオブジェクトにヒットした場合はスキップ
                 if (hit.collider.tag == "Pitfall")
                     return;
 
-                // 地面にヒットした場合、スキル範囲を生成
+                // オブジェクトにヒットした場合、スキル範囲を生成
                 if (hit.transform.position.y != 0)
                 {
+                    hitObj.Add(hit.collider.gameObject);
+                    hit.collider.gameObject.SetActive(false);
                     Vector3 pos = hit.transform.position;
                     var temp = Instantiate(skillAreaPrefab, pos, Quaternion.identity, parent.transform);
                     var tempMat = temp.GetComponent<MeshRenderer>();
@@ -205,49 +177,11 @@ public class SkillManager : MonoBehaviour
                 }
             }
         }
-    }
-
-    /// <summary>
-    /// スキル発動位置を取得する非同期メソッド
-    /// </summary>
-    /// <returns></returns>
-    private async UniTask GetSkillPos()
-    {
-        // プレイヤーの現在位置を取得
-        var startPos = this.transform.position;
-
+        areaViewNow = true;
         // スキル発動位置のオブジェクトを生成
-        var posObj = Instantiate(skillPosPrefab, startPos, Quaternion.identity);
-        var pos = posObj.transform.position;
-        
-
-        // 方向が確定するまでループ
-        while (true)
+        if (posObj == null)
         {
-            // コントローラーマネージャーのstickSkillDirectionがNullでない場合
-            await UniTask.WaitUntil(() => ControllerManager.instance.stickSkillDirection != ControllerManager.Direction.Null);
-            var direcDic = plCon.plMove.Directions;
-
-            // 方向に応じた処理を実行
-            switch (ControllerManager.instance.stickSkillDirection)
-            {
-                case ControllerManager.Direction.Left:
-                    // 左に移動する処理
-                    pos += direcDic[ControllerManager.Direction.Left];
-                    break;
-                case ControllerManager.Direction.Right:
-                    // 右に移動する処理
-                    pos += direcDic[ControllerManager.Direction.Right];
-                    break;
-                case ControllerManager.Direction.Up:
-                    // 上に移動する処理
-                    pos += direcDic[ControllerManager.Direction.Up];
-                    break;
-                case ControllerManager.Direction.Down:
-                    // 下に移動する処理
-                    pos += direcDic[ControllerManager.Direction.Down];
-                    break;
-            }
+            posObj = Instantiate(skillPosPrefab, this.transform.position + plCon.plMove.Directions[ControllerManager.Direction.Up], Quaternion.identity);
         }
     }
 
@@ -266,10 +200,54 @@ public class SkillManager : MonoBehaviour
                 Destroy(kvp.Key.gameObject);
         }
 
+        foreach (var obj in hitObj)
+        {
+            obj.SetActive(true);
+        }
+
         // 辞書をクリアし、スキル発動中のフラグをオフにしてプレイヤーの移動を有効にする
+        hitObj.Clear();
         hitArea.Clear();
-        isNowSkill = false;
+        IsNowSkill = false;
+        areaViewNow = false;
+        if (posObj != null)
+        {
+            Destroy(posObj);
+            posObj = null;
+        }
         ctrl.CtrlInput.Player.Move.Enable();
+    }
+
+    /// <summary>
+    /// スキル発動位置を取得する非同期メソッド
+    /// </summary>
+    /// <returns></returns>
+    private async void GetSkillPos()
+    {
+        isPosSelectNow = true;
+
+        var direcDic = plCon.plMove.Directions;
+
+        var pos = posObj.transform.position;
+
+        // 方向に応じた処理を実行
+        if(CheckObject(pos, direcDic[ControllerManager.instance.stickPlayerDirection], out string name))
+        {
+           posObj.transform.position += direcDic[ControllerManager.instance.stickPlayerDirection];
+            if(name == "Player")
+            {
+                posObj.transform.position += direcDic[ControllerManager.instance.stickPlayerDirection];
+            }
+        }
+        else 
+        {
+            if (!CheckOffMap(direcDic[ControllerManager.instance.stickPlayerDirection]))
+            {
+                posObj.transform.position = this.transform.position + direcDic[ControllerManager.instance.stickPlayerDirection];
+            }
+        }
+        await UniTask.Delay(250);
+        isPosSelectNow = false;
     }
 
     /// <summary>
@@ -287,13 +265,26 @@ public class SkillManager : MonoBehaviour
                 name = null;
                 return false;
             }
-            name = hitObj.collider.gameObject.name;
-            return true;
+            else if (hitObj.collider.tag == "clone")
+            {
+                name = null;
+                return true;
+            }
+            else if (hitObj.collider.tag == "Player")
+            {
+                name = hitObj.collider.tag;
+                return true;
+            }
+            else
+            {
+                name = null;
+                return false;
+            }
         }
         else
         {
             name = null;
-            return false;
+            return false; 
         }
     }
 
@@ -301,15 +292,16 @@ public class SkillManager : MonoBehaviour
     /// マップ外かどうかのチェック
     /// </summary>
     /// <param name="targetDirec">スティックの方角</param>
-    /// <returns>オブジェクトがなかったらtrue</returns>
+    /// <returns>オブジェクトがなかったらfalse</returns>
     private bool CheckOffMap(Vector3 targetDirec)
     {
-        Vector3 startPos = this.transform.position + targetDirec;
+        Vector3 startPos = posObj.transform.position + targetDirec;
         //移動先から真下にray飛ばして地面があるか確認
         if (CheckObject(startPos, Vector3.down, out var name))
         {
-            return false;
+            return true;
         }
-        else return true;
+        else return false; ;
     }
+
 }
