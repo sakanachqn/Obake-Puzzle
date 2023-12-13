@@ -451,7 +451,7 @@ MonoBehaviour:
   pitFall: {fileID: 6381941255522966723, guid: ad9c634fa44cb8b459c3f16c2b7fb529, type: 3}
   goal: {fileID: 536482593222954825, guid: 94c2764e6efcbb841b8632027064d49b, type: 3}
   steelGoal: {fileID: 1993710126538275838, guid: 7b497afad7921b94885b1eb511ceb1e6, type: 3}
-  player: {fileID: 4857497174108993100, guid: 3072f06ef31a08d4ba97dd3a9a91f376, type: 3}
+  player: {fileID: 3020665506128988941, guid: 376616132393fc94f83c44c401fd1d5a, type: 3}
 --- !u!4 &480913645
 Transform:
   m_ObjectHideFlags: 0
