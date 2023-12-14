@@ -42,7 +42,7 @@ public class SkillManager : MonoBehaviour
 
         skillArea = GetComponent<SkillAreaDisplay>();
 
-        currentSkillA = new SkillFire(skillArea, this);
+        currentSkillA = new SkillWater(skillArea, this);
 
     }
 
@@ -53,7 +53,7 @@ public class SkillManager : MonoBehaviour
             if(!IsNowSkill)
             {
                 IsNowSkill = true;
-                skillArea.ShowSkillArea("Fire");
+                skillArea.ShowSkillArea("");
             }
         }
         if (IsNowSkill)

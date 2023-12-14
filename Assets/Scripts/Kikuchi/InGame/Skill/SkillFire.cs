@@ -13,7 +13,6 @@ public class SkillFire : Skill
     public override async void SkillActivate()
     {
         SkillManager.IsNowSkill = true;
-        sad.ShowSkillArea("Fire");
         var pos = sad.posObj.transform.position;
         sad.HideSkillArea();
         await UniTask.Delay(1);
@@ -21,7 +20,6 @@ public class SkillFire : Skill
         {
             if (Physics.Raycast(pos, kvp.Value, out var hit, 1))
             {
-                Debug.Log(hit.collider.name);
                 if (hit.collider.tag == "WoodenBox")
                 {
                     Destroy(hit.collider.gameObject);
