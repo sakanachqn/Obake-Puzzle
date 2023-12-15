@@ -12,22 +12,22 @@ public class MapObjectUtil : MonoBehaviour
 
     private Vector3 tempPos;
 
-    public GameObject OnTop = null;
-    public GameObject OnBottom = null;
+    //public GameObject OnTop = null;
+    //public GameObject OnBottom = null;
 
     private void Start()
     {
         tempPos = transform.position;
 
-        if(Physics.Raycast(this.transform.position, Vector3.up, out var hitTop, 1))
-        {
-            OnTop = hitTop.collider.gameObject;
-        }
-        if (Physics.Raycast(this.transform.position, Vector3.down, out var hitBottom, 1))
-        {
-            if(hitBottom.collider.tag == "MapTile" || hitBottom.collider.tag == "Pitfall")
-            OnBottom = hitBottom.collider.gameObject;
-        }
+        //if(Physics.Raycast(this.transform.position, Vector3.up, out var hitTop, 1))
+        //{
+        //    OnTop = hitTop.collider.gameObject;
+        //}
+        //if (Physics.Raycast(this.transform.position, Vector3.down, out var hitBottom, 1))
+        //{
+        //    if(hitBottom.collider.tag == "MapTile" || hitBottom.collider.tag == "Pitfall")
+        //    OnBottom = hitBottom.collider.gameObject;
+        //}
 
     }
     // Update is called once per frame
@@ -66,9 +66,9 @@ public class MapObjectUtil : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        if(OnBottom.GetComponent<MapObjectUtil>() != null) OnBottom.GetComponent<MapObjectUtil>().OnTop = null;
-    }
+    //private void OnDestroy()
+    //{
+    //    if(OnBottom.GetComponent<MapObjectUtil>() != null) OnBottom.GetComponent<MapObjectUtil>().OnTop = null;
+    //}
 
 }
