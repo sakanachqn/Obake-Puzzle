@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,10 +14,16 @@ public class StageImageView : MonoBehaviour
 
     private Image image;
 
+    private Vector3 initialPos;
+
+    private Tweener shakeEvent;
+
     private void Start()
     {
         // 自分のイメージコンポーネントを取得
         image = gameObject.GetComponent<Image>();
+
+        transform.DOShakePosition(100f, 5f, 1, 1, false, false).SetEase(Ease.OutElastic).SetLoops(-1, LoopType.Yoyo);
     }
 
     private void Update()
@@ -42,6 +49,8 @@ public class StageImageView : MonoBehaviour
         {
             // タイムラインを初期化
             timeLine = 0f;
+
+            //timeLine += Time.deltaTime;
             // イメージをグレーにする
             image.color = Color.gray;
             // 大きさを初期化
