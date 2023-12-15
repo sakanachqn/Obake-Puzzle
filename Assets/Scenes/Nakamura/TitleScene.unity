@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -743,9 +743,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obake: {fileID: 8048105444371697710, guid: 5dd012c36bd449a4baf2a5bdbef31917, type: 3}
   startBtn: {fileID: 3157792198780402434}
+  startBtnInitialPos: {x: -701, y: -363}
   maxObakeCount: 30
   GotoMapSelect: StageSelect
-  width: 100
+  width: 10
+  jumpPower: 100
   bowl: {fileID: 2839692332658795465}
   bowlMaterials:
   - {fileID: 2100000, guid: a97d37efda97e604fa05fdee489ef929, type: 2}
@@ -1096,7 +1098,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -458, y: -319}
+  m_AnchoredPosition: {x: -701, y: -363}
   m_SizeDelta: {x: 777, y: 291}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3157792198780402434
