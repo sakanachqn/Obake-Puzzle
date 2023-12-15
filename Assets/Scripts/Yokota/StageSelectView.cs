@@ -45,16 +45,16 @@ public class StageSelectView : MonoBehaviour
 
     private void Init()
     {
-        nameToVector3.Add(positionName.upperLeft, new Vector3(-550, 185, 0));
-        nameToVector3.Add(positionName.lowerLeft, new Vector3(-550, -185, 0));
-        nameToVector3.Add(positionName.upperMiddle, new Vector3(0, 185, 0));
-        nameToVector3.Add(positionName.lowerMiddle, new Vector3(0, -185, 0));
-        nameToVector3.Add(positionName.upperRight, new Vector3(550, 185, 0));
-        nameToVector3.Add(positionName.lowerRight, new Vector3(550, -185, 0));
+        nameToVector3.Add(positionName.upperLeft, new Vector3(-538, 94, 0));
+        nameToVector3.Add(positionName.lowerLeft, new Vector3(-538, -238, 0));
+        nameToVector3.Add(positionName.upperMiddle, new Vector3(0, -231, 0));
+        nameToVector3.Add(positionName.lowerMiddle, new Vector3(0, 94, 0));
+        nameToVector3.Add(positionName.upperRight, new Vector3(541, -231, 0));
+        nameToVector3.Add(positionName.lowerRight, new Vector3(541, 94, 0));
 
         for (int i = 1; i <= stageNum; i++)
         {
-            stageSprites.Add(i, Resources.Load<Sprite>("Images/Yokota/TestImage" + i));
+            stageSprites.Add(i, Resources.Load<Sprite>("UI/Stage/Ui_005_1 " + i));
         }
 
         for (int i = 0; i < 6; i++)
