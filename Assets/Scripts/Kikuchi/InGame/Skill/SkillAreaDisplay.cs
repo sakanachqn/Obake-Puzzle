@@ -153,7 +153,7 @@ public class SkillAreaDisplay : MonoBehaviour
             obj.SetActive(true);
         }
 
-        // 辞書をクリアし、スキル発動中のフラグをオフにしてプレイヤーの移動を有効にする
+        // 辞書をクリアし、スキル発動中のフラグをオフに
         hitObj.Clear();
         hitArea.Clear();
         Destroy(parent.gameObject);
@@ -170,57 +170,57 @@ public class SkillAreaDisplay : MonoBehaviour
 
     
 
-    /// <summary>
-    /// 移動先にobjectがあるか確認するメソッド
-    /// </summary>
-    /// <param name="targetDirec">スティックの方角</param>
-    /// <returns>移動先にobjがあったらtrue</returns>
-    public bool CheckObject(Vector3 startPos, Vector3 targetDirec, out string name)
-    {
-        //移動したい方向にrayを飛ばしてオブジェクトがあるか確認
-        if (Physics.Raycast(startPos, targetDirec, out var hitObj, 1))
-        {
-            if (hitObj.collider.tag == "Pitfall")
-            {
-                name = null;
-                return false;
-            }
-            else if (hitObj.collider.tag == "clone")
-            {
-                name = null;
-                return true;
-            }
-            else if (hitObj.collider.tag == "Player")
-            {
-                name = hitObj.collider.tag;
-                return true;
-            }
-            else
-            {
-                name = null;
-                return false;
-            }
-        }
-        else
-        {
-            name = null;
-            return false;
-        }
-    }
+    ///// <summary>
+    ///// 移動先にobjectがあるか確認するメソッド
+    ///// </summary>
+    ///// <param name="targetDirec">スティックの方角</param>
+    ///// <returns>移動先にobjがあったらtrue</returns>
+    //public bool CheckObject(Vector3 startPos, Vector3 targetDirec, out string name)
+    //{
+    //    //移動したい方向にrayを飛ばしてオブジェクトがあるか確認
+    //    if (Physics.Raycast(startPos, targetDirec, out var hitObj, 1))
+    //    {
+    //        if (hitObj.collider.tag == "Pitfall")
+    //        {
+    //            name = null;
+    //            return false;
+    //        }
+    //        else if (hitObj.collider.tag == "clone")
+    //        {
+    //            name = null;
+    //            return true;
+    //        }
+    //        else if (hitObj.collider.tag == "Player")
+    //        {
+    //            name = hitObj.collider.tag;
+    //            return true;
+    //        }
+    //        else
+    //        {
+    //            name = null;
+    //            return false;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        name = null;
+    //        return false;
+    //    }
+    //}
 
-    /// <summary>
-    /// マップ外かどうかのチェック
-    /// </summary>
-    /// <param name="targetDirec">スティックの方角</param>
-    /// <returns>オブジェクトがなかったらfalse</returns>
-    public bool CheckOffMap(Vector3 targetDirec)
-    {
-        Vector3 startPos = posObj.transform.position + targetDirec;
-        //移動先から真下にray飛ばして地面があるか確認
-        if (CheckObject(startPos, Vector3.down, out var name))
-        {
-            return true;
-        }
-        else return false; ;
-    }
+    ///// <summary>
+    ///// マップ外かどうかのチェック
+    ///// </summary>
+    ///// <param name="targetDirec">スティックの方角</param>
+    ///// <returns>オブジェクトがなかったらfalse</returns>
+    //public bool CheckOffMap(Vector3 targetDirec)
+    //{
+    //    Vector3 startPos = posObj.transform.position + targetDirec;
+    //    //移動先から真下にray飛ばして地面があるか確認
+    //    if (CheckObject(startPos, Vector3.down, out var name))
+    //    {
+    //        return true;
+    //    }
+    //    else return false; ;
+    //}
 }

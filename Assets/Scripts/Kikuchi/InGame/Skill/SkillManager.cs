@@ -124,6 +124,14 @@ public class SkillManager : MonoBehaviour
             {
                 skillArea.posObj.transform.position += direcDic[ControllerManager.instance.stickPlayerDirection];
             }
+            if(name == "Up")
+            {
+                int layermask = 1 << 7;
+                if (Physics.Raycast(skillArea.posObj.transform.position, Vector3.up, out var hit, 3, layermask))
+                {
+                    skillArea.posObj.transform.position = hit.transform.position;
+                }
+            }
         }
         else 
         {
@@ -163,6 +171,12 @@ public class SkillManager : MonoBehaviour
             }
             else
             {
+                int layermask = 1 << 7;
+                if(Physics.Raycast(hitObj.transform.position, Vector3.up, 5, layermask))
+                {
+                    name = "Up";
+                    return true;
+                }
                 name = null;
                 return false;
             }
