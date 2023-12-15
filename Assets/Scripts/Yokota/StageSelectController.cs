@@ -43,7 +43,7 @@ public class StageSelectController : MonoBehaviour
         if (inp.StageSelect.Tutorial.WasPressedThisFrame())
         {
             //チュートリアルに進む
-            //await sceneFade.SceneChange("")
+            await sceneFade.SceneChange("TestTutorial");
         }
 
         if (inp.StageSelect.Decision.WasPressedThisFrame())
