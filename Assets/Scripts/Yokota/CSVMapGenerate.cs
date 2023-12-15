@@ -37,6 +37,13 @@ public class CSVMapGenerate : MonoBehaviour
     private GameObject steelGoal;
     [SerializeField,Header("プレイヤー")]
     private GameObject player;
+
+    [SerializeField, Header("地面マテリアル１")]
+    private Material groundMaterial_1;
+    [SerializeField, Header("地面マテリアル２")]
+    private Material groundMaterial_2;
+
+    private bool materialSet;
     
 
     private void Start()
@@ -138,8 +145,24 @@ public class CSVMapGenerate : MonoBehaviour
                     // tmpstrの(y+1)文字目を取り出す
                     string objName = tmpstr.Substring(y, 1);
 
-                    // 文字列からオブジェクトを取り出して生成
-                    Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
+                    GameObject tmpObj;
+
+                    if (y == 0 && (x + z) % 2 == 0 && objName == "1")
+                    {
+                        // 文字列からオブジェクトを取り出して生成
+                        tmpObj = Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
+                        tmpObj.GetComponent<Renderer>().material = groundMaterial_1;
+                    }
+                    else if (y == 0 && (x + z) % 2 != 0 && objName == "1")
+                    {
+                        // 文字列からオブジェクトを取り出して生成
+                        tmpObj = Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
+                        tmpObj.GetComponent<Renderer>().material = groundMaterial_2;
+                    }
+                    else
+                    {
+                        Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
+                    }
 
                     // プレイヤーをさすオブジェクトのときはスルーする
                     if (objName == "7")　break;
