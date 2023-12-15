@@ -38,13 +38,8 @@ public class CSVMapGenerate : MonoBehaviour
     [SerializeField,Header("プレイヤー")]
     private GameObject player;
 
-    [SerializeField, Header("地面マテリアル１")]
-    private Material groundMaterial_1;
-    [SerializeField, Header("地面マテリアル２")]
-    private Material groundMaterial_2;
-
-    private bool materialSet;
-    
+    [SerializeField, Header("地面マテリアル")]
+    private Material[] groundMaterial = new Material[2];
 
     private void Start()
     {
@@ -151,13 +146,13 @@ public class CSVMapGenerate : MonoBehaviour
                     {
                         // 文字列からオブジェクトを取り出して生成
                         tmpObj = Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
-                        tmpObj.GetComponent<Renderer>().material = groundMaterial_1;
+                        tmpObj.GetComponent<Renderer>().material = groundMaterial[0];
                     }
                     else if (y == 0 && (x + z) % 2 != 0 && objName == "1")
                     {
                         // 文字列からオブジェクトを取り出して生成
                         tmpObj = Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
-                        tmpObj.GetComponent<Renderer>().material = groundMaterial_2;
+                        tmpObj.GetComponent<Renderer>().material = groundMaterial[1];
                     }
                     else
                     {
