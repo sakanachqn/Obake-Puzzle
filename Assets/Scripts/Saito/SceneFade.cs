@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
@@ -8,69 +7,36 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
-
 //　修正者:菊池
 //　クラス名を変更
 public class SceneFade : MonoBehaviour
-
 {
-    public static GameObject FadeCanvas;
+    public static SceneFade instance;
 
     [SerializeField]
-    private float fadetime = 1f;
+    private float fadetime = 2f;
 
     private void Awake()
     {
-        if (FadeCanvas == null)
+        if(instance == null)
         {
-            FadeCanvas = this.gameObject;
+            instance = this;
+            DontDestroyOnLoad(this.transform.root.gameObject);
         }
         else
         {
             Destroy(this.gameObject);
         }
-
-
-    }
-
-    async void Start()
-    {
-        //await SceneChange("TestPlay");
     }
 
     public async UniTask SceneChange(string Scenename)
     {
-        await FadeOut();
-        await ChangeScene(Scenename);
-        await FadeIn();
-        
-    }
-
-    public async UniTask FadeIn()
-    {
-        var fadeImage = GetComponent<Image>();
-        fadeImage.enabled = true;
-        var c = fadeImage.color;
-        c.a = 1f;//初期値
-        fadeImage.color = c;
-
-        c.a = 1.0f;
-        await DOTween.ToAlpha(
-            () => fadeImage.color,
-            color => fadeImage.color = color,
-            0f,//目標値
-            fadetime//所要時間
-            );
-    }
-
-    public async UniTask FadeOut()
-    {
+        //フェードの処理
         var fadeImage = GetComponent<Image>();
         fadeImage.enabled = true;
         var c = fadeImage.color;
         c.a = 0f;//初期値
         fadeImage.color = c;
-
 
         await DOTween.ToAlpha(
             () => fadeImage.color,
@@ -78,10 +44,14 @@ public class SceneFade : MonoBehaviour
             1.0f,//目標値
             fadetime//所要時間
             );
-    }
 
-    private async UniTask ChangeScene(string SceneName)
-    {
-        await SceneManager.LoadSceneAsync(SceneName);
+        SceneManager.LoadScene(Scenename);//””のなかシーン名変更
+        c.a = 1.0f;
+        await DOTween.ToAlpha(
+            () => fadeImage.color,
+            color => fadeImage.color = color,
+            0f,//目標値
+            fadetime//所要時間
+            );
     }
 }

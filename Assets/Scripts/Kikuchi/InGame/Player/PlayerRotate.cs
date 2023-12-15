@@ -17,11 +17,12 @@ public class PlayerRotate : MonoBehaviour
 
     private PlayerController playerController;
 
-    private void Start()
+    public void PlayerRotateStart(float rotateTime)
     {
         ctrlManager = ControllerManager.instance;
         playerController = GetComponent<PlayerController>();
         if (rotateParent == null) rotateParent = Camera.main.transform.parent.gameObject;
+        CamRotateTask(this.GetCancellationTokenOnDestroy(), rotateTime).Forget();
     }
 
     /// <summary>
@@ -32,9 +33,9 @@ public class PlayerRotate : MonoBehaviour
     {
         while (true)
         {
-            if (PlayerController.isNowAction) return; //移動中or回転中は早期リターン
+            if (PlayerController.IsNowAction) return; //移動中or回転中は早期リターン
             await UniTask.WaitUntil(() => ctrlManager.camLR != LeftRight.Null, cancellationToken: token);　//enumがnull以外になったら
-            PlayerController.isNowAction = true;//フラグ起動
+            PlayerController.IsNowAction = true;//フラグ起動
             var targetRotate = SetCamTargetRotete();//回転量設定
             await rotateParent.transform.DORotate(targetRotate, rotateTime, RotateMode.LocalAxisAdd);//回転処理&回転終わるまで待機
             ctrlManager.camLR = LeftRight.Null;//enum初期化
@@ -42,7 +43,7 @@ public class PlayerRotate : MonoBehaviour
             var vec3s = playerController.objRotate.SetFoward();
             playerController.plMove.SetDirectionDictionary(vec3s[0], vec3s[1], vec3s[2], vec3s[3]);
             //
-            PlayerController.isNowAction = false;//フラグoff
+            PlayerController.IsNowAction = false;//フラグoff
         }
     }
 

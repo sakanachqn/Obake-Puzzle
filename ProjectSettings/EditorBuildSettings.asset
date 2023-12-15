@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Yokota/StageSelect.unity
     guid: a0b545ed854c6da44b097ebfe61e0287
+  - enabled: 1
+    path: Assets/Scenes/Kikuchi/GameScene.unity
+    guid: edf94a8a39936614db525d6f8b6cdea9
+  - enabled: 1
+    path: Assets/Scenes/Kikuchi/ResScene.unity
+    guid: 374b3ec671561cd43b1358d25c867d5b
   m_configObjects: {}

@@ -295,7 +295,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""name"": ""LeftStick"",
                     ""id"": ""01903508-d465-4341-bf30-1a0dcae9c426"",
                     ""path"": ""2DVector"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""CursorMove"",
@@ -339,6 +339,61 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""name"": ""right"",
                     ""id"": ""5c63c049-2075-4229-b024-d954eb885432"",
                     ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""D-Pad"",
+                    ""id"": ""03290156-27f7-498c-aab8-1b2f1e091152"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""13bef09e-68fb-4b4e-a283-9396c261c8b6"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""9fcd51c1-802e-4d34-9a13-a1b0787dbe00"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""b2dbe58a-f0e3-4c30-97ed-9db6589b1faf"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""6c3f9fe5-9497-4b72-b264-e9f680018796"",
+                    ""path"": ""<Gamepad>/dpad/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -420,6 +475,15 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""2c2fb5ae-d22c-4e43-aa4f-8c2f4dbf6d9a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -459,11 +523,22 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""96234c51-61f8-4da7-9a6e-69d5c714f8b9"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6bd0dcf3-be64-4e48-9845-11fb744f0a8e"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -609,6 +684,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         m_Skill_SkillA = m_Skill.FindAction("SkillA", throwIfNotFound: true);
         m_Skill_SkillB = m_Skill.FindAction("SkillB", throwIfNotFound: true);
         m_Skill_Select = m_Skill.FindAction("Select", throwIfNotFound: true);
+        m_Skill_Cancel = m_Skill.FindAction("Cancel", throwIfNotFound: true);
         // TitleGimmick
         m_TitleGimmick = asset.FindActionMap("TitleGimmick", throwIfNotFound: true);
         m_TitleGimmick_Obake = m_TitleGimmick.FindAction("Obake", throwIfNotFound: true);
@@ -869,6 +945,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Skill_SkillA;
     private readonly InputAction m_Skill_SkillB;
     private readonly InputAction m_Skill_Select;
+    private readonly InputAction m_Skill_Cancel;
     public struct SkillActions
     {
         private @ControllerInput m_Wrapper;
@@ -877,6 +954,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         public InputAction @SkillA => m_Wrapper.m_Skill_SkillA;
         public InputAction @SkillB => m_Wrapper.m_Skill_SkillB;
         public InputAction @Select => m_Wrapper.m_Skill_Select;
+        public InputAction @Cancel => m_Wrapper.m_Skill_Cancel;
         public InputActionMap Get() { return m_Wrapper.m_Skill; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -898,6 +976,9 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @Select.started += instance.OnSelect;
             @Select.performed += instance.OnSelect;
             @Select.canceled += instance.OnSelect;
+            @Cancel.started += instance.OnCancel;
+            @Cancel.performed += instance.OnCancel;
+            @Cancel.canceled += instance.OnCancel;
         }
 
         private void UnregisterCallbacks(ISkillActions instance)
@@ -914,6 +995,9 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @Select.started -= instance.OnSelect;
             @Select.performed -= instance.OnSelect;
             @Select.canceled -= instance.OnSelect;
+            @Cancel.started -= instance.OnCancel;
+            @Cancel.performed -= instance.OnCancel;
+            @Cancel.canceled -= instance.OnCancel;
         }
 
         public void RemoveCallbacks(ISkillActions instance)
@@ -1071,6 +1155,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         void OnSkillA(InputAction.CallbackContext context);
         void OnSkillB(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
     }
     public interface ITitleGimmickActions
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 
 public class TitleGimmickManager : MonoBehaviour
 {
@@ -11,33 +12,34 @@ public class TitleGimmickManager : MonoBehaviour
     private GameObject obake;
 
     [SerializeField]
-    private Vector3 obakePosition;
+    private GameObject StartBtn;
 
     [SerializeField]
     private int maxObakeCount = 30;
 
-    private int obakeCount = 0;
+    //moc版用修正/菊池
+    public static int obakeCount = 0;
 
     [SerializeField]
     private string GotoMapSelect;
 
-    private SceneFade sceneFade;
+
+    private Vector3 obakePosition;
 
     private void Start()
     {
-        sceneFade = new SceneFade();
     }
 
     /// <summary>
     /// ボタンが押されたら画面遷移する
     /// 最大数までボタンが押されたらオバケが生成される
     /// </summary>
-    private async UniTask Update()
+    private async void Update()
     {
         // ボタンが押されたら画面遷移する
         if (ControllerManager.instance.CtrlInput.TitleGimmick.SelectMap.WasPressedThisFrame())
         {
-            await sceneFade.SceneChange("GotoMapSelect");
+
         }
 
         //オバケが最大数超えたら
@@ -46,7 +48,7 @@ public class TitleGimmickManager : MonoBehaviour
         //ボタン押されたらオバケを生成する
         if (ControllerManager.instance.CtrlInput.TitleGimmick.Obake.WasPressedThisFrame())
         {
-            Instantiate(obake, obakePosition, Quaternion.identity);
+            Instantiate(obake, obakePosition, Quaternion.Euler(0, 180, 0));
             obakeCount++;
         }
     }
