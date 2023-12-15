@@ -23,7 +23,7 @@ public class StageSelectController : MonoBehaviour
     {
         inp = ControllerManager.instance.CtrlInput;
 
-        stageSelectView = GameObject.Find("Board").GetComponent<StageSelectView>();
+        stageSelectView = GameObject.Find("BackGround").GetComponent<StageSelectView>();
 
         // 動作試験の際に適当に使ったものです。モック版のときはタイトルシーンから使っている
         // イメージからシーンフェードのスクリプトをとってきてください

@@ -70,7 +70,7 @@ public class TitleGimmickManager : MonoBehaviour
                                                         , startBtn.gameObject.transform.position.z)
                                                         , 1f);
 
-            await SceneFade.instance.SceneChange("GotoMapSelect");
+            await SceneFade.instance.SceneChange("StageSelect");
         }
 
         //オバケが最大数超えたら
