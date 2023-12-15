@@ -60,12 +60,12 @@ public class SkillAreaDisplay : MonoBehaviour
     /// <summary>
     /// スキル範囲の表示を行うメソッド
     /// </summary>
-    public void ShowSkillArea(string name)
+    public void ShowSkillArea(bool isFire = false)
     {
         // スキル範囲をまとめる親のオブジェクトを作成
         parent = new GameObject("Area");
 
-        if (name == "Fire")
+        if (isFire)
         {
             foreach (Transform t in fireSkillArea)
             {
@@ -168,38 +168,7 @@ public class SkillAreaDisplay : MonoBehaviour
         smg.ctrl.CtrlInput.Player.Move.Enable();
     }
 
-    ///// <summary>
-    ///// スキル発動位置を取得する非同期メソッド
-    ///// </summary>
-    ///// <returns></returns>
-    //private async void GetSkillPos()
-    //{
-    //    smg.isPosSelectNow = true;
-
-    //    var direcDic = smg.plCon.plMove.Directions;
-
-    //    var pos = smg.skillArea.posObj.transform.position;
-
-    //    // 方向に応じた処理を実行
-    //    if (CheckObject(pos, direcDic[ControllerManager.instance.stickPlayerDirection], out string name))
-    //    {
-    //        smg.skillArea.posObj.transform.position += direcDic[ControllerManager.instance.stickPlayerDirection];
-    //        if (name == "Player")
-    //        {
-    //            smg.skillArea.posObj.transform.position += direcDic[ControllerManager.instance.stickPlayerDirection];
-    //        }
-    //    }
-    //    else
-    //    {
-    //        if (!CheckOffMap(direcDic[ControllerManager.instance.stickPlayerDirection]))
-    //        {
-    //            smg.skillArea.posObj.transform.position = this.transform.position + direcDic[ControllerManager.instance.stickPlayerDirection];
-    //        }
-    //    }
-    //    await UniTask.Delay(250);
-    //    smg.isPosSelectNow = false;
-    //}
-
+    
 
     /// <summary>
     /// 移動先にobjectがあるか確認するメソッド

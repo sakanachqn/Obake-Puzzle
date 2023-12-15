@@ -21,9 +21,12 @@ public class SkillManager : MonoBehaviour
     // 現在スキルが発動中かどうかのフラグ
     public static bool IsNowSkill = false;
 
+    // 現在スキル発動位置選択中かどうか
     private bool isPosSelectNow = false;
 
+    // 各スキルのクラスを用意
     private Skill currentSkillA;
+    private Skill currentSkillB;
 
     // スキルのタイプ
     private enum skillType
@@ -32,19 +35,24 @@ public class SkillManager : MonoBehaviour
         skillB,
         Null
     };
+    // 押されたボタンの種類判別用
+    private skillType selectSkill = skillType.Null;
 
     public void SkillManagerStart()
     {
         // コントローラーマネージャーの取得
         ctrl = ControllerManager.instance;
-        //プレイヤーコントローラーの取得
+        // プレイヤーコントローラーの取得
         plCon = GetComponent<PlayerController>();
-
+        // スキル範囲表示クラス取得
         skillArea = GetComponent<SkillAreaDisplay>();
-
+        // 各スキルクラスを変数に格納
         currentSkillA = new SkillWater(skillArea, this);
+        currentSkillB = new SkillFire(skillArea, this);
+
 
     }
+
 
     public void SkillManagerUpdate()
     {
@@ -53,7 +61,17 @@ public class SkillManager : MonoBehaviour
             if(!IsNowSkill)
             {
                 IsNowSkill = true;
-                skillArea.ShowSkillArea("");
+                skillArea.ShowSkillArea();
+                selectSkill = skillType.skillA;
+            }
+        }
+        if (ctrl.CtrlInput.Skill.SkillB.WasPressedThisFrame())
+        {
+            if (!IsNowSkill)
+            {
+                IsNowSkill = true;
+                skillArea.ShowSkillArea(true);
+                selectSkill = skillType.skillB;
             }
         }
         if (IsNowSkill)
@@ -75,9 +93,13 @@ public class SkillManager : MonoBehaviour
             {
                 GetSkillPos();
             }
-            if(ctrl.CtrlInput.Skill.Select.WasPressedThisFrame())
+            if(ctrl.CtrlInput.Skill.Select.WasPressedThisFrame() && selectSkill == skillType.skillA)
             {
                 currentSkillA.SkillActivate();
+            }
+            if (ctrl.CtrlInput.Skill.Select.WasPressedThisFrame() && selectSkill == skillType.skillB)
+            {
+                currentSkillB.SkillActivate();
             }
         }
     }

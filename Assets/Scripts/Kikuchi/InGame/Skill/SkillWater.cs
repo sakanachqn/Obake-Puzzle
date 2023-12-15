@@ -16,14 +16,14 @@ public class SkillWater : Skill
         SkillManager.IsNowSkill = true;
         Vector3 pos = sad.posObj.transform.position;
 
-
         sad.HideSkillArea();
         await UniTask.Delay(1);
         if (Physics.Raycast(sad.transform.position, pos - sad.transform.position, out var hit, 1))
         {
             var direc = hit.transform.position - sad.transform.position;
             var objBack = hit.transform.position + direc;
-            if (0 >= objBack.x || 0 >= objBack.z || 4 <= objBack.x || 4 <= objBack.z) return;
+            if (0 > objBack.x || 0 > objBack.z || 4 < objBack.x || 4 < objBack.z) return;
+            if (Physics.Raycast(hit.transform.position, direc, out var hitTwo, 1)) return;
             await hit.transform.DOMove(hit.transform.position + direc, 1);
         }
     }
