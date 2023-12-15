@@ -77,9 +77,9 @@ public class CSVMapGenerate : MonoBehaviour
         
         // CSVファイルを読み込み
         if (LoadStageNum < 10)
-            csvFile = Resources.Load("CSV/Yokota/Map_0" + LoadStageNum) as TextAsset;
+            csvFile = Resources.Load("CSV/MapData/Map_0" + LoadStageNum) as TextAsset;
         else
-            csvFile = Resources.Load("CSV/Yokota/Map_" + LoadStageNum) as TextAsset;
+            csvFile = Resources.Load("CSV/MapData/Map_" + LoadStageNum) as TextAsset;
         // 読み込んだテキストをString型にして格納
         StringReader reader = new StringReader(csvFile.text);
 
