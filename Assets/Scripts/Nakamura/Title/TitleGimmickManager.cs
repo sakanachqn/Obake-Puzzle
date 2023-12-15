@@ -56,7 +56,7 @@ public class TitleGimmickManager : MonoBehaviour
     /// </summary>
     private async void Update()
     {
-        //ボタンを揺らす
+        //ボタンを揺らす(横)
         float sin = Mathf.Sin(Time.time) * width;
         startBtn.transform.position = new Vector3(startBtnPos.x + sin, startBtnPos.y, startBtnPos.z);
 
