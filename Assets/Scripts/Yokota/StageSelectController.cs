@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -21,21 +19,17 @@ public class StageSelectController : MonoBehaviour
     // スティックの傾きを保存する変数
     private Vector2 stickInclination;
 
-    private bool callOneTime;
-
     private void Start()
     {
         inp = ControllerManager.instance.CtrlInput;
 
-        stageSelectView = GameObject.Find("BackGround").GetComponent<StageSelectView>();
+        stageSelectView = GameObject.Find("Board").GetComponent<StageSelectView>();
 
         // 動作試験の際に適当に使ったものです。モック版のときはタイトルシーンから使っている
         // イメージからシーンフェードのスクリプトをとってきてください
         sceneFade = SceneFade.instance;
 
         inp.Enable();
-
-        callOneTime = false;
     }
 
     private async void Update()
@@ -45,25 +39,19 @@ public class StageSelectController : MonoBehaviour
             // タイトルに戻る
             await sceneFade.SceneChange("TitleScene");
         }
-
+        
         if (inp.StageSelect.Tutorial.WasPressedThisFrame())
         {
             //チュートリアルに進む
-            await sceneFade.SceneChange("TestTutorial");
+            //await sceneFade.SceneChange("")
         }
 
-        if (inp.StageSelect.Decision.WasPressedThisFrame() ||
-            Input.GetKeyDown(KeyCode.K))
+        if (inp.StageSelect.Decision.WasPressedThisFrame())
         {
-            if (!callOneTime)
-            {
-                callOneTime = true;
+            // メインゲームに進む
+            SceneManager.sceneLoaded += GameSceneLoaded;
 
-                // メインゲームに進む
-                SceneManager.sceneLoaded += GameSceneLoaded;
-
-                await sceneFade.SceneChange("GameScene");
-            }
+            await sceneFade.SceneChange("GameScene");
         }
 
         stageSelectView.BrightUp(nowCursorPos);
@@ -81,59 +69,67 @@ public class StageSelectController : MonoBehaviour
         // スティックの2軸入力取得
         stickInclination = context.ReadValue<Vector2>();
 
-        // スティックが左に傾いているとき
-        if (stickInclination.x == -1 || Input.GetKeyDown(KeyCode.A))
+        // スティックが左に傾いていて、カーソルが左端にないとき
+        if (stickInclination.x == -1 && nowSelectStage > 0)
         {
-            if (nowCursorPos < 2 && stageSelectView.PageDown())
-            {
-                nowCursorPos = (nowCursorPos % 2) + 4;
-                // 今選ぼうとしているステージ番号を更新する
-                nowSelectStage -= 2;
-            }
-            else if (nowSelectStage > 1)
-            {
-                // カーソルの位置を左へ動かす
-                nowCursorPos -= 2;
-                // 今選ぼうとしているステージ番号を更新する
-                nowSelectStage -= 2;
-            }
-            else { }
+            // key:左が入力されたときに-1、右が入力されたときに1を設定する
+            int key = -1;
+            // イメージのスプライトを変える必要があれば変更する
+            if (CheckSpriteChange(key)) stageSelectView.SpriteChange(key);
+            // 必要がなければカーソルの位置を左へ動かす
+            else nowCursorPos -= 1;
+            // 今選ぼうとしているステージ番号を更新する
+            nowSelectStage -= 1;
         }
-        // スティックが右に傾いているとき
-        if (stickInclination.x == 1 || Input.GetKeyDown(KeyCode.D))
+        // スティックが右に傾いていて、カーソルが右端にないとき
+        if (stickInclination.x == 1 && nowSelectStage < stageSelectView.StageNum - 1)
         {
-            if (nowCursorPos > 3 && stageSelectView.PageUp())
-            {
-                nowCursorPos = nowCursorPos % 2;
-                // 今選ぼうとしているステージ番号を更新する
-                nowSelectStage += 2;
-            }
-            else if (stageSelectView.StageNum - nowSelectStage > 2)
-            {
-                // カーソルの位置を右へ動かす
-                nowCursorPos += 2;
-                // 今選ぼうとしているステージ番号を更新する
-                nowSelectStage += 2;
-            }
-            else { }
+            int key = 1;
+            // イメージのスプライトを変える必要があれば変更する
+            if (CheckSpriteChange(key)) stageSelectView.SpriteChange(key);
+            // 必要がなければカーソルの位置を右へ動かす
+            else nowCursorPos += 1;
+            // 今選ぼうとしているステージ番号を更新する
+            nowSelectStage += 1;
         }
         // スティックが上に傾いていて、カーソルが上側にないとき
-        if ((stickInclination.y == 1 && nowCursorPos % 2 != 0) ||
-            (Input.GetKeyDown(KeyCode.W) && nowCursorPos % 2 != 0))
+        //if (stickInclination.y == 1 && nowSelectStage % 2 != 0)
+        //{
+        //    // カーソルの位置を上へ動かす
+        //    nowCursorPos--;
+        //    // 今選ぼうとしているステージ番号を更新する
+        //    nowSelectStage--;
+        //}
+        //// スティックが下に傾いていて、カーソルが上側にあるとき
+        //if (stickInclination.y == -1 && nowSelectStage % 2 == 0)
+        //{
+        //    // カーソルの位置を上へ動かす
+        //    nowCursorPos++;
+        //    // 今選ぼうとしているステージ番号を更新する
+        //    nowSelectStage++;
+        //}
+    }
+
+    /// <summary>
+    /// スティック操作があったときにイメージのスプライトを変える必要があるか判定する関数
+    /// </summary>
+    /// <param name="key">入力が右、左のどちらか判定する変数。右: 1、左: -1 </param>
+    /// <returns></returns>
+    private bool CheckSpriteChange(int key)
+    {
+        if (key > 0)
         {
-            // カーソルの位置を上へ動かす
-            nowCursorPos--;
-            // 今選ぼうとしているステージ番号を更新する
-            nowSelectStage--;
+            // カーソルが左端、または右端から2番目より右にある時
+            if (nowSelectStage < 2
+                || nowSelectStage > stageSelectView.StageNum - 5) return false; // 変更しない
+            else return true;   // 変更する
         }
-        // スティックが下に傾いていて、カーソルが上側にあるとき
-        if ((stickInclination.y == -1 && nowCursorPos % 2 == 0) ||
-            (Input.GetKeyDown(KeyCode.S) && nowCursorPos % 2 == 0))
+        else
         {
-            // カーソルの位置を上へ動かす
-            nowCursorPos++;
-            // 今選ぼうとしているステージ番号を更新する
-            nowSelectStage++;
+            // カーソルが右端、または左端から2番目より左にある時
+            if (nowSelectStage > stageSelectView.StageNum - 3
+                || nowSelectStage < stageSelectView.StageNum - 4) return false; // 変更しない
+            else return true;   // 変更する
         }
     }
 

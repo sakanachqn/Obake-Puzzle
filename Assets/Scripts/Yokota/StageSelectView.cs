@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class StageSelectView : MonoBehaviour
     private Image prefabImage;
 
     [SerializeField]
-    private Image BackGround;
+    private Image Board;
 
     // ステージ数
     [SerializeField]
@@ -21,17 +22,15 @@ public class StageSelectView : MonoBehaviour
 
     public int StageNum => stageNum;
 
-    private int pageNum;
-
-    private int nowPageNum;
+    private int leftUpSpriteNum = 1;
 
     private enum positionName
     {
         upperLeft = 0,
-        lowerLeft,
         upperMiddle,
-        lowerMiddle,
         upperRight,
+        lowerLeft,
+        lowerMiddle,
         lowerRight
     }
 
@@ -46,70 +45,52 @@ public class StageSelectView : MonoBehaviour
 
     private void Init()
     {
-        nameToVector3.Add(positionName.upperLeft, new Vector3(-550, 185, 0));
-        nameToVector3.Add(positionName.lowerLeft, new Vector3(-550, -185, 0));
-        nameToVector3.Add(positionName.upperMiddle, new Vector3(0, 185, 0));
-        nameToVector3.Add(positionName.lowerMiddle, new Vector3(0, -185, 0));
-        nameToVector3.Add(positionName.upperRight, new Vector3(550, 185, 0));
-        nameToVector3.Add(positionName.lowerRight, new Vector3(550, -185, 0));
+        nameToVector3.Add(positionName.upperLeft, new Vector3(-538, 94, 0));
+        nameToVector3.Add(positionName.lowerLeft, new Vector3(-538, -238, 0));
+        nameToVector3.Add(positionName.upperMiddle, new Vector3(0, 94, 0));
+        nameToVector3.Add(positionName.lowerMiddle, new Vector3(0, -231, 0));
+        nameToVector3.Add(positionName.upperRight, new Vector3(541, 94, 0));
+        nameToVector3.Add(positionName.lowerRight, new Vector3(541, -231, 0));
 
-        pageNum = stageNum / 6;
-
-        nowPageNum = 0;
+        for (int i = 1; i <= stageNum; i++)
+        {
+            stageSprites.Add(i, Resources.Load<Sprite>("UI/Stage/Ui_005_1 " + i));
+        }
 
         for (int i = 0; i < stageNum; i++)
         {
-            stageSprites.Add(i, Resources.Load<Sprite>("Images/Yokota/TestImage" + (i + 1)));
-        }
-
-        for (int i = 0; i < 6; i++)
-        {
             stageImages[i] = Instantiate(prefabImage);
             stageImageViews[i] = stageImages[i].GetComponent<StageImageView>();
-            stageImages[i].transform.SetParent(BackGround.transform, false);
+            stageImages[i].transform.SetParent(Board.transform, false);
             stageImages[i].rectTransform.position
                 += nameToVector3[(positionName)i];
-            stageImages[i].sprite = stageSprites[i];
+            stageImages[i].sprite = stageSprites[i + 1];
         }
     }
 
-    public bool PageUp()
+    public void SpriteChange(int key)
     {
-        if (nowPageNum == pageNum) return false;
-
-        nowPageNum++;
-
-        int remainingStage = stageNum - 6;
-
-        for (int i = 0; i < 6; i++)
+        if (key > 0)
         {
-            if (remainingStage > i)
-                stageImages[i].sprite = stageSprites[nowPageNum * 6 + i];
-            else
-                stageImages[i].gameObject.SetActive(false);
+            leftUpSpriteNum += 2;
+            for (int i = 0; i < 6; i++)
+            {
+                stageImages[i].sprite = stageSprites[leftUpSpriteNum + i];
+            }
         }
-
-        return true;
-    }
-
-    public bool PageDown()
-    {
-        if (nowPageNum == 0) return false;
-
-        nowPageNum--;
-
-        for (int i = 0; i < 6; i++)
+        else
         {
-            stageImages[i].gameObject.SetActive(true);
-            stageImages[i].sprite = stageSprites[nowPageNum * 6 + i];
+            leftUpSpriteNum -= 2;
+            for (int i = 0; i < 6; i++)
+            {
+                stageImages[i].sprite = stageSprites[leftUpSpriteNum + i];
+            }
         }
-
-        return true;
     }
 
     public void BrightUp(int CursorPos)
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < stageNum; i++)
         {
             if (i == CursorPos) stageImageViews[i].matchCursor = true;
             else stageImageViews[i].matchCursor = false;
