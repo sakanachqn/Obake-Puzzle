@@ -527,12 +527,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1362395163}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5730c7885ae4a74aaf19166b63339bc, type: 3}
+  m_Script: {fileID: 11500000, guid: c0c276eb59f4c794892588da37d449f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prefabImage: {fileID: 6186444433101543557, guid: 59b5026bf01720d4585bedbfb1d410de, type: 3}
   Board: {fileID: 1362395166}
-  stageNum: 2
+  stageNum: 0
 --- !u!1 &1680508277
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,8 +720,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1932150171}
-  - component: {fileID: 1932150172}
   - component: {fileID: 1932150173}
+  - component: {fileID: 1932150174}
   m_Layer: 0
   m_Name: StageSelectController
   m_TagString: Untagged
@@ -744,18 +744,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1932150172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1932150169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fa0a35c2e0b7fe4a9140fe976b9f2ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1932150173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -803,7 +791,7 @@ MonoBehaviour:
     m_ActionName: Rotate/CamL[/DualSenseGamepadHID/leftShoulder]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1932150172}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: StageSelectController, Assembly-CSharp
         m_MethodName: OnNavigate
         m_Mode: 0
@@ -874,3 +862,15 @@ MonoBehaviour:
   m_DefaultActionMap: StageSelect
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1932150174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932150169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a9ef3b60d8b3e64381c2857ce8a32bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
