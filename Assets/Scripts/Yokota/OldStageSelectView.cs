@@ -1,9 +1,10 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StageSelectView : MonoBehaviour
+public class OldStageSelectView : MonoBehaviour
 {
     private Image[] stageImages = new Image[6];
 
@@ -21,9 +22,7 @@ public class StageSelectView : MonoBehaviour
 
     public int StageNum => stageNum;
 
-    private int pageNum;
-
-    private int nowPageNum;
+    private int leftUpSpriteNum = 1;
 
     private enum positionName
     {
@@ -53,13 +52,9 @@ public class StageSelectView : MonoBehaviour
         nameToVector3.Add(positionName.upperRight, new Vector3(550, 185, 0));
         nameToVector3.Add(positionName.lowerRight, new Vector3(550, -185, 0));
 
-        pageNum = stageNum / 6;
-
-        nowPageNum = 0;
-
-        for (int i = 0; i < stageNum; i++)
+        for (int i = 1; i <= stageNum; i++)
         {
-            stageSprites.Add(i, Resources.Load<Sprite>("Images/Yokota/TestImage" + (i + 1)));
+            stageSprites.Add(i, Resources.Load<Sprite>("Images/Yokota/TestImage" + i));
         }
 
         for (int i = 0; i < 6; i++)
@@ -69,42 +64,28 @@ public class StageSelectView : MonoBehaviour
             stageImages[i].transform.SetParent(BackGround.transform, false);
             stageImages[i].rectTransform.position
                 += nameToVector3[(positionName)i];
-            stageImages[i].sprite = stageSprites[i];
+            stageImages[i].sprite = stageSprites[leftUpSpriteNum + i];
         }
     }
 
-    public bool PageUp()
+    public void SpriteChange(int key)
     {
-        if (nowPageNum == pageNum) return false;
-
-        nowPageNum++;
-
-        int remainingStage = stageNum - 6;
-
-        for (int i = 0; i < 6; i++)
+        if (key > 0)
         {
-            if (remainingStage > i)
-                stageImages[i].sprite = stageSprites[nowPageNum * 6 + i];
-            else
-                stageImages[i].gameObject.SetActive(false);
+            leftUpSpriteNum += 2;
+            for (int i = 0; i < 6; i++)
+            {
+                stageImages[i].sprite = stageSprites[leftUpSpriteNum + i];
+            }
         }
-
-        return true;
-    }
-
-    public bool PageDown()
-    {
-        if (nowPageNum == 0) return false;
-
-        nowPageNum--;
-
-        for (int i = 0; i < 6; i++)
+        else
         {
-            stageImages[i].gameObject.SetActive(true);
-            stageImages[i].sprite = stageSprites[nowPageNum * 6 + i];
+            leftUpSpriteNum -= 2;
+            for (int i = 0; i < 6; i++)
+            {
+                stageImages[i].sprite = stageSprites[leftUpSpriteNum + i];
+            }
         }
-
-        return true;
     }
 
     public void BrightUp(int CursorPos)
