@@ -39,6 +39,8 @@ public class TitleGimmickManager : MonoBehaviour
     [SerializeField]
     private List<Material> bowlMaterials = new List<Material>();
 
+    Tweener startButtonTween;
+
     private void Start()
     {
         //スタートボタンの位置を保存
@@ -50,7 +52,8 @@ public class TitleGimmickManager : MonoBehaviour
 
         //ボタンを揺らす(ループ)
         var rect = startBtn.GetComponent<RectTransform>();
-        rect.DOJumpAnchorPos(new Vector2(width, startBtnPos.y), jumpPower, 1, 1,true).SetLoops(-1, LoopType.Yoyo);
+        //rect.DOJumpAnchorPos(new Vector2(width, startBtnPos.y), jumpPower, 1, 1,true).SetLoops(-1, LoopType.Yoyo);
+        startButtonTween = rect.DOScale(0.7f, 1f).SetLoops(-1, LoopType.Yoyo);
     }
 
     /// <summary>
@@ -62,8 +65,9 @@ public class TitleGimmickManager : MonoBehaviour
         // ボタンが押されたら画面遷移する
         if (ControllerManager.instance.CtrlInput.TitleGimmick.SelectMap.WasPressedThisFrame())
         {
+            startButtonTween.Kill();
             //少し拡大する
-            await startBtn.transform.DOScale(new Vector3(1.1f, 1.1f, 0), 1f);
+            await startBtn.transform.DOScale(0.5f, 0.5f);
 
             await SceneFade.instance.SceneChange("StageSelect");
         }

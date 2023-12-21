@@ -452,6 +452,12 @@ MonoBehaviour:
   goal: {fileID: 536482593222954825, guid: 94c2764e6efcbb841b8632027064d49b, type: 3}
   steelGoal: {fileID: 1993710126538275838, guid: 7b497afad7921b94885b1eb511ceb1e6, type: 3}
   player: {fileID: 3020665506128988941, guid: 376616132393fc94f83c44c401fd1d5a, type: 3}
+  groundMaterial:
+  - {fileID: 2100000, guid: cd2bfa970601d554486cd81fd06a7289, type: 2}
+  - {fileID: 2100000, guid: 3eeb7787ea0c5ca42836675df4007141, type: 2}
+  pitFallMaterial:
+  - {fileID: 2100000, guid: cd2bfa970601d554486cd81fd06a7289, type: 2}
+  - {fileID: 2100000, guid: 3eeb7787ea0c5ca42836675df4007141, type: 2}
 --- !u!4 &480913645
 Transform:
   m_ObjectHideFlags: 0
