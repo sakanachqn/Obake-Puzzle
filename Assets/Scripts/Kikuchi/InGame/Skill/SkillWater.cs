@@ -25,6 +25,11 @@ public class SkillWater : Skill
             if (0 > objBack.x || 0 > objBack.z || 4 < objBack.x || 4 < objBack.z) return;
             if (Physics.Raycast(hit.transform.position, direc, out var hitTwo, 1)) return;
             await hit.transform.DOMove(hit.transform.position + direc, 1);
+            //if (Physics.Raycast(hit.transform.position, Vector3.down, out var tile, 1))
+            //{
+            //    if (hit.collider.tag == "Pitfall") return;
+            //    await hit.transform.DOMove(hit.transform.position + Vector3.down, 1);
+            //}
         }
     }
 }

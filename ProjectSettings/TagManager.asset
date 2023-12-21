@@ -11,6 +11,7 @@ TagManager:
   - clone
   - MapGenerater
   - SkillPos
+  - MapTile
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Water
   - UI
   - Cloud
-  - 
+  - Clone
   - 
   - 
   - 
