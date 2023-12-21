@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeTime: 1
-  underAlpha: 0.3
+  underAlpha: 0.8
 --- !u!54 &-1266977059138993878
 Rigidbody:
   m_ObjectHideFlags: 0

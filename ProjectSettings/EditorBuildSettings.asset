@@ -17,4 +17,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Kikuchi/ResScene.unity
     guid: 374b3ec671561cd43b1358d25c867d5b
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: ea34a7639d1d62641a33e27d8d612890, type: 2}

@@ -57,23 +57,27 @@ public class PlayerMove : MonoBehaviour
 
         if (ctrlManager.stickPlayerDirection != ControllerManager.Direction.Null && !PlayerController.IsNowAction)
         {
-            await MoveCoroutine(token, speed);
+            await MoveMethod(token, speed);
         }
     }
 
-    private async UniTask MoveCoroutine(CancellationToken token, float speed)
+    private async UniTask MoveMethod(CancellationToken token, float speed)
     {
         PlayerController.IsNowAction = true; //移動中フラグ起動
         var targetPos = this.transform.position + directions[ctrlManager.stickPlayerDirection]; //目標地点を設定
-        if (CheckObject(this.transform.position, directions[ctrlManager.stickPlayerDirection]) || CheckOffMap(directions[ctrlManager.stickPlayerDirection]))
+        var targetDirection = directions[ctrlManager.stickPlayerDirection];
+        if (CheckObject(this.transform.position, targetDirection) || CheckOffMap(targetDirection))
         {
-            //DevLog.Log("進めないよ～");
+            //進行不可のとき
             material.color = testRed;
             await UniTask.Delay(500);
             material.color = testColor;
             PlayerController.IsNowAction = false;
             return;
         }
+
+        await RotateDirection(targetDirection, speed);
+
         await UniTask.Delay(TimeSpan.FromSeconds(1));
         await this.transform.DOMove(targetPos, speed).SetEase(Ease.Linear);
         PlayerController.IsNowAction = false; //移動しきったらフラグoff
@@ -117,5 +121,14 @@ public class PlayerMove : MonoBehaviour
             return false;
         }
         else return true;
+    }
+
+    /// <summary>
+    /// 指定した方向に向けて回転する
+    /// </summary>
+    private async UniTask RotateDirection(Vector3 direction, float speed)
+    {
+        var targetRotation = Quaternion.LookRotation(direction);
+        await this.transform.DORotateQuaternion(targetRotation, speed).SetEase(Ease.Linear);
     }
 }

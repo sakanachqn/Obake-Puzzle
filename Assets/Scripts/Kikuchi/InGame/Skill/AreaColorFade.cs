@@ -9,9 +9,9 @@ public class AreaColorFade : MonoBehaviour
     [SerializeField]
     private float fadeTime = 1;
     [SerializeField]
-    private float underAlpha = 0.3f;
+    private float underAlpha;
 
-    private Color red = new Color(1f, 0, 0, 0.5f);
+    private Color red = new Color(1f, 0, 0, 0.9f);
     private Color col;
 
     private void Start()
@@ -22,7 +22,7 @@ public class AreaColorFade : MonoBehaviour
     }
     public void ColorFade()
     {
-        mat.DOFade(underAlpha, fadeTime).SetLoops(-1, LoopType.Yoyo);
+        mat.DOFade(0.6f, fadeTime).SetLoops(-1, LoopType.Yoyo);
     }
 
 
