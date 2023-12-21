@@ -6,8 +6,8 @@ using Cysharp.Threading.Tasks;
 
 public class kaiten : MonoBehaviour
 {
-    private void Update()
+    private void Start()
     {
-        this.transform.Rotate(new Vector3());
+        this.transform.DORotate(new Vector3(0, 360, 0), 120, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental);
     }
 }

@@ -50,7 +50,7 @@ public class StageSelectController : MonoBehaviour
         {
             // メインゲームに進む
             SceneManager.sceneLoaded += GameSceneLoaded;
-
+            SoundManager.Instance.Play("Select");
             await sceneFade.SceneChange("GameScene");
         }
 

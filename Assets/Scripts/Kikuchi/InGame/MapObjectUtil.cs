@@ -44,10 +44,13 @@ public class MapObjectUtil : MonoBehaviour
         {
             if(Physics.Raycast(this.transform.position, Vector3.down, out var hit, 1))
             {
-                if (hit.collider.tag == "Pitfall") DropObject();
+                if (hit.collider.tag == "Pitfall")
+                {
+                    DropObject();
+                }
 
-            }
-            else DropObject();
+                }
+                else DropObject();
         }
 
         tempPos = transform.position;

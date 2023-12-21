@@ -63,9 +63,10 @@ public class TitleGimmickManager : MonoBehaviour
     private async void Update()
     {
         // ボタンが押されたら画面遷移する
-        if (ControllerManager.instance.CtrlInput.TitleGimmick.SelectMap.WasPressedThisFrame())
+        if (ControllerManager.instance.CtrlInput.TitleGimmick.Start.WasPressedThisFrame())
         {
             startButtonTween.Kill();
+            SoundManager.Instance.Play("Select");
             //少し拡大する
             await startBtn.transform.DOScale(0.5f, 0.5f);
 
