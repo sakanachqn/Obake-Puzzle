@@ -510,7 +510,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 480913645}
-  - component: {fileID: 480913644}
+  - component: {fileID: 480913646}
   m_Layer: 0
   m_Name: csvTest
   m_TagString: MapGenerater
@@ -518,32 +518,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &480913644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 480913643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3df2101b6e81a6348952a313cb60cfc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LoadStageNum: 0
-  ground: {fileID: 4928620325934973101, guid: d6d734116dc0a8d46a583cf067cbdd1d, type: 3}
-  woodBox: {fileID: 1070650482092365343, guid: 854e3b6bb2594fe499f604f153fda095, type: 3}
-  steelBox: {fileID: 697022397175443679, guid: 6a92ab210c1e15e44b5f8b719562bcf3, type: 3}
-  pitFall: {fileID: 2776963788653865417, guid: cd319af676d759f4e9f8298690339f5d, type: 3}
-  goal: {fileID: 536482593222954825, guid: 94c2764e6efcbb841b8632027064d49b, type: 3}
-  steelGoal: {fileID: 697022397175443679, guid: fc40312890b944e468346158dcaf05e0, type: 3}
-  player: {fileID: 8509051671546385606, guid: 45f8e251efe373b439dc5278118c1061, type: 3}
-  groundMaterial:
-  - {fileID: 2100000, guid: cd2bfa970601d554486cd81fd06a7289, type: 2}
-  - {fileID: 2100000, guid: 3eeb7787ea0c5ca42836675df4007141, type: 2}
-  pitFallMaterial:
-  - {fileID: 2100000, guid: cd2bfa970601d554486cd81fd06a7289, type: 2}
-  - {fileID: 2100000, guid: 3eeb7787ea0c5ca42836675df4007141, type: 2}
 --- !u!4 &480913645
 Transform:
   m_ObjectHideFlags: 0
@@ -559,6 +533,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &480913646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480913643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56e57d803c13d904da8b8f9702b25cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoadStageNum: 0
+  LoadStageName: TrialMap_01
+  ground: {fileID: 4928620325934973101, guid: d6d734116dc0a8d46a583cf067cbdd1d, type: 3}
+  woodBox: {fileID: 1070650482092365343, guid: 854e3b6bb2594fe499f604f153fda095, type: 3}
+  steelBox: {fileID: 697022397175443679, guid: 6a92ab210c1e15e44b5f8b719562bcf3, type: 3}
+  pitFall: {fileID: 2776963788653865417, guid: cd319af676d759f4e9f8298690339f5d, type: 3}
+  goal: {fileID: 536482593222954825, guid: 94c2764e6efcbb841b8632027064d49b, type: 3}
+  steelGoal: {fileID: 697022397175443679, guid: fc40312890b944e468346158dcaf05e0, type: 3}
+  player: {fileID: 8509051671546385606, guid: 45f8e251efe373b439dc5278118c1061, type: 3}
+  groundMaterial:
+  - {fileID: 2100000, guid: cd2bfa970601d554486cd81fd06a7289, type: 2}
+  - {fileID: 2100000, guid: 3eeb7787ea0c5ca42836675df4007141, type: 2}
+  pitFallMaterial:
+  - {fileID: 2100000, guid: cd2bfa970601d554486cd81fd06a7289, type: 2}
+  - {fileID: 2100000, guid: 3eeb7787ea0c5ca42836675df4007141, type: 2}
 --- !u!1 &520238494
 GameObject:
   m_ObjectHideFlags: 0
