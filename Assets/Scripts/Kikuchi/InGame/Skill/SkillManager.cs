@@ -96,10 +96,12 @@ public class SkillManager : MonoBehaviour
             if(ctrl.CtrlInput.Skill.Select.WasPressedThisFrame() && selectSkill == skillType.skillA)
             {
                 currentSkillA.SkillActivate();
+                SoundManager.Instance.Play("SEWater");
             }
             if (ctrl.CtrlInput.Skill.Select.WasPressedThisFrame() && selectSkill == skillType.skillB)
             {
                 currentSkillB.SkillActivate();
+                SoundManager.Instance.Play("SEFire");
             }
         }
     }

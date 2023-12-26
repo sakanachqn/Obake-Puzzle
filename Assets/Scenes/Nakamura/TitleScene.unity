@@ -745,7 +745,8 @@ MonoBehaviour:
   startBtn: {fileID: 3157792198780402434}
   maxObakeCount: 30
   GotoMapSelect: StageSelect
-  width: 100
+  width: 10
+  jumpPower: 100
   bowl: {fileID: 2839692332658795465}
   bowlMaterials:
   - {fileID: 2100000, guid: a97d37efda97e604fa05fdee489ef929, type: 2}
@@ -822,6 +823,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2030888717}
+  - component: {fileID: 2030888718}
+  - component: {fileID: 2030888719}
+  - component: {fileID: 2030888720}
   m_Layer: 0
   m_Name: FadeManager
   m_TagString: Untagged
@@ -845,6 +849,56 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2030888718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030888716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c262742de4d27d44ebbf81818422fedc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2030888719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030888716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c95eeacb158321f44b51ba4262d50943, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundDatas:
+  - name: BGM
+    audioClip: {fileID: 8300000, guid: d5c13cbb7c0d289418268bc793cb6e0c, type: 3}
+    playedTime: 0
+  - name: SEFire
+    audioClip: {fileID: 8300000, guid: c2596c17f58b74e43a00b6110d9b48fc, type: 3}
+    playedTime: 0
+  - name: SEWater
+    audioClip: {fileID: 8300000, guid: e22aa1156b7779142a31f0e169496801, type: 3}
+    playedTime: 0
+  - name: Select
+    audioClip: {fileID: 8300000, guid: fe0d3d79af242cf43af141748ac61a58, type: 3}
+    playedTime: 0
+  playableDistance: 0.2
+--- !u!114 &2030888720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030888716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d18e4de9009d8aa488849574c64b8a64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!23 &10430807080574568
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1111,7 +1165,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -458, y: -319}
+  m_AnchoredPosition: {x: -508.74, y: -280.3}
   m_SizeDelta: {x: 777, y: 291}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3157792198780402434

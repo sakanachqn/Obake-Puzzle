@@ -43,14 +43,14 @@ public class StageSelectController : MonoBehaviour
         if (inp.StageSelect.Tutorial.WasPressedThisFrame())
         {
             //チュートリアルに進む
-            await sceneFade.SceneChange("TestTutorial");
+            //await sceneFade.SceneChange("")
         }
 
         if (inp.StageSelect.Decision.WasPressedThisFrame())
         {
             // メインゲームに進む
             SceneManager.sceneLoaded += GameSceneLoaded;
-
+            SoundManager.Instance.Play("Select");
             await sceneFade.SceneChange("GameScene");
         }
 
@@ -70,44 +70,44 @@ public class StageSelectController : MonoBehaviour
         stickInclination = context.ReadValue<Vector2>();
 
         // スティックが左に傾いていて、カーソルが左端にないとき
-        if (stickInclination.x == -1 && nowSelectStage > 1)
+        if (stickInclination.x == -1 && nowSelectStage > 0)
         {
             // key:左が入力されたときに-1、右が入力されたときに1を設定する
             int key = -1;
             // イメージのスプライトを変える必要があれば変更する
             if (CheckSpriteChange(key)) stageSelectView.SpriteChange(key);
             // 必要がなければカーソルの位置を左へ動かす
-            else nowCursorPos -= 2;
+            else nowCursorPos -= 1;
             // 今選ぼうとしているステージ番号を更新する
-            nowSelectStage -= 2;
+            nowSelectStage -= 1;
         }
         // スティックが右に傾いていて、カーソルが右端にないとき
-        if (stickInclination.x == 1 && nowSelectStage < stageSelectView.StageNum - 2)
+        if (stickInclination.x == 1 && nowSelectStage < stageSelectView.StageNum - 1)
         {
             int key = 1;
             // イメージのスプライトを変える必要があれば変更する
             if (CheckSpriteChange(key)) stageSelectView.SpriteChange(key);
             // 必要がなければカーソルの位置を右へ動かす
-            else nowCursorPos += 2;
+            else nowCursorPos += 1;
             // 今選ぼうとしているステージ番号を更新する
-            nowSelectStage += 2;
+            nowSelectStage += 1;
         }
         // スティックが上に傾いていて、カーソルが上側にないとき
-        if (stickInclination.y == 1 && nowSelectStage % 2 != 0)
-        {
-            // カーソルの位置を上へ動かす
-            nowCursorPos--;
-            // 今選ぼうとしているステージ番号を更新する
-            nowSelectStage--;
-        }
-        // スティックが下に傾いていて、カーソルが上側にあるとき
-        if (stickInclination.y == -1 && nowSelectStage % 2 == 0)
-        {
-            // カーソルの位置を上へ動かす
-            nowCursorPos++;
-            // 今選ぼうとしているステージ番号を更新する
-            nowSelectStage++;
-        }
+        //if (stickInclination.y == 1 && nowSelectStage % 2 != 0)
+        //{
+        //    // カーソルの位置を上へ動かす
+        //    nowCursorPos--;
+        //    // 今選ぼうとしているステージ番号を更新する
+        //    nowSelectStage--;
+        //}
+        //// スティックが下に傾いていて、カーソルが上側にあるとき
+        //if (stickInclination.y == -1 && nowSelectStage % 2 == 0)
+        //{
+        //    // カーソルの位置を上へ動かす
+        //    nowCursorPos++;
+        //    // 今選ぼうとしているステージ番号を更新する
+        //    nowSelectStage++;
+        //}
     }
 
     /// <summary>
