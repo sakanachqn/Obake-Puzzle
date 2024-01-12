@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3620821296466100992}
   - component: {fileID: 1574934412223117258}
   - component: {fileID: -5422177811422165292}
+  - component: {fileID: 4071537243996434982}
   m_Layer: 0
   m_Name: woodbox
   m_TagString: WoodenBox
@@ -97,3 +98,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4071537243996434982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070650482092365343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ca0e202a60cfae46b1fdb3bf8e7a283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
