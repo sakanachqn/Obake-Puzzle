@@ -1,18 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+using Cysharp.Threading.Tasks;
 
 public class kaiten : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        transform.Rotate(new Vector3(0, - 0.01f, 0 ));
+        this.transform.DORotate(new Vector3(0, 360, 0), 120, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental);
     }
 }
