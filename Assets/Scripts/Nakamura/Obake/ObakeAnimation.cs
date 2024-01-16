@@ -7,6 +7,25 @@ public class ObakeAnimation : MonoBehaviour
     [SerializeField]
     private Animator _obake;
 
+    private static ObakeAnimation _instance;
+    public static ObakeAnimation Inctance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<ObakeAnimation>();
+
+                if (_instance == null)
+                {
+                    var obj = new GameObject("ObakeAnimation");
+                    _instance = obj.AddComponent<ObakeAnimation>();
+                }
+            }
+            return _instance;
+        }
+    }
+
     void Start()
     {
         _obake.GetComponent<Animator>();
