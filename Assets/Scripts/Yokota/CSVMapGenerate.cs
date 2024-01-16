@@ -12,6 +12,11 @@ public class CSVMapGenerate : MonoBehaviour
     // マップ上すべてのブロックの実体
     private List<List<List<GameObject>>> allBlocksObj = new List<List<List<GameObject>>>();
 
+    // 一時入力用の二次元リスト
+    List<List<GameObject>> zAxisObjList = new List<List<GameObject>>();
+    // 一時入力用のリスト
+    List<GameObject> yAxisObjList = new List<GameObject>();
+
     // 呼び出すマップCSVファイルの番号
     public int LoadStageNum;
 
@@ -37,7 +42,11 @@ public class CSVMapGenerate : MonoBehaviour
     private GameObject steelGoal;
     [SerializeField,Header("プレイヤー")]
     private GameObject player;
-    
+
+    [SerializeField, Header("地面マテリアル（白, 黒）")]
+    private Material[] groundMaterial = new Material[2];
+    [SerializeField, Header("落とし穴マテリアル（白, 黒）")]
+    private Material[] pitFallMaterial = new Material[2];
 
     private void Start()
     {
@@ -77,10 +86,9 @@ public class CSVMapGenerate : MonoBehaviour
         
         // CSVファイルを読み込み
         if (LoadStageNum < 10)
-            //csvFile = Resources.Load("CSV/Yokota/Map_0" + LoadStageNum) as TextAsset;
-            csvFile = Resources.Load("CSV/Yokota/Map_0" + LoadStageNum) as TextAsset;
+            csvFile = Resources.Load("CSV/MapData/TrialMap_0" + LoadStageNum) as TextAsset;
         else
-            csvFile = Resources.Load("CSV/Yokota/Map_" + LoadStageNum) as TextAsset;
+            csvFile = Resources.Load("CSV/MapData/TrialMap_" + LoadStageNum) as TextAsset;
         // 読み込んだテキストをString型にして格納
         StringReader reader = new StringReader(csvFile.text);
 
@@ -122,42 +130,91 @@ public class CSVMapGenerate : MonoBehaviour
         // マップの行数分繰り返し
         for (int x = 0; x < allBlocksStr.Count; x++)
         {
-            // 一時入力用の二次元リスト
-            List<List<GameObject>> zAxisObjList = new List<List<GameObject>>();
-
-            // マップの列数分繰り返し
-            for (int z = 0; z < allBlocksStr[x].Count; z++)
-            {
-                // x行z列にあるブロックたちの文字情報
-                string tmpstr = allBlocksStr[x][z];
-                // 一時入力用のリスト
-                List<GameObject> yAxisObjList = new List<GameObject>();
-
-                // x行z列にあるブロックの数だけ繰り返す
-                for (int y = 0; y < tmpstr.Length; y++)
-                {
-                    // tmpstrの(y+1)文字目を取り出す
-                    string objName = tmpstr.Substring(y, 1);
-
-                    // 文字列からオブジェクトを取り出して生成
-                    Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
-
-                    // プレイヤーをさすオブジェクトのときはスルーする
-                    if (objName == "7")　break;
-                    // オブジェクトをリストに格納
-                    else yAxisObjList.Add(nameToObject[objName]);
-
-                }
-
-                // y軸にとったオブジェクトのリストをリストに格納
-                zAxisObjList.Add(yAxisObjList);
-            }
-
-            // y-z平面のリストをリストに格納
-            allBlocksObj.Add(zAxisObjList);
+            ZAxisGenerate(x);
         }
 
         // マップ生成完了フラグを立てる
         IsMapGenerate = true;
+    }
+
+    private void ZAxisGenerate(int x)
+    {
+        // マップの列数分繰り返し
+        for (int z = 0; z < allBlocksStr[x].Count; z++)
+        {
+            YAxisGenerate(x, z);
+        }
+
+        // y-z平面のリストをリストに格納
+        allBlocksObj.Add(zAxisObjList);
+    }
+
+    private void YAxisGenerate(int x, int z)
+    {
+        // x行z列にあるブロックたちの文字情報
+        string tmpstr = allBlocksStr[x][z];
+
+        // x行z列にあるブロックの数だけ繰り返す
+        for (int y = 0; y < tmpstr.Length; y++)
+        {
+            // tmpstrの(y+1)文字目を取り出す
+            string objName = tmpstr.Substring(y, 1);
+
+            CreateCheckPattarn(x, y, z, objName);
+
+            // プレイヤーをさすオブジェクトのときはスルーする
+            if (objName == "7") break;
+            // オブジェクトをリストに格納
+            else yAxisObjList.Add(nameToObject[objName]);
+
+        }
+
+        // y軸にとったオブジェクトのリストをリストに格納
+        zAxisObjList.Add(yAxisObjList);
+    }
+
+    private void CreateCheckPattarn(int x, int y, int z, string objName)
+    {
+        if (y == 0)
+        {
+            GameObject tmpObj;
+
+            int pattarn = (x + z) % 2;
+
+            if (pattarn == 0)
+            {
+                if (objName == "1")
+                {
+                    // 文字列からオブジェクトを取り出して生成
+                    tmpObj = Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
+                    tmpObj.GetComponent<Renderer>().material = groundMaterial[0];
+                }
+                else
+                {
+                    // 文字列からオブジェクトを取り出して生成
+                    tmpObj = Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
+                    tmpObj.GetComponent<Renderer>().material = pitFallMaterial[0];
+                }
+            }
+            if (pattarn != 0)
+            {
+                if (objName == "1")
+                {
+                    // 文字列からオブジェクトを取り出して生成
+                    tmpObj = Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
+                    tmpObj.GetComponent<Renderer>().material = groundMaterial[1];
+                }
+                else
+                {
+                    // 文字列からオブジェクトを取り出して生成
+                    tmpObj = Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
+                    tmpObj.GetComponent<Renderer>().material = pitFallMaterial[1];
+                }
+            }
+        }
+        else
+        {
+            Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
+        }
     }
 }

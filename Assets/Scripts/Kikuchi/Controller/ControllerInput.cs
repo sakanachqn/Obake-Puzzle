@@ -565,6 +565,15 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Start"",
+                    ""type"": ""Button"",
+                    ""id"": ""57a894d1-219f-4fec-ba91-06ffa3c34697"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -587,6 +596,17 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SelectMap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b8136c0b-c6a3-4276-9f2f-b0262432aa67"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Start"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -689,6 +709,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         m_TitleGimmick = asset.FindActionMap("TitleGimmick", throwIfNotFound: true);
         m_TitleGimmick_Obake = m_TitleGimmick.FindAction("Obake", throwIfNotFound: true);
         m_TitleGimmick_SelectMap = m_TitleGimmick.FindAction("SelectMap", throwIfNotFound: true);
+        m_TitleGimmick_Start = m_TitleGimmick.FindAction("Start", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_OpenMenu = m_Menu.FindAction("OpenMenu", throwIfNotFound: true);
@@ -1021,12 +1042,14 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
     private List<ITitleGimmickActions> m_TitleGimmickActionsCallbackInterfaces = new List<ITitleGimmickActions>();
     private readonly InputAction m_TitleGimmick_Obake;
     private readonly InputAction m_TitleGimmick_SelectMap;
+    private readonly InputAction m_TitleGimmick_Start;
     public struct TitleGimmickActions
     {
         private @ControllerInput m_Wrapper;
         public TitleGimmickActions(@ControllerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Obake => m_Wrapper.m_TitleGimmick_Obake;
         public InputAction @SelectMap => m_Wrapper.m_TitleGimmick_SelectMap;
+        public InputAction @Start => m_Wrapper.m_TitleGimmick_Start;
         public InputActionMap Get() { return m_Wrapper.m_TitleGimmick; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1042,6 +1065,9 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @SelectMap.started += instance.OnSelectMap;
             @SelectMap.performed += instance.OnSelectMap;
             @SelectMap.canceled += instance.OnSelectMap;
+            @Start.started += instance.OnStart;
+            @Start.performed += instance.OnStart;
+            @Start.canceled += instance.OnStart;
         }
 
         private void UnregisterCallbacks(ITitleGimmickActions instance)
@@ -1052,6 +1078,9 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @SelectMap.started -= instance.OnSelectMap;
             @SelectMap.performed -= instance.OnSelectMap;
             @SelectMap.canceled -= instance.OnSelectMap;
+            @Start.started -= instance.OnStart;
+            @Start.performed -= instance.OnStart;
+            @Start.canceled -= instance.OnStart;
         }
 
         public void RemoveCallbacks(ITitleGimmickActions instance)
@@ -1161,6 +1190,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
     {
         void OnObake(InputAction.CallbackContext context);
         void OnSelectMap(InputAction.CallbackContext context);
+        void OnStart(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

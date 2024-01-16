@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2708745252650239797}
   - component: {fileID: -5380740168304905565}
   - component: {fileID: -1266977059138993878}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SkillAreaFade
   m_TagString: clone
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeTime: 1
-  underAlpha: 0.3
+  underAlpha: 0.8
 --- !u!54 &-1266977059138993878
 Rigidbody:
   m_ObjectHideFlags: 0
