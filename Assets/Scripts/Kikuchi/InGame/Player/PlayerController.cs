@@ -76,6 +76,8 @@ public class PlayerController : MonoBehaviour
         playerRotate.PlayerRotateStart(rotateTime);
         playerMove.PlayerMoveStart();
         skillManager.SkillManagerStart();
+
+        ObakeAnimation.Inctance.IdleAnimation();
         isStartMethodEnd = true;
     }
 
@@ -85,6 +87,7 @@ public class PlayerController : MonoBehaviour
         if (IsNowAction) return;
         ControllerManager.instance.ControllerUpdate();
         playerMove.PLMoveUpdate(moveTime);
+        playerMove.PLRotUpdate(moveTime);
         skillManager.SkillManagerUpdate();
     }
 

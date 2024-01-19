@@ -205,9 +205,9 @@ public class SkillAreaDisplay : MonoBehaviour
 
         Vector3 rayPos;
 
-        Vector3 firstRayPos = new Vector3(this.transform.position.x + direcDic[ControllerManager.instance.stickPlayerDirection].x,
+        Vector3 firstRayPos = new Vector3(this.transform.position.x + direcDic[ControllerManager.instance.dPadDirection].x,
                                    5,
-                                   this.transform.position.z + direcDic[ControllerManager.instance.stickPlayerDirection].z);
+                                   this.transform.position.z + direcDic[ControllerManager.instance.dPadDirection].z);
 
         var testvar = new Vector3(0, -10, 0);
 
@@ -218,9 +218,9 @@ public class SkillAreaDisplay : MonoBehaviour
         }
         else
         {
-            rayPos = new Vector3(posObj.transform.position.x + direcDic[ControllerManager.instance.stickPlayerDirection].x,
+            rayPos = new Vector3(posObj.transform.position.x + direcDic[ControllerManager.instance.dPadDirection].x,
                       5,
-                      posObj.transform.position.z + direcDic[ControllerManager.instance.stickPlayerDirection].z);
+                      posObj.transform.position.z + direcDic[ControllerManager.instance.dPadDirection].z);
         }
 
         Debug.DrawRay(rayPos, testvar, Color.cyan, Mathf.Infinity);

@@ -18,8 +18,14 @@ public class SkillManager : MonoBehaviour
     // スキル範囲表示
     private SkillAreaDisplay skillArea;
 
+
+    [SerializeField]
+    public GameObject suctionObj;
+
     // 現在スキルが発動中かどうかのフラグ
     public static bool IsNowSkill = false;
+    public static bool isNowSuction = false;
+    public static bool IsNowEffect = false;
 
     // 現在スキル発動位置選択中かどうか
     public bool isPosSelectNow = false;
@@ -27,6 +33,14 @@ public class SkillManager : MonoBehaviour
     // 各スキルのクラスを用意
     private Skill currentSkillA;
     private Skill currentSkillB;
+    private SkillSuction currentSkillC;
+    public SkillSuction CurrentSkillC => currentSkillC;
+
+
+    [SerializeField]
+    private skillType skillOneType;
+    [SerializeField]
+    private skillType skillTwoType;
 
     
 
@@ -35,13 +49,20 @@ public class SkillManager : MonoBehaviour
     {
         skillA,
         skillB,
+        skillC,
         Null
     };
+
     // 押されたボタンの種類判別用
     private skillType selectSkill = skillType.Null;
 
     public void SkillManagerStart()
     {
+        IsNowSkill = false;
+        isNowSuction = false;
+        IsNowEffect = false;
+        suctionObj = null;
+
         // コントローラーマネージャーの取得
         ctrl = ControllerManager.instance;
         // プレイヤーコントローラーの取得
@@ -51,8 +72,11 @@ public class SkillManager : MonoBehaviour
         // 各スキルクラスを変数に格納
         currentSkillA = new SkillWater(skillArea, this);
         currentSkillB = new SkillFire(skillArea, this);
+        currentSkillC = new SkillSuction(skillArea, this);
 
-
+        skillOneType = skillType.skillA;
+        skillTwoType = skillType.skillB;
+        
     }
 
 
@@ -63,8 +87,19 @@ public class SkillManager : MonoBehaviour
             if(!IsNowSkill)
             {
                 IsNowSkill = true;
-                skillArea.ShowSkillArea();
-                selectSkill = skillType.skillA;
+                switch(skillOneType)
+                {
+                    case skillType.skillA:
+                        skillArea.ShowSkillArea();
+                        break;
+                    case skillType.skillB:
+                        skillArea.ShowSkillArea(true);
+                        break;
+                    case skillType.skillC:
+                        currentSkillC.SkillActivate();
+                        break;
+                }
+                selectSkill = skillOneType;
             }
         }
         if (ctrl.CtrlInput.Skill.SkillB.WasPressedThisFrame())
@@ -72,8 +107,19 @@ public class SkillManager : MonoBehaviour
             if (!IsNowSkill)
             {
                 IsNowSkill = true;
-                skillArea.ShowSkillArea(true);
-                selectSkill = skillType.skillB;
+                switch (skillTwoType)
+                {
+                    case skillType.skillA:
+                        skillArea.ShowSkillArea();
+                        break;
+                    case skillType.skillB:
+                        skillArea.ShowSkillArea(true);
+                        break;
+                    case skillType.skillC:
+                        currentSkillC.SkillActivate();
+                        break;
+                }
+                selectSkill = skillTwoType;
             }
         }
         if (IsNowSkill)
@@ -90,21 +136,20 @@ public class SkillManager : MonoBehaviour
         if (skillArea.areaViewNow)
         {
             if (ctrl.CtrlInput.Skill.Cancel.WasPressedThisFrame()) skillArea.HideSkillArea();
-            // コントローラーマネージャーのstickSkillDirectionがNullでない場合
-            if (ControllerManager.instance.stickPlayerDirection != ControllerManager.Direction.Null && !isPosSelectNow)
+            // コントローラーマネージャーのdPadSkillDirectionがNullでない場合
+            if (ControllerManager.instance.dPadDirection != ControllerManager.Direction.Null && !isPosSelectNow)
             {
                 skillArea.GetSkillPos();
             }
             if(ctrl.CtrlInput.Skill.Select.WasPressedThisFrame() && selectSkill == skillType.skillA)
             {
                 currentSkillA.SkillActivate();
-                SoundManager.Instance.Play("SEWater");
             }
             if (ctrl.CtrlInput.Skill.Select.WasPressedThisFrame() && selectSkill == skillType.skillB)
             {
                 currentSkillB.SkillActivate();
-                SoundManager.Instance.Play("SEFire");
             }
+
         }
     }
 

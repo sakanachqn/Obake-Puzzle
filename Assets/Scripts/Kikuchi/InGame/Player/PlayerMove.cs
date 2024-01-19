@@ -9,6 +9,8 @@ using DG.Tweening;
 public class PlayerMove : MonoBehaviour
 {
 
+    private PlayerController plCon;
+
     private ControllerManager ctrlManager;
     [SerializeField]
     private Material material;
@@ -16,6 +18,14 @@ public class PlayerMove : MonoBehaviour
     private Color testColor;
 
     private bool isGoal = false;
+
+    public bool isWalkCount = false;
+    private int walkCount = 0;
+    public int WalkCount
+    {
+        get { return walkCount; }
+        set { walkCount = value; }
+    }
     
     /// <summary>
     /// enumに対応したvec3を保存する変数
@@ -37,8 +47,9 @@ public class PlayerMove : MonoBehaviour
     public void PlayerMoveStart()
     {
         ctrlManager = ControllerManager.instance;
-        material = GetComponent<MeshRenderer>().material;
+        material = GetComponent<SkinnedMeshRenderer>().material;
         testColor = material.color;
+        plCon = GetComponent<PlayerController>();
     }
 
 
@@ -47,17 +58,39 @@ public class PlayerMove : MonoBehaviour
         await MoveTask(this.GetCancellationTokenOnDestroy(), speed);
     }
 
+    public async void PLRotUpdate(float speed)
+    {
+        await RotTask(this.GetCancellationTokenOnDestroy(), speed);
+    }
+
     /// <summary>
     /// 移動コルーチン
     /// </summary>
     public async UniTask MoveTask(CancellationToken token, float speed)
     {
         //移動中or回転中は早期リターン
-        if (PlayerController.IsNowAction || SkillManager.IsNowSkill) return;
+        if (PlayerController.IsNowAction || SkillManager.IsNowSkill || SkillManager.isNowSuction) return;
 
         if (ctrlManager.stickPlayerDirection != ControllerManager.Direction.Null && !PlayerController.IsNowAction)
         {
             await MoveMethod(token, speed);
+        }
+    }
+
+    private async UniTask RotTask(CancellationToken token, float speed)
+    {
+        if (PlayerController.IsNowAction || SkillManager.IsNowEffect) return;
+        
+
+        if (ctrlManager.dPadDirection != ControllerManager.Direction.Null && !PlayerController.IsNowAction)
+        {
+            await RotateDirection(directions[ctrlManager.dPadDirection], speed);
+            
+            if (SkillManager.isNowSuction)
+            {
+                plCon.SkillManager.CurrentSkillC.ReverseObject();
+                isWalkCount = false;
+            }
         }
     }
 
@@ -76,10 +109,21 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        await RotateDirection(targetDirection, speed);
-
-        await UniTask.Delay(TimeSpan.FromSeconds(1));
-        await this.transform.DOMove(targetPos, speed).SetEase(Ease.Linear);
+        ObakeAnimation.Inctance.WalkAnimation(true);
+        await RotateDirection(directions[ctrlManager.stickPlayerDirection], speed);
+        await this.transform.root.transform.DOMove(targetPos, speed);
+        ObakeAnimation.Inctance.WalkAnimation(false);
+        if (isWalkCount)
+        {
+            walkCount++;
+            Debug.Log(walkCount);
+        }
+        if(walkCount == 2)
+        {
+            Debug.Log("in");
+            plCon.SkillManager.CurrentSkillC.ReverseObject();
+            isWalkCount = false;
+        }
         PlayerController.IsNowAction = false; //移動しきったらフラグoff
         if (isGoal) await SceneFade.instance.SceneChange("ResScene");
     }
@@ -129,6 +173,6 @@ public class PlayerMove : MonoBehaviour
     private async UniTask RotateDirection(Vector3 direction, float speed)
     {
         var targetRotation = Quaternion.LookRotation(direction);
-        await this.transform.DORotateQuaternion(targetRotation, speed).SetEase(Ease.Linear);
+        await this.transform.root.transform.DORotateQuaternion(targetRotation, speed);
     }
 }
