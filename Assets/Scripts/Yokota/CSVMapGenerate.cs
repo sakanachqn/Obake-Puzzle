@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CSVMapGenerate : MonoBehaviour
 {
@@ -22,6 +23,12 @@ public class CSVMapGenerate : MonoBehaviour
 
     // マップ生成完了フラグ
     public static bool IsMapGenerate = false;
+
+    // ResourcesからCSVを読み込むのに必要
+    private TextAsset csvFile;
+
+    // 読み込んだCSVファイルをカンマ区切りで格納するList
+    private List<string[]> csvDatas = new List<string[]>();
 
     /*
     allBlocksObjについて
@@ -55,6 +62,11 @@ public class CSVMapGenerate : MonoBehaviour
         MapGenerate();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Space)) { Regenerate(); }
+    }
+
     /// <summary>
     /// Dictionaryにオブジェクトとその名前を登録
     /// </summary>
@@ -76,10 +88,6 @@ public class CSVMapGenerate : MonoBehaviour
     {   
         // 一時入力用の文字列
         string str;
-        // ResourcesからCSVを読み込むのに必要
-        TextAsset csvFile;
-        // 読み込んだCSVファイルをカンマ区切りで格納するList
-        List<string[]> csvDatas = new List<string[]>();
 
         // CSVファイルの行数
         int height = 0;
@@ -216,5 +224,29 @@ public class CSVMapGenerate : MonoBehaviour
         {
             Instantiate(nameToObject[objName], new Vector3(x, y, z), Quaternion.identity);
         }
+    }
+
+    public async void Regenerate()
+    {
+        SceneManager.sceneLoaded += GameSceneLoaded;
+        SoundManager.Instance.Play("Select");
+        await SceneFade.instance.SceneChange("GameScene");
+    }
+
+    /// <summary>
+    /// ゲームシーンへ遷移するときに今何番目のステージを選択したか知らせる関数
+    /// </summary>
+    /// <param name="scene"></param>
+    /// <param name="mode"></param>
+    private void GameSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // マップを生成するスクリプトを探す
+        var mapGenerater = GameObject.FindWithTag("MapGenerater").GetComponent<CSVMapGenerate>();
+
+        // 読み込むステージの番号を書き換える
+        mapGenerater.LoadStageNum = LoadStageNum;
+
+        // この処理を削除する
+        SceneManager.sceneLoaded -= GameSceneLoaded;
     }
 }
