@@ -59,6 +59,7 @@ public class MapObjectUtil : MonoBehaviour
     private async void DropObject()
     {
         isDropNow = true;
+        if(this.gameObject.transform.position.y - 1 == 0) this.transform.DOScale(new Vector3(0.9f, 0.9f, 0.9f), 1);
         await this.transform.DOMove(this.transform.position + Vector3.down, 1);
         if (Physics.Raycast(this.transform.position, Vector3.down, out var hit, 1))
         {

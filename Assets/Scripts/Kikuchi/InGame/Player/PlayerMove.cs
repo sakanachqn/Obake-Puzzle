@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -18,6 +19,12 @@ public class PlayerMove : MonoBehaviour
     private Color testColor;
 
     private bool isGoal = false;
+    [SerializeField]
+    private int fadeInTime = 3;
+
+    private GameObject parentCanv;
+    private GameObject goalImg;
+    private GameObject goalBG;
 
     public bool isWalkCount = false;
     private int walkCount = 0;
@@ -50,6 +57,11 @@ public class PlayerMove : MonoBehaviour
         material = GetComponent<SkinnedMeshRenderer>().material;
         testColor = material.color;
         plCon = GetComponent<PlayerController>();
+        parentCanv = GameObject.Find("UICanvas");
+        goalImg = parentCanv.transform.Find("res").gameObject;
+        goalImg.SetActive(false);
+        goalBG = parentCanv.transform.Find("bg").gameObject;
+        goalBG.SetActive(false);
     }
 
 
@@ -125,7 +137,10 @@ public class PlayerMove : MonoBehaviour
             isWalkCount = false;
         }
         PlayerController.IsNowAction = false; //移動しきったらフラグoff
-        if (isGoal) await SceneFade.instance.SceneChange("ResScene");
+        if (isGoal)
+        {
+            await GoalCoroutine(this.GetCancellationTokenOnDestroy());
+        }
     }
 
 
@@ -175,4 +190,24 @@ public class PlayerMove : MonoBehaviour
         var targetRotation = Quaternion.LookRotation(direction);
         await this.transform.root.transform.DORotateQuaternion(targetRotation, speed);
     }
+
+    private async UniTask GoalCoroutine(CancellationToken ct)
+    {
+        var bg = goalBG.GetComponent<Image>();
+        goalBG.SetActive(true);
+        await bg.DOFade(0.8f, 1);
+        goalImg.SetActive(true);
+        var img = goalImg.GetComponent<RectTransform>();
+        await img.DOAnchorPosY(-20, fadeInTime);
+        await UniTask.Delay(1000);
+        goalImg.transform.Find("time").gameObject.SetActive(true);
+        await UniTask.Delay(1000);
+        goalImg.transform.Find("walk").gameObject.SetActive(true);
+        await UniTask.Delay(1500);
+        goalImg.transform.Find("rank").gameObject.SetActive(true);
+        await UniTask.Delay(2000);
+        await SceneFade.instance.SceneChange("ResScene");
+
+    }
+
 }
