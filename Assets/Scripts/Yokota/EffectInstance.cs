@@ -24,11 +24,14 @@ public class EffectInstance : MonoBehaviour
 
     public void WaterEffect(Vector3 pos, Vector3 dir)
     {
-        waterEffectPrefab = Instantiate(Resources.Load<GameObject>("Effect/prefab/Obake_eff_TMPWater"), pos, Quaternion.identity);
-        effectParticle = waterEffectPrefab.GetComponent<ParticleSystem>();
-        float z = 0;
-        if (dir.x != 0) { z = 90 * dir.x * Mathf.Deg2Rad; }
-        if (dir.z != 0) { z = (90 * dir.z - 90) * Mathf.Deg2Rad; }
-        effectParticle.startRotation3D = new Vector3(0, 0, z);
-    }
+        waterEffectPrefab = Instantiate(Resources.Load<GameObject>
+            ("Effect/obake_water/prehab/Water_effect"),
+            pos,
+            Quaternion.identity);
+
+        float y = 0;
+        if (dir.x != 0) { y = 90 * dir.x; }
+        if (dir.z != 0) { y = 90 * dir.z - 90; }
+        waterEffectPrefab.transform.rotation = Quaternion.Euler(0, y, -80);
+        }
 }
