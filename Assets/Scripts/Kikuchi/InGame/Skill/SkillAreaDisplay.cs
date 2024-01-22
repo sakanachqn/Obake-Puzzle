@@ -10,9 +10,15 @@ public class SkillAreaDisplay : MonoBehaviour
 
     // スキル発動時の範囲を示すTransform
     [SerializeField] private Transform fireArea;
+    
+    // スキル発動時の範囲を示すTransform
+    [SerializeField] private Transform miniArea;
 
     // スキル範囲のTransformリスト
     private List<Transform> fireSkillArea = new List<Transform>();
+
+    // スキル範囲のTransformリスト
+    private List<Transform> miniSkillArea = new List<Transform>();
 
     // スキル範囲のオブジェクトとそのマテリアルの辞書
     private Dictionary<GameObject, Material> hitArea = new Dictionary<GameObject, Material>();
@@ -45,6 +51,8 @@ public class SkillAreaDisplay : MonoBehaviour
     public GameObject posObj = null;
     private GameObject parent = null;
 
+    private int cloneLayer = ~7;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +62,12 @@ public class SkillAreaDisplay : MonoBehaviour
         for (int i = 0; i < index; i++)
         {
             fireSkillArea.Add(fireArea.GetChild(i));
+        }
+
+        index = miniArea.childCount;
+        for(int i = 0; i < index; i++)
+        {
+            miniSkillArea.Add(miniArea.GetChild(i));
         }
     }
 
@@ -97,31 +111,41 @@ public class SkillAreaDisplay : MonoBehaviour
         }
         else
         {
-            Vector3 currentPos = this.transform.position;
-
-            Vector3[] directions = { Vector3.forward, Vector3.back, Vector3.left, Vector3.right };
-
-            foreach(Vector3 direction in directions)
+            foreach (Transform t in miniSkillArea)
             {
-                if (Physics.Raycast(currentPos, direction, out var hit, 1))
+                // スキル範囲の下にRayを飛ばして、地面にヒットしたらスキル範囲を表示
+                if (Physics.Raycast(t.position, Vector3.down, out var hit, 100))
                 {
-                    hitObj.Add(hit.collider.gameObject);
-                    hit.collider.gameObject.SetActive(false);
-                    createArea(direction + this.transform.position);
-                }
-                else
-                {
-                    createArea(direction + this.transform.position);
+                    // "Pitfall"タグのオブジェクトにヒットした場合はスキップ
+                    if (hit.collider.tag == "Pitfall")
+                        return;
+
+                    // オブジェクトにヒットした場合、スキル範囲を生成
+                    if (hit.transform.position.y != 0)
+                    {
+                        hitObj.Add(hit.collider.gameObject);
+                        hit.collider.gameObject.SetActive(false);
+                        Vector3 pos = hit.transform.position;
+                        createArea(pos);
+                    }
+
+                    // 地面にヒットした場合、上にずらして生成
+                    if (hit.transform.position.y == 0)
+                    {
+                        Vector3 pos = hit.transform.position;
+                        pos.y += 1;
+                        createArea(pos);
+                    }
                 }
             }
         }
 
         areaViewNow = true;
-        // スキル発動位置のオブジェクトを生成
-        if (posObj == null)
-        {
-            posObj = Instantiate(skillPosPrefab, this.transform.position + Vector3.right , Quaternion.identity);
-        }
+        //// スキル発動位置のオブジェクトを生成
+        //if (posObj == null)
+        //{
+        //    posObj = Instantiate(skillPosPrefab, this.transform.position + Vector3.right , Quaternion.identity);
+        //}
     }
 
     private void createArea(Vector3 pos)
@@ -130,7 +154,7 @@ public class SkillAreaDisplay : MonoBehaviour
         var tempMat = temp.GetComponent<MeshRenderer>();
         hitArea.Add(temp, mat);
         tempMat.material = changeMat;
-        tempMat.material.DOFade(underAlpha, fadeTime).SetLoops(-1, LoopType.Yoyo);
+        temp.GetComponent<AreaColorFade>().ColorFade();
     }
 
     /// <summary>
@@ -168,59 +192,60 @@ public class SkillAreaDisplay : MonoBehaviour
         smg.ctrl.CtrlInput.Player.Move.Enable();
     }
 
-    
 
-    ///// <summary>
-    ///// 移動先にobjectがあるか確認するメソッド
-    ///// </summary>
-    ///// <param name="targetDirec">スティックの方角</param>
-    ///// <returns>移動先にobjがあったらtrue</returns>
-    //public bool CheckObject(Vector3 startPos, Vector3 targetDirec, out string name)
-    //{
-    //    //移動したい方向にrayを飛ばしてオブジェクトがあるか確認
-    //    if (Physics.Raycast(startPos, targetDirec, out var hitObj, 1))
-    //    {
-    //        if (hitObj.collider.tag == "Pitfall")
-    //        {
-    //            name = null;
-    //            return false;
-    //        }
-    //        else if (hitObj.collider.tag == "clone")
-    //        {
-    //            name = null;
-    //            return true;
-    //        }
-    //        else if (hitObj.collider.tag == "Player")
-    //        {
-    //            name = hitObj.collider.tag;
-    //            return true;
-    //        }
-    //        else
-    //        {
-    //            name = null;
-    //            return false;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        name = null;
-    //        return false;
-    //    }
-    //}
+    /// <summary>
+    /// スキル発動位置を取得する非同期メソッド
+    /// </summary>
+    /// <returns></returns>
+    public async void GetSkillPos()
+    {
+        smg.isPosSelectNow = true;
 
-    ///// <summary>
-    ///// マップ外かどうかのチェック
-    ///// </summary>
-    ///// <param name="targetDirec">スティックの方角</param>
-    ///// <returns>オブジェクトがなかったらfalse</returns>
-    //public bool CheckOffMap(Vector3 targetDirec)
-    //{
-    //    Vector3 startPos = posObj.transform.position + targetDirec;
-    //    //移動先から真下にray飛ばして地面があるか確認
-    //    if (CheckObject(startPos, Vector3.down, out var name))
-    //    {
-    //        return true;
-    //    }
-    //    else return false; ;
-    //}
+        var direcDic = smg.plCon.plMove.Directions;
+
+        Vector3 rayPos;
+
+        Vector3 firstRayPos = new Vector3(this.transform.position.x + direcDic[ControllerManager.instance.stickPlayerDirection].x,
+                                   5,
+                                   this.transform.position.z + direcDic[ControllerManager.instance.stickPlayerDirection].z);
+
+        var testvar = new Vector3(0, -10, 0);
+
+        if(posObj == null)
+        {
+            rayPos = firstRayPos;
+
+        }
+        else
+        {
+            rayPos = new Vector3(posObj.transform.position.x + direcDic[ControllerManager.instance.stickPlayerDirection].x,
+                      5,
+                      posObj.transform.position.z + direcDic[ControllerManager.instance.stickPlayerDirection].z);
+        }
+
+        Debug.DrawRay(rayPos, testvar, Color.cyan, Mathf.Infinity);
+
+
+        if (Physics.Raycast(rayPos, Vector3.down, out var hit, 10, cloneLayer))
+        {
+            if (posObj == null) posObj = Instantiate(skillPosPrefab, this.transform.position, Quaternion.identity);
+            Debug.Log(hit.collider.name);
+            if (hit.collider.tag == "clone")
+            {
+                posObj.transform.position = hit.collider.transform.position;
+            }
+        }
+        else
+        {
+            if (Physics.Raycast(firstRayPos, Vector3.down, out var hitA, 10, cloneLayer))
+            {
+                Debug.DrawRay(firstRayPos, testvar, Color.red, Mathf.Infinity);
+                posObj.transform.position = hitA.collider.transform.position;
+            }
+        }
+
+        await UniTask.Delay(250);
+        smg.isPosSelectNow = false;
+    }
+
 }

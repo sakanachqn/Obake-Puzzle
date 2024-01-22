@@ -14,6 +14,8 @@ public class AreaColorFade : MonoBehaviour
     private Color red = new Color(1f, 0, 0, 0.9f);
     private Color col;
 
+    Tweener tweener;
+
     private void Start()
     {
         mat = GetComponent<MeshRenderer>().material;
@@ -22,22 +24,24 @@ public class AreaColorFade : MonoBehaviour
     }
     public void ColorFade()
     {
-        mat.DOFade(0.6f, fadeTime).SetLoops(-1, LoopType.Yoyo);
+        tweener = mat.DOFade(0.6f, fadeTime).SetLoops(-1, LoopType.Yoyo);
     }
 
 
     private void OnTriggerEnter(Collider other)
     {
+        
         if (other.gameObject.tag == "SkillPos")
         {
+            tweener.Pause();
             this.mat.color = red;
         }
-
     }
 
     private void OnTriggerExit(Collider other)
     {
         this.mat.color = col;
+        tweener.Play();
     }
 
 
