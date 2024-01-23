@@ -28,10 +28,12 @@ public class SkillWater : Skill
             var objBack = hit.transform.position + direc;
             if (0 > objBack.x || 0 > objBack.z || 4 < objBack.x || 4 < objBack.z) return;
             if (Physics.Raycast(hit.transform.position, direc, out var hitTwo, 1)) return;
-            ObakeAnimation.Inctance.WaterAnimation();
             effectInstance.WaterEffect(sad.gameObject.transform.position, direc);
+            await UniTask.Delay(500);
+            ObakeAnimation.Inctance.WaterAnimation();
+            await UniTask.Delay(1000);
             await hit.transform.DOMove(hit.transform.position + direc, 1);
-            await UniTask.Delay(2000);
+            await UniTask.Delay(1000);
             SkillManager.IsNowEffect = false;
             //if (Physics.Raycast(hit.transform.position, Vector3.down, out var tile, 1))
             //{
