@@ -13,6 +13,8 @@ public class StageImageView : MonoBehaviour
     private float timeLine = 0f;
 
     private Image image;
+    [SerializeField]
+    private Image childImage;
 
     private Vector3 initialPos;
 
@@ -31,6 +33,8 @@ public class StageImageView : MonoBehaviour
         // カーソルがあっているとき
         if (matchCursor)
         {
+            childImage.gameObject.SetActive(true);
+
             // タイムラインを進める
             timeLine += Time.deltaTime;
             
@@ -47,6 +51,8 @@ public class StageImageView : MonoBehaviour
         // カーソルがあっていないとき
         else
         {
+            childImage.gameObject.SetActive(false);
+
             // タイムラインを初期化
             timeLine = 0f;
 
