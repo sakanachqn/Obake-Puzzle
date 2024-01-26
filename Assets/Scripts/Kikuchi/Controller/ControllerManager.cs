@@ -7,7 +7,23 @@ using UnityEngine;
 /// </summary>
 public class ControllerManager : MonoBehaviour
 {
-    public static ControllerManager instance;
+    private static ControllerManager _instance;
+    public static ControllerManager instance
+    {
+        get {
+            if (_instance == null)
+            {
+                _instance = FindAnyObjectByType<ControllerManager>();
+
+                if (_instance == null)
+                {
+                    var obj = new GameObject("ControllerManager");
+                    _instance = obj.AddComponent<ControllerManager>();
+                }
+            }
+            return _instance; 
+        }
+    }
 
     //スティックの傾き保存用変数
     private Vector2 stickInclination = Vector2.zero;
@@ -53,7 +69,7 @@ public class ControllerManager : MonoBehaviour
     {
         if (instance == null)
         {
-            instance = this;
+            _instance = this;
         }
         else Destroy(this.gameObject);
         if(CtrlInput == null)

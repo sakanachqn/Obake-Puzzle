@@ -12,6 +12,8 @@ public class TimeCount : MonoBehaviour
     private float countdownSeconds;
     private TMP_Text timeText;
 
+    private bool gameguard = false;
+
     void Start()
     {
         timeText = GetComponent<TMP_Text>();
@@ -21,12 +23,14 @@ public class TimeCount : MonoBehaviour
     
     void Update()
     {
+        if (gameguard) return;
+
         countdownSeconds -= Time.deltaTime;
        TimeSpan timeSpan = TimeSpan.FromSeconds(countdownSeconds);
         timeText.text = timeSpan.ToString(@"mm\:ss");
         if(countdownSeconds <= 0)//0秒になったときの処理
         {
-            //ゲームオーバーの処理
+           gameguard = true;
         }
     }
 }

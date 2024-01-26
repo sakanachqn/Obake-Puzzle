@@ -640,6 +640,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MenuSelect",
+                    "type": "Value",
+                    "id": "43817d42-5d09-4e26-9737-1bb3cbc44b7f",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -673,6 +682,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "PushBBotton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "42ef27d2-e9d2-4b39-95b8-2bbfefa86ab1",
+                    "path": "<Gamepad>/dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MenuSelect",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
