@@ -14,7 +14,7 @@ public class StageSelectView : MonoBehaviour
     private Image prefabImage;
 
     [SerializeField]
-    private Image Board;
+    private Canvas canvas;
 
     // ステージ数
     [SerializeField]
@@ -61,7 +61,7 @@ public class StageSelectView : MonoBehaviour
         {
             stageImages[i] = Instantiate(prefabImage);
             stageImageViews[i] = stageImages[i].GetComponent<StageImageView>();
-            stageImages[i].transform.SetParent(Board.transform, false);
+            stageImages[i].transform.SetParent(canvas.transform, false);
             stageImages[i].rectTransform.position
                 += nameToVector3[(positionName)i];
             stageImages[i].sprite = stageSprites[i + 1];

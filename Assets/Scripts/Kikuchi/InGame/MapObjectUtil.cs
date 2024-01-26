@@ -40,7 +40,7 @@ public class MapObjectUtil : MonoBehaviour
         }
         else isMoveNow = false;
 
-        if(!SkillManager.IsNowSkill && !PlayerController.IsNowAction && !isDropNow && !isMoveNow)
+        if(!isDropNow && !isMoveNow)
         {
             if(Physics.Raycast(this.transform.position, Vector3.down, out var hit, 1))
             {
@@ -59,7 +59,9 @@ public class MapObjectUtil : MonoBehaviour
     private async void DropObject()
     {
         isDropNow = true;
+        if (this.gameObject.transform.position.y - 1 == 0) this.transform.DOScale(new Vector3(0.9f, 0.9f, 0.9f), 1);
         await this.transform.DOMove(this.transform.position + Vector3.down, 1);
+        if (this.gameObject.transform.position.y == 0) WoodDestroyCheck();
         if (Physics.Raycast(this.transform.position, Vector3.down, out var hit, 1))
         {
             if (hit.collider.tag == "ironBox" || hit.collider.tag == "WoodenBox" || hit.collider.tag == "MapTile")
@@ -69,9 +71,13 @@ public class MapObjectUtil : MonoBehaviour
         }
     }
 
-    //private void OnDestroy()
-    //{
-    //    if(OnBottom.GetComponent<MapObjectUtil>() != null) OnBottom.GetComponent<MapObjectUtil>().OnTop = null;
-    //}
+    private void WoodDestroyCheck()
+    { 
+        if(this.gameObject.tag == "WoodenBox")
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
 
 }

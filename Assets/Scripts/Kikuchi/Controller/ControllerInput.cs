@@ -53,6 +53,15 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rot"",
+                    ""type"": ""Value"",
+                    ""id"": ""e2f94538-6d44-45aa-9cbd-a81daf2f8cc6"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -141,6 +150,17 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6abbbb35-f9ac-4db5-ad7a-202504fdc3e4"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -708,6 +728,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
         m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
+        m_Player_Rot = m_Player.FindAction("Rot", throwIfNotFound: true);
         // Rotate
         m_Rotate = asset.FindActionMap("Rotate", throwIfNotFound: true);
         m_Rotate_CamR = m_Rotate.FindAction("CamR", throwIfNotFound: true);
@@ -800,6 +821,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Select;
     private readonly InputAction m_Player_Cancel;
+    private readonly InputAction m_Player_Rot;
     public struct PlayerActions
     {
         private @ControllerInput m_Wrapper;
@@ -807,6 +829,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Select => m_Wrapper.m_Player_Select;
         public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
+        public InputAction @Rot => m_Wrapper.m_Player_Rot;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -825,6 +848,9 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @Cancel.started += instance.OnCancel;
             @Cancel.performed += instance.OnCancel;
             @Cancel.canceled += instance.OnCancel;
+            @Rot.started += instance.OnRot;
+            @Rot.performed += instance.OnRot;
+            @Rot.canceled += instance.OnRot;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -838,6 +864,9 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @Cancel.started -= instance.OnCancel;
             @Cancel.performed -= instance.OnCancel;
             @Cancel.canceled -= instance.OnCancel;
+            @Rot.started -= instance.OnRot;
+            @Rot.performed -= instance.OnRot;
+            @Rot.canceled -= instance.OnRot;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1194,6 +1223,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+        void OnRot(InputAction.CallbackContext context);
     }
     public interface IRotateActions
     {

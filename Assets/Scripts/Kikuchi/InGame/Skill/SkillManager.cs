@@ -18,28 +18,51 @@ public class SkillManager : MonoBehaviour
     // スキル範囲表示
     private SkillAreaDisplay skillArea;
 
+
+    [SerializeField]
+    public GameObject suctionObj;
+
     // 現在スキルが発動中かどうかのフラグ
     public static bool IsNowSkill = false;
+    public static bool isNowSuction = false;
+    public static bool IsNowEffect = false;
 
     // 現在スキル発動位置選択中かどうか
-    private bool isPosSelectNow = false;
+    public bool isPosSelectNow = false;
 
     // 各スキルのクラスを用意
     private Skill currentSkillA;
     private Skill currentSkillB;
+    private SkillSuction currentSkillC;
+    public SkillSuction CurrentSkillC => currentSkillC;
+
+
+    [SerializeField]
+    private skillType skillOneType;
+    [SerializeField]
+    private skillType skillTwoType;
+
+    
 
     // スキルのタイプ
     private enum skillType
     {
         skillA,
         skillB,
+        skillC,
         Null
     };
+
     // 押されたボタンの種類判別用
     private skillType selectSkill = skillType.Null;
 
     public void SkillManagerStart()
     {
+        IsNowSkill = false;
+        isNowSuction = false;
+        IsNowEffect = false;
+        suctionObj = null;
+
         // コントローラーマネージャーの取得
         ctrl = ControllerManager.instance;
         // プレイヤーコントローラーの取得
@@ -49,8 +72,11 @@ public class SkillManager : MonoBehaviour
         // 各スキルクラスを変数に格納
         currentSkillA = new SkillWater(skillArea, this);
         currentSkillB = new SkillFire(skillArea, this);
+        currentSkillC = new SkillSuction(skillArea, this);
 
-
+        skillOneType = skillType.skillA;
+        skillTwoType = skillType.skillB;
+        
     }
 
 
@@ -61,8 +87,19 @@ public class SkillManager : MonoBehaviour
             if(!IsNowSkill)
             {
                 IsNowSkill = true;
-                skillArea.ShowSkillArea();
-                selectSkill = skillType.skillA;
+                switch(skillOneType)
+                {
+                    case skillType.skillA:
+                        skillArea.ShowSkillArea();
+                        break;
+                    case skillType.skillB:
+                        skillArea.ShowSkillArea(true);
+                        break;
+                    case skillType.skillC:
+                        currentSkillC.SkillActivate();
+                        break;
+                }
+                selectSkill = skillOneType;
             }
         }
         if (ctrl.CtrlInput.Skill.SkillB.WasPressedThisFrame())
@@ -70,8 +107,19 @@ public class SkillManager : MonoBehaviour
             if (!IsNowSkill)
             {
                 IsNowSkill = true;
-                skillArea.ShowSkillArea(true);
-                selectSkill = skillType.skillB;
+                switch (skillTwoType)
+                {
+                    case skillType.skillA:
+                        skillArea.ShowSkillArea();
+                        break;
+                    case skillType.skillB:
+                        skillArea.ShowSkillArea(true);
+                        break;
+                    case skillType.skillC:
+                        currentSkillC.SkillActivate();
+                        break;
+                }
+                selectSkill = skillTwoType;
             }
         }
         if (IsNowSkill)
@@ -88,108 +136,24 @@ public class SkillManager : MonoBehaviour
         if (skillArea.areaViewNow)
         {
             if (ctrl.CtrlInput.Skill.Cancel.WasPressedThisFrame()) skillArea.HideSkillArea();
-            // コントローラーマネージャーのstickSkillDirectionがNullでない場合
-            if (ControllerManager.instance.stickPlayerDirection != ControllerManager.Direction.Null && !isPosSelectNow)
+            // コントローラーマネージャーのdPadSkillDirectionがNullでない場合
+            if (ControllerManager.instance.dPadDirection != ControllerManager.Direction.Null && !isPosSelectNow)
             {
-                GetSkillPos();
+                skillArea.GetSkillPos();
             }
             if(ctrl.CtrlInput.Skill.Select.WasPressedThisFrame() && selectSkill == skillType.skillA)
             {
                 currentSkillA.SkillActivate();
-                SoundManager.Instance.Play("SEWater");
             }
             if (ctrl.CtrlInput.Skill.Select.WasPressedThisFrame() && selectSkill == skillType.skillB)
             {
                 currentSkillB.SkillActivate();
-                SoundManager.Instance.Play("SEFire");
             }
+
         }
     }
 
-    /// <summary>
-    /// スキル発動位置を取得する非同期メソッド
-    /// </summary>
-    /// <returns></returns>
-    private async void GetSkillPos()
-    {
-        isPosSelectNow = true;
+    
 
-        var direcDic = plCon.plMove.Directions;
-
-        var pos = skillArea.posObj.transform.position;
-
-        // 方向に応じた処理を実行
-        if(CheckObject(pos, direcDic[ControllerManager.instance.stickPlayerDirection], out string name))
-        {
-            skillArea.posObj.transform.position += direcDic[ControllerManager.instance.stickPlayerDirection];
-            if(name == "Player")
-            {
-                skillArea.posObj.transform.position += direcDic[ControllerManager.instance.stickPlayerDirection];
-            }
-        }
-        else 
-        {
-            if (!CheckOffMap(direcDic[ControllerManager.instance.stickPlayerDirection]))
-            {
-                skillArea.posObj.transform.position = this.transform.position + direcDic[ControllerManager.instance.stickPlayerDirection];
-            }
-        }
-        await UniTask.Delay(250);
-        isPosSelectNow = false;
-    }
-
-    /// <summary>
-    /// 移動先にobjectがあるか確認するメソッド
-    /// </summary>
-    /// <param name="targetDirec">スティックの方角</param>
-    /// <returns>移動先にobjがあったらtrue</returns>
-    private bool CheckObject(Vector3 startPos, Vector3 targetDirec, out string name)
-    {
-        //移動したい方向にrayを飛ばしてオブジェクトがあるか確認
-        if (Physics.Raycast(startPos, targetDirec, out var hitObj, 1))
-        {
-            if (hitObj.collider.tag == "Pitfall")
-            {
-                name = null;
-                return false;
-            }
-            else if (hitObj.collider.tag == "clone")
-            {
-                name = null;
-                return true;
-            }
-            else if (hitObj.collider.tag == "Player")
-            {
-                name = hitObj.collider.tag;
-                return true;
-            }
-            else
-            {
-                name = null;
-                return false;
-            }
-        }
-        else
-        {
-            name = null;
-            return false; 
-        }
-    }
-
-    /// <summary>
-    /// マップ外かどうかのチェック
-    /// </summary>
-    /// <param name="targetDirec">スティックの方角</param>
-    /// <returns>オブジェクトがなかったらfalse</returns>
-    private bool CheckOffMap(Vector3 targetDirec)
-    {
-        Vector3 startPos = skillArea.posObj.transform.position + targetDirec;
-        //移動先から真下にray飛ばして地面があるか確認
-        if (CheckObject(startPos, Vector3.down, out var name))
-        {
-            return true;
-        }
-        else return false; ;
-    }
 
 }
