@@ -67,11 +67,6 @@ public class ControllerManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            _instance = this;
-        }
-        else Destroy(this.gameObject);
         if(CtrlInput == null)
         {
             CtrlInput = new ControllerInput();
