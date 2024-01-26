@@ -75,7 +75,7 @@ public class SkillManager : MonoBehaviour
         currentSkillC = new SkillSuction(skillArea, this);
 
         skillOneType = skillType.skillA;
-        skillTwoType = skillType.skillB;
+        skillTwoType = skillType.skillC;
         
     }
 
