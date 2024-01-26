@@ -19,10 +19,17 @@ public class SkillSuction : Skill
         await UniTask.Delay(1);
         if(Physics.Raycast(sad.transform.position, sad.transform.forward, out var hit, 1) && sm.suctionObj == null)
         {
-            ObakeAnimation.Inctance.SuctionAnimation();
-            sm.suctionObj = hit.collider.gameObject;
-            sm.suctionObj.SetActive(false);
-            sm.plCon.plMove.isWalkCount = true;
+            if (hit.collider.tag == "IronBox")
+            {
+                ObakeAnimation.Inctance.SuctionAnimation();
+                sm.suctionObj = hit.collider.gameObject;
+                sm.suctionObj.SetActive(false);
+                sm.plCon.plMove.isWalkCount = true;
+            }
+            else
+            {
+                ObakeAnimation.Inctance.SuctionMissAnimation();
+            }
         }
         SkillManager.IsNowSkill = false;
     }
@@ -30,17 +37,14 @@ public class SkillSuction : Skill
     public async void ReverseObject()
     {
         SkillManager.isNowSuction = true;
-        Debug.Log("kitayo");
         var vec3 = sm.gameObject.transform.Find("Foward").transform.position;
         await UniTask.Delay(1);
         if (Physics.Raycast(sad.transform.position, sad.transform.forward, out var hit, 1))
         {
             ObakeAnimation.Inctance.SuctionMissAnimation();
-            Debug.Log("A");
         }
         else
         {
-            Debug.Log("C");
             sm.suctionObj.transform.position = vec3;
             vec3.x = Mathf.Round(vec3.x);
             vec3.z = Mathf.Round(vec3.z);
@@ -50,10 +54,14 @@ public class SkillSuction : Skill
             }
             else
             {
+
                 ObakeAnimation.Inctance.SpittingoutAnimation();
                 sm.suctionObj.SetActive(true);
                 sm.plCon.plMove.WalkCount = 0;
                 sm.suctionObj = null;
+
+                //se
+
                 SkillManager.isNowSuction = false;
             }
         }

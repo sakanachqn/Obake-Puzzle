@@ -191,8 +191,10 @@ public class PlayerMove : MonoBehaviour
         await this.transform.root.transform.DORotateQuaternion(targetRotation, speed);
     }
 
+
     private async UniTask GoalCoroutine(CancellationToken ct)
     {
+        SoundManager.Instance.Play("ResSound");
         var bg = goalBG.GetComponent<Image>();
         goalBG.SetActive(true);
         await bg.DOFade(0.8f, 1);

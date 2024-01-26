@@ -34,7 +34,7 @@ public class SkillFire : Skill
         }
         if(boxs.Count > 0)
         {
-
+            SoundManager.Instance.Play("SEFire");
             ObakeAnimation.Inctance.FlameAnimation();
             await UniTask.Delay(100);
             effectInstance.FireEffect(pos);

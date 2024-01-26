@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 155253750396630529}
   m_Layer: 0
   m_Name: stealbox
-  m_TagString: Untagged
+  m_TagString: IronBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
