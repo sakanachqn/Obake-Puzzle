@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObakeAnimation : MonoBehaviour
+public class ObakeAnimation  : MonoBehaviour
 {
     [SerializeField]
     private Animator _obake;
