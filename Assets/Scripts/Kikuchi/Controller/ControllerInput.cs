@@ -642,6 +642,15 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MenuSelect"",
+                    ""type"": ""Value"",
+                    ""id"": ""43817d42-5d09-4e26-9737-1bb3cbc44b7f"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -675,6 +684,17 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PushBBotton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""42ef27d2-e9d2-4b39-95b8-2bbfefa86ab1"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MenuSelect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -715,6 +735,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         m_Menu_OpenMenu = m_Menu.FindAction("OpenMenu", throwIfNotFound: true);
         m_Menu_PushABotton = m_Menu.FindAction("PushABotton", throwIfNotFound: true);
         m_Menu_PushBBotton = m_Menu.FindAction("PushBBotton", throwIfNotFound: true);
+        m_Menu_MenuSelect = m_Menu.FindAction("MenuSelect", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1105,6 +1126,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Menu_OpenMenu;
     private readonly InputAction m_Menu_PushABotton;
     private readonly InputAction m_Menu_PushBBotton;
+    private readonly InputAction m_Menu_MenuSelect;
     public struct MenuActions
     {
         private @ControllerInput m_Wrapper;
@@ -1112,6 +1134,7 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         public InputAction @OpenMenu => m_Wrapper.m_Menu_OpenMenu;
         public InputAction @PushABotton => m_Wrapper.m_Menu_PushABotton;
         public InputAction @PushBBotton => m_Wrapper.m_Menu_PushBBotton;
+        public InputAction @MenuSelect => m_Wrapper.m_Menu_MenuSelect;
         public InputActionMap Get() { return m_Wrapper.m_Menu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1130,6 +1153,9 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @PushBBotton.started += instance.OnPushBBotton;
             @PushBBotton.performed += instance.OnPushBBotton;
             @PushBBotton.canceled += instance.OnPushBBotton;
+            @MenuSelect.started += instance.OnMenuSelect;
+            @MenuSelect.performed += instance.OnMenuSelect;
+            @MenuSelect.canceled += instance.OnMenuSelect;
         }
 
         private void UnregisterCallbacks(IMenuActions instance)
@@ -1143,6 +1169,9 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
             @PushBBotton.started -= instance.OnPushBBotton;
             @PushBBotton.performed -= instance.OnPushBBotton;
             @PushBBotton.canceled -= instance.OnPushBBotton;
+            @MenuSelect.started -= instance.OnMenuSelect;
+            @MenuSelect.performed -= instance.OnMenuSelect;
+            @MenuSelect.canceled -= instance.OnMenuSelect;
         }
 
         public void RemoveCallbacks(IMenuActions instance)
@@ -1197,5 +1226,6 @@ public partial class @ControllerInput: IInputActionCollection2, IDisposable
         void OnOpenMenu(InputAction.CallbackContext context);
         void OnPushABotton(InputAction.CallbackContext context);
         void OnPushBBotton(InputAction.CallbackContext context);
+        void OnMenuSelect(InputAction.CallbackContext context);
     }
 }

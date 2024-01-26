@@ -16,10 +16,11 @@ public class WalkCount : MonoBehaviour
         walk = 0;
     }
 
-    
-    void Update()
-    {
-        TextWalkCount.text = string.Format("{0}マス",walk);
+    public void PlusCount()
+    { 
         walk++;
+        TextWalkCount.text = walk.ToString();
     }
+
+    
 }
