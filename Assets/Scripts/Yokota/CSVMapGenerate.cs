@@ -1,3 +1,4 @@
+using Palmmedia.ReportGenerator.Core.Common;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -30,6 +31,24 @@ public class CSVMapGenerate : MonoBehaviour
     // 読み込んだCSVファイルをカンマ区切りで格納するList
     private List<string[]> csvDatas = new List<string[]>();
 
+    private int selectedStage;
+
+    /*
+    SkillName, SkillCastLimitについて
+    どちらの配列も 0番目の要素が Xボタン、1番目の要素が Yボタンに対応しています
+    SkillCastLimit はスキルを使用できる数が入っています。
+    SkillName はスキル名の文字が入っています。
+    入っている文字は F(Fire), W(Water), S(Suction)の三種類が入っています。
+    */
+
+    // スキル名が入った文字列リスト
+    public List<string> SkillName;
+
+    // スキルの使用可能回数の整数リスト
+    public List<int> SkillCastLimit;
+
+    private int skillReadStartPoint;
+
     /*
     allBlocksObjについて
     allBlocksObj[x座標][z座標][y座標]でそのオブジェクトの情報をとることができます。
@@ -55,16 +74,11 @@ public class CSVMapGenerate : MonoBehaviour
     [SerializeField, Header("落とし穴マテリアル（白, 黒）")]
     private Material[] pitFallMaterial = new Material[2];
 
-    private void Start()
+    private void Awake()
     {
         Init();
         ReadCsv();
         MapGenerate();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Space)) { Regenerate(); }
     }
 
     /// <summary>
@@ -79,6 +93,9 @@ public class CSVMapGenerate : MonoBehaviour
         nameToObject.Add("5", goal);
         nameToObject.Add("6", steelGoal);
         nameToObject.Add("7", player);
+
+        skillReadStartPoint = 7;
+        selectedStage = StageSelectController.SelectedStage;
     }
 
     /// <summary>
@@ -93,10 +110,16 @@ public class CSVMapGenerate : MonoBehaviour
         int height = 0;
         
         // CSVファイルを読み込み
-        if (LoadStageNum < 10)
-            csvFile = Resources.Load("CSV/MapData/TrialMap_0" + LoadStageNum) as TextAsset;
+        //if (selectedStage < 10)
+        //    csvFile = Resources.Load("CSV/MapData/TrialMap_0" + selectedStage) as TextAsset;
+        //else
+        //    csvFile = Resources.Load("CSV/MapData/TrialMap_" + selectedStage) as TextAsset;
+
+        // スキル読み込み用に読み込むCSVファイル変えています   横田
+        if (selectedStage < 10)
+            csvFile = Resources.Load("CSV/MapData/SkillReadTest_0" + selectedStage) as TextAsset;
         else
-            csvFile = Resources.Load("CSV/MapData/TrialMap_" + LoadStageNum) as TextAsset;
+            csvFile = Resources.Load("CSV/MapData/SkillReadTest" + selectedStage) as TextAsset;
         // 読み込んだテキストをString型にして格納
         StringReader reader = new StringReader(csvFile.text);
 
@@ -110,8 +133,9 @@ public class CSVMapGenerate : MonoBehaviour
             // 行数加算
             height++;
         }
-        // CSVファイルの行数分繰り返し
-        for (int i = 0; i < height; i++)
+
+        // マップの部分だけ Listに格納
+        for (int i = 0; i < 5; i++)
         {
             // 一時入力用のリスト
             List<string> blockStrList = new List<string>();
@@ -127,6 +151,24 @@ public class CSVMapGenerate : MonoBehaviour
 
             // 一行分のブロックのリストを格納
             allBlocksStr.Add(blockStrList);
+        }
+        
+        for (int i = 0; i < csvDatas[skillReadStartPoint].Length; i++)
+        {
+            str = csvDatas[skillReadStartPoint][i];
+            if (str == "") continue;
+            Debug.Log(str);
+            SkillName.Add(str);
+        }
+
+        skillReadStartPoint++;
+
+        for (int i = 0; i < csvDatas[skillReadStartPoint].Length; i++)
+        {
+            str = csvDatas[skillReadStartPoint][i];
+            if (str == "") continue;
+            Debug.Log(str);
+            SkillCastLimit.Add(str.ParseLargeInteger());
         }
     }
 
@@ -228,7 +270,6 @@ public class CSVMapGenerate : MonoBehaviour
 
     public async void Regenerate()
     {
-        SceneManager.sceneLoaded += GameSceneLoaded;
         SoundManager.Instance.Play("Select");
         await SceneFade.instance.SceneChange("GameScene");
     }
@@ -238,15 +279,15 @@ public class CSVMapGenerate : MonoBehaviour
     /// </summary>
     /// <param name="scene"></param>
     /// <param name="mode"></param>
-    private void GameSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // マップを生成するスクリプトを探す
-        var mapGenerater = GameObject.FindWithTag("MapGenerater").GetComponent<CSVMapGenerate>();
+    //private void GameSceneLoaded(Scene scene, LoadSceneMode mode)
+    //{
+    //    // マップを生成するスクリプトを探す
+    //    var mapGenerater = GameObject.FindWithTag("MapGenerater").GetComponent<CSVMapGenerate>();
 
-        // 読み込むステージの番号を書き換える
-        mapGenerater.LoadStageNum = LoadStageNum;
+    //    // 読み込むステージの番号を書き換える
+    //    mapGenerater.LoadStageNum = LoadStageNum;
 
-        // この処理を削除する
-        SceneManager.sceneLoaded -= GameSceneLoaded;
-    }
+    //    // この処理を削除する
+    //    SceneManager.sceneLoaded -= GameSceneLoaded;
+    //}
 }

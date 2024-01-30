@@ -12,6 +12,8 @@ public class StageSelectController : MonoBehaviour
     // 今どのイメージににカーソルがあっているか
     private int nowCursorPos = 0;
 
+    public static int SelectedStage;
+
     private StageSelectView stageSelectView;
 
     private SceneFade sceneFade;
@@ -49,8 +51,8 @@ public class StageSelectController : MonoBehaviour
         if (inp.StageSelect.Decision.WasPressedThisFrame())
         {
             // メインゲームに進む
-            SceneManager.sceneLoaded += GameSceneLoaded;
             SoundManager.Instance.Play("Select");
+            SelectedStage = nowSelectStage + 1;
             await sceneFade.SceneChange("GameScene");
         }
 
@@ -138,15 +140,15 @@ public class StageSelectController : MonoBehaviour
     /// </summary>
     /// <param name="scene"></param>
     /// <param name="mode"></param>
-    private void GameSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // マップを生成するスクリプトを探す
-        var mapGenerater = GameObject.FindWithTag("MapGenerater").GetComponent<CSVMapGenerate>();
+    //private void GameSceneLoaded(Scene scene, LoadSceneMode mode)
+    //{
+    //    // マップを生成するスクリプトを探す
+    //    var mapGenerater = GameObject.FindWithTag("MapGenerater").GetComponent<CSVMapGenerate>();
 
-        // 読み込むステージの番号を書き換える
-        mapGenerater.LoadStageNum = nowSelectStage + 1;
+    //    // 読み込むステージの番号を書き換える
+    //    mapGenerater.LoadStageNum = nowSelectStage + 1;
 
-        // この処理を削除する
-        SceneManager.sceneLoaded -= GameSceneLoaded;
-    }
+    //    // この処理を削除する
+    //    SceneManager.sceneLoaded -= GameSceneLoaded;
+    //}
 }
