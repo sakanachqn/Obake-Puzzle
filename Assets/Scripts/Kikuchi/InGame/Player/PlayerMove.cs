@@ -121,10 +121,9 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        ObakeAnimation.Inctance.WalkAnimation(true);
+        ObakeAnimation.Inctance.WalkAnimation();
         await RotateDirection(directions[ctrlManager.stickPlayerDirection], speed);
         await this.transform.root.transform.DOMove(targetPos, speed);
-        ObakeAnimation.Inctance.WalkAnimation(false);
         if (isWalkCount)
         {
             walkCount++;

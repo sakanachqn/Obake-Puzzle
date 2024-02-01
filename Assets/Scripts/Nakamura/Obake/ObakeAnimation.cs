@@ -44,10 +44,9 @@ public class ObakeAnimation  : MonoBehaviour
     /// <summary>
     /// 歩くアニメーション
     /// </summary>
-    public void WalkAnimation(bool tag = false)
+    public void WalkAnimation()
     {
-        Debug.Log("walkAnim");
-        _obake.SetBool("Walk", tag);
+        _obake.SetTrigger("walk");
     }
 
     /// <summary>

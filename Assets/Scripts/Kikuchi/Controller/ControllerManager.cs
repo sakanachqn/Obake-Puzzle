@@ -94,10 +94,16 @@ public class ControllerManager : MonoBehaviour
         stickInclination = DeadZone(stickInclination);
         // 取得したスティックの方向に対応したenumに変換
         if (stickInclination == Vector2.zero) stickPlayerDirection = Direction.Null;
-        else if (stickInclination.x == -1) stickPlayerDirection = Direction.Left;
-        else if (stickInclination.x == 1) stickPlayerDirection = Direction.Right;
-        else if (stickInclination.y == 1) stickPlayerDirection = Direction.Up;
-        else if (stickInclination.y == -1) stickPlayerDirection = Direction.Down;
+        //else if (stickInclination.x == -1) stickPlayerDirection = Direction.Left;
+        //else if (stickInclination.x == 1) stickPlayerDirection = Direction.Right;
+        //else if (stickInclination.y == 1) stickPlayerDirection = Direction.Up;
+        //else if (stickInclination.y == -1) stickPlayerDirection = Direction.Down;
+
+        // 斜めの判定
+        if (stickInclination.x < 0 && stickInclination.y > 0) stickPlayerDirection = Direction.Up;
+        else if (stickInclination.x > 0 && stickInclination.y > 0) stickPlayerDirection = Direction.Right;
+        else if (stickInclination.x < 0 && stickInclination.y < 0) stickPlayerDirection = Direction.Left;
+        else if (stickInclination.x > 0 && stickInclination.y < 0) stickPlayerDirection = Direction.Down;
     }
 
     private void CheckPlayerDPadDirection()

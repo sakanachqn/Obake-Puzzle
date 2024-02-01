@@ -23,6 +23,7 @@ public class SkillSuction : Skill
             {
                 ObakeAnimation.Inctance.SuctionAnimation();
                 sm.suctionObj = hit.collider.gameObject;
+                await ObjectMoveAnimation(sm.suctionObj, sm.transform.position, 0f);
                 sm.suctionObj.SetActive(false);
                 sm.plCon.plMove.isWalkCount = true;
             }
@@ -45,7 +46,6 @@ public class SkillSuction : Skill
         }
         else
         {
-            sm.suctionObj.transform.position = vec3;
             vec3.x = Mathf.Round(vec3.x);
             vec3.z = Mathf.Round(vec3.z);
             if (vec3.x > 5 || vec3.x < 0 || vec3.z > 5 || vec3.z < 0)
@@ -54,9 +54,9 @@ public class SkillSuction : Skill
             }
             else
             {
-
                 ObakeAnimation.Inctance.SpittingoutAnimation();
                 sm.suctionObj.SetActive(true);
+                await ObjectMoveAnimation(sm.suctionObj, vec3, 0.9f);
                 sm.plCon.plMove.WalkCount = 0;
                 sm.suctionObj = null;
 
@@ -65,6 +65,13 @@ public class SkillSuction : Skill
                 SkillManager.isNowSuction = false;
             }
         }
+    }
+
+    private async UniTask ObjectMoveAnimation(GameObject gobj,Vector3 endPos, float endSize)
+    {
+        gobj.transform.DOMove(endPos, 0.5f);
+        await gobj.transform.DOScale(new Vector3(endSize, endSize, endSize), 0.5f);
+        return;
     }
 
 
