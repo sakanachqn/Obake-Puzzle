@@ -1027,7 +1027,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -508.74, y: -280.3}
-  m_SizeDelta: {x: 777, y: 291}
+  m_SizeDelta: {x: 1056.8, y: 221.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3157792198780402434
 MonoBehaviour:
@@ -1049,7 +1049,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b33c1ccdc628c0144bc010878e7ccbb4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 37a2b41f701675c47bbd1d8167fc2622, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1257,6 +1257,7 @@ GameObject:
   - component: {fileID: 7435434942274493237}
   - component: {fileID: 8485041086392360558}
   - component: {fileID: 8707479851530432754}
+  - component: {fileID: 8707479851530432755}
   m_Layer: 0
   m_Name: Bowl
   m_TagString: Untagged
@@ -1343,3 +1344,15 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 477525350536967170, guid: 07942e14628143545bc9d742dcb814ba, type: 3}
+--- !u!114 &8707479851530432755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5941501540131406323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a77aac0b9e0dc824fae7fe61947bd053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

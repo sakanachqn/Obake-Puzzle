@@ -6,8 +6,10 @@ using Cysharp.Threading.Tasks;
 
 public class kaiten : MonoBehaviour
 {
+    [SerializeField]
+    private float _duration = 360f;
     private void Start()
     {
-        this.transform.DORotate(new Vector3(0, 360, 0), 120, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental);
+        this.transform.DOLocalRotate(new Vector3(0, 360, 0), _duration, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental);
     }
 }
