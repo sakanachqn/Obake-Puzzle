@@ -55,8 +55,9 @@ public class SkillSuction : Skill
             else
             {
                 ObakeAnimation.Inctance.SpittingoutAnimation();
+                sm.suctionObj.transform.position = sm.gameObject.transform.position;
                 sm.suctionObj.SetActive(true);
-                await ObjectMoveAnimation(sm.suctionObj, vec3, 0.9f);
+                await ObjectMoveAnimation(sm.suctionObj, vec3, 1.0f);
                 sm.plCon.plMove.WalkCount = 0;
                 sm.suctionObj = null;
 

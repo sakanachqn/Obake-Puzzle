@@ -14,6 +14,7 @@ public class SkillWater : Skill
 
     public override async void SkillActivate()
     {
+        if (sad.posObj == null) return;
         SkillManager.IsNowSkill = true;
         Vector3 pos = sad.posObj.transform.position;
         if(pos.y > 1)pos.y = 1;

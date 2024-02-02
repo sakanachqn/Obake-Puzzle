@@ -285,7 +285,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3.5
+      scalar: 1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5155,7 +5155,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3.5
+      scalar: 1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -9767,7 +9767,7 @@ Transform:
   m_GameObject: {fileID: 3671511813745483891}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 1.5, z: 2}
+  m_LocalScale: {x: 0, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9131707672759923767}
@@ -14622,7 +14622,7 @@ GameObject:
   - component: {fileID: 2069791496035682101}
   - component: {fileID: 6606623722083471375}
   m_Layer: 0
-  m_Name: Obake_eff_Fire
+  m_Name: Obake_eff_Fire01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14636,8 +14636,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8811644519749833844}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 1.5, z: 2}
+  m_LocalPosition: {x: 0.63, y: 1.14, z: 0}
+  m_LocalScale: {x: 0, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3891324710244810800}

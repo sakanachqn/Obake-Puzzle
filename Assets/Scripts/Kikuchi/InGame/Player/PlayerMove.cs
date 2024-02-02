@@ -114,8 +114,9 @@ public class PlayerMove : MonoBehaviour
         if (CheckObject(this.transform.position, targetDirection) || CheckOffMap(targetDirection))
         {
             //進行不可のとき
+            await RotateDirection(directions[ctrlManager.stickPlayerDirection], speed);
             material.color = testRed;
-            await UniTask.Delay(500);
+            await UniTask.Delay(250);
             material.color = testColor;
             PlayerController.IsNowAction = false;
             return;

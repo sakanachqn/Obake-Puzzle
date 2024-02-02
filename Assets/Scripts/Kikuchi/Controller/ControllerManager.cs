@@ -32,7 +32,7 @@ public class ControllerManager : MonoBehaviour
 
     //デッドゾーン設定用変数
     [SerializeField]
-    private float deadZone = 0.5f;
+    private float deadZone = 0.2f;
 
     public ControllerInput CtrlInput;
 
@@ -90,20 +90,31 @@ public class ControllerManager : MonoBehaviour
     {
         //スティックの入力取得
         stickInclination = CtrlInput.Player.Move.ReadValue<Vector2>();
+
+        var stickAngle = Mathf.Atan2(stickInclination.x, stickInclination.y) * Mathf.Rad2Deg;
+        if (stickAngle < 0) stickAngle += 360;
+
+        Debug.Log(stickAngle);
+
         //正規化
         stickInclination = DeadZone(stickInclination);
-        // 取得したスティックの方向に対応したenumに変換
-        if (stickInclination == Vector2.zero) stickPlayerDirection = Direction.Null;
-        //else if (stickInclination.x == -1) stickPlayerDirection = Direction.Left;
-        //else if (stickInclination.x == 1) stickPlayerDirection = Direction.Right;
-        //else if (stickInclination.y == 1) stickPlayerDirection = Direction.Up;
-        //else if (stickInclination.y == -1) stickPlayerDirection = Direction.Down;
 
-        // 斜めの判定
-        if (stickInclination.x < 0 && stickInclination.y > 0) stickPlayerDirection = Direction.Up;
-        else if (stickInclination.x > 0 && stickInclination.y > 0) stickPlayerDirection = Direction.Right;
-        else if (stickInclination.x < 0 && stickInclination.y < 0) stickPlayerDirection = Direction.Left;
-        else if (stickInclination.x > 0 && stickInclination.y < 0) stickPlayerDirection = Direction.Down;
+        if (stickInclination == Vector2.zero)
+        {
+            stickPlayerDirection = Direction.Null;
+        }
+        else
+        {
+            // 取得したスティックの方向に対応したenumに変換
+            if (0 <= stickAngle && stickAngle < 90) stickPlayerDirection = Direction.Right;
+            else if (90 <= stickAngle && stickAngle < 180) stickPlayerDirection = Direction.Down;
+            else if (180 <= stickAngle && stickAngle < 270) stickPlayerDirection = Direction.Left;
+            else if (270 <= stickAngle && stickAngle < 360) stickPlayerDirection = Direction.Up;
+
+        }
+
+
+
     }
 
     private void CheckPlayerDPadDirection()
@@ -126,7 +137,7 @@ public class ControllerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 引数が絶対値0.5以下かどうか
+    /// 引数が絶対値0.2以下かどうか
     /// </summary>
     /// <param name="value"></param>
     /// <returns>0.5未満なら0 / 0.5以上なら1 or -1</returns>

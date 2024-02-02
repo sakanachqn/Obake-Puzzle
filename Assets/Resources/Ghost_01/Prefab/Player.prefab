@@ -1181,7 +1181,13 @@ SkinnedMeshRenderer:
   - {fileID: 1762507346861884240}
   - {fileID: 4011640477426834122}
   - {fileID: 5375460540132647514}
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   m_RootBone: {fileID: 6967850146846429757}
   m_AABB:
     m_Center: {x: 0.0040869117, y: 0.33262473, z: 0.008947849}
@@ -1262,7 +1268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireArea: {fileID: 7175052931349370805}
   miniArea: {fileID: 7629354067626936436}
-  changeMat: {fileID: 2100000, guid: 584cd16462db7924b99cde57377c795f, type: 2}
+  changeMat: {fileID: 2100000, guid: b73e896966b80864d9b987b9fffa22be, type: 2}
   fadeTime: 1
   underAlpha: 0.3
   skillAreaPrefab: {fileID: 2708745252650239796, guid: bf55d0418c659a145918b19c4ed2a7c1, type: 3}

@@ -94,7 +94,7 @@ public class SkillAreaDisplay : MonoBehaviour
                     if (hit.transform.position.y != 0)
                     {
                         hitObj.Add(hit.collider.gameObject);
-                        hit.collider.gameObject.SetActive(false);
+                        //hit.collider.gameObject.SetActive(false);
                         Vector3 pos = hit.transform.position;
                         createArea(pos);
                     }
@@ -124,7 +124,7 @@ public class SkillAreaDisplay : MonoBehaviour
                     if (hit.transform.position.y != 0)
                     {
                         hitObj.Add(hit.collider.gameObject);
-                        hit.collider.gameObject.SetActive(false);
+                        //hit.collider.gameObject.SetActive(false);
                         Vector3 pos = hit.transform.position;
                         createArea(pos);
                     }
@@ -162,6 +162,7 @@ public class SkillAreaDisplay : MonoBehaviour
     /// </summary>
     public void HideSkillArea()
     {
+        
         // スキル範囲のオブジェクトと元のマテリアルに戻す
         foreach (KeyValuePair<GameObject, Material> kvp in hitArea)
         {
