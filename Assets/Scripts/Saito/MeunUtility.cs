@@ -2,61 +2,149 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+using Cysharp.Threading.Tasks;
 
 public class MeunUtility : MonoBehaviour
 {
-
-    Button Retry;
-    Button Select;
-    Button Close;
-
+    bool isMenuOpen = false;
+    
     [SerializeField]
-    private List<Button> buttonList;
+    private List<GameObject> buttonList;
     ControllerInput CtrlInput;
-    float selectF;
+    float selectCDtime = 0;
+    int menuNumber = 0;
+    RectTransform rtf;
+    [SerializeField]
+    float moveTime = 2f;
+    [SerializeField]
+    GameObject menuPanel;
+    [SerializeField]
+    GameObject menuBG;
 
     void Start()
     {
-        // ボタンコンポーネントの取得
-        Retry = GameObject.Find("/Canvas/Black/Menu/Retry").GetComponent<Button>();
-        Select = GameObject.Find("/Canvas/Black/Menu/Select").GetComponent<Button>();
-        Close = GameObject.Find("/Canvas/Black/Menu/Close").GetComponent<Button>();
-        CtrlInput = ControllerManager.instance.CtrlInput;
+       if(CtrlInput == null)
+        {
+            CtrlInput = ControllerManager.instance.CtrlInput;
+        }
 
-
-        // 最初に選択状態にしたいボタンの設定
-        Retry.Select();
+       rtf = menuPanel.GetComponent<RectTransform>();
 
     }
 
-    public void SelectRetry()
+    void SelectRetry()
     {
-        Retry.Select();
+        
+        Debug.Log("Retry");
     }
 
-    public void SelectSelect()
+    async void SelectStageSelect()
     {
-        Select.Select();
+        await SceneFade.instance.SceneChange("StageSelect");
+        Debug.Log("Select");
     }
 
-    public void SelectClose()
+    async void SelectClose()
     {
-        Close.Select();
+        await rtf.DOAnchorPosY(-1080, moveTime);
+        menuBG.gameObject.SetActive(false);
+        isMenuOpen = false;
+        Debug.Log("Close");
     }
 
+    void SelectButton()
+    {
+        if(CtrlInput.Menu.PushABotton.WasPerformedThisFrame())
+        {
+            switch(menuNumber)
+            {
+                case 0:
+                    {
+                        SelectRetry();
+                        break;
+                    }
+                case 1:
+                    {
+                        SelectStageSelect();
+                        break;
+
+                    }
+                case 2:
+                    {
+                        SelectClose();
+                        break;
+                    }
+                    default:break;
+            }
+        }
+    }
 
     private void Update()
     {
+
+        if (!isMenuOpen)
+        {
+            MenuOpen();
+            return;
+        }
+        MenuSelectChange();
+        SelectButton();
+
+    }
+
+    async void MenuOpen()
+    {
+        if(CtrlInput.Menu.OpenMenu.WasPerformedThisFrame())
+        {
+            menuBG.SetActive(true);
+            await rtf.DOAnchorPosY(0, moveTime);
+            isMenuOpen = true;
+        }
+    }
+
+
+    private void MenuSelectChange()
+    {
+        if(Time.time < selectCDtime + 0.2)
+        {
+            return;
+        }
+       
         Vector2 menuinput = CtrlInput.Menu.MenuSelect.ReadValue<Vector2>();
 
         if (menuinput.y > -0.05f && menuinput.y < 0.05f) menuinput.y = 0f;
 
-        selectF += menuinput.y * Time.deltaTime;
 
-        if (selectF <= 0f) selectF = 0f;
-        if (selectF >= 3f) selectF = 2.999999f;
+        if (menuinput.y > 0 && menuNumber != 0)
+        {
+            DisableIcon(menuNumber);
+            menuNumber--;
+            EnableIcon(menuNumber);
+           selectCDtime = Time.time;
+        }
 
-        buttonList[(int)selectF].Select();
+        else if (menuinput.y < 0 && menuNumber != 2)
+        {
+            DisableIcon(menuNumber);
+            menuNumber++;
+            EnableIcon(menuNumber);
+            selectCDtime = Time.time;
+        }
+
+       
+
+        //buttonList[(int)selectF].Select();
     }
 
+    void EnableIcon(int namber)
+    {
+        buttonList[namber].GetComponent<MeunUtility_Image>().OnImage();
+    }
+
+    void DisableIcon(int number)
+    {
+        buttonList[number].GetComponent<MeunUtility_Image>().OffImage();
+    }
 }
+
