@@ -6,12 +6,15 @@ using UnityEngine.UI;
 
 public class StageSelectView : MonoBehaviour
 {
-    private Image[] stageImages = new Image[6];
+    private List<GameObject> stageObj = new List<GameObject>();
 
-    private StageImageView[] stageImageViews = new StageImageView[6];
+    private List<Image> imageList = new List<Image>();
 
     [SerializeField]
-    private Image prefabImage;
+    private List<StageImageView> stageImageViews;
+
+    [SerializeField]
+    private List<GameObject> prefabImages;
 
     [SerializeField]
     private Canvas canvas;
@@ -22,19 +25,12 @@ public class StageSelectView : MonoBehaviour
 
     public int StageNum => stageNum;
 
-    private int leftUpSpriteNum = 1;
+    public bool isMoving = false;
 
-    private enum positionName
-    {
-        upperLeft = 0,
-        upperMiddle,
-        upperRight,
-        lowerLeft,
-        lowerMiddle,
-        lowerRight
-    }
+    private Vector3 startSetPosition = new Vector3(325f, 590f);
 
-    private Dictionary<positionName, Vector3> nameToVector3 = new Dictionary<positionName, Vector3>();
+    private float positionIntervalX = 325f;
+    private float positionIntervalY = 390f;
 
     private Dictionary<int, Sprite> stageSprites = new Dictionary<int, Sprite>();
 
@@ -45,13 +41,6 @@ public class StageSelectView : MonoBehaviour
 
     private void Init()
     {
-        nameToVector3.Add(positionName.upperLeft, new Vector3(-538, 94, 0));
-        nameToVector3.Add(positionName.lowerLeft, new Vector3(-538, -238, 0));
-        nameToVector3.Add(positionName.upperMiddle, new Vector3(0, 94, 0));
-        nameToVector3.Add(positionName.lowerMiddle, new Vector3(0, -231, 0));
-        nameToVector3.Add(positionName.upperRight, new Vector3(541, 94, 0));
-        nameToVector3.Add(positionName.lowerRight, new Vector3(541, -231, 0));
-
         for (int i = 1; i <= stageNum; i++)
         {
             stageSprites.Add(i, Resources.Load<Sprite>("UI/Stage/Ui_005_1 " + i));
@@ -59,32 +48,39 @@ public class StageSelectView : MonoBehaviour
 
         for (int i = 0; i < stageNum; i++)
         {
-            stageImages[i] = Instantiate(prefabImage);
-            stageImageViews[i] = stageImages[i].GetComponent<StageImageView>();
-            stageImages[i].transform.SetParent(canvas.transform, false);
-            stageImages[i].rectTransform.position
-                += nameToVector3[(positionName)i];
-            stageImages[i].sprite = stageSprites[i + 1];
+            stageObj.Add(Instantiate(prefabImages[i % 6]));
+            var children = stageObj[i].GetComponentsInChildren<Image>();
+            imageList.Add(children[1]);
+            stageImageViews.Add(stageObj[i].GetComponentInChildren<StageImageView>());
+            stageObj[i].transform.SetParent(canvas.transform, false);
+
+            if (i == 0) 
+            {
+                stageObj[i].transform.position = startSetPosition;
+            }
+            else if (i % 2 == 0)
+            {
+                stageObj[i].transform.position = stageObj[i - 1].transform.position + new Vector3(positionIntervalX, positionIntervalY, 0);
+            }
+            else
+            {
+                stageObj[i].transform.position = stageObj[i - 1].transform.position + new Vector3(positionIntervalX, -positionIntervalY, 0);
+            }
+
+            imageList[i].sprite = stageSprites[i + 1];
         }
     }
 
-    public void SpriteChange(int key)
+    
+    public void MoveLeftOrRight(float key)
     {
-        if (key > 0)
+        isMoving = true;
+
+        for (int i = 0; i < stageObj.Count; i++)
         {
-            leftUpSpriteNum += 2;
-            for (int i = 0; i < 6; i++)
-            {
-                stageImages[i].sprite = stageSprites[leftUpSpriteNum + i];
-            }
-        }
-        else
-        {
-            leftUpSpriteNum -= 2;
-            for (int i = 0; i < 6; i++)
-            {
-                stageImages[i].sprite = stageSprites[leftUpSpriteNum + i];
-            }
+            stageObj[i].transform.DOMoveX(key * -325f, 1f).
+                SetRelative(true).
+                OnComplete(() => isMoving = false) ;
         }
     }
 

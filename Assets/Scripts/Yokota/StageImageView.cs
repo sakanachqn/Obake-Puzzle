@@ -14,7 +14,7 @@ public class StageImageView : MonoBehaviour
 
     private Image image;
     [SerializeField]
-    private Image childImage;
+    private Image cursor;
 
     private Vector3 initialPos;
 
@@ -25,7 +25,7 @@ public class StageImageView : MonoBehaviour
         // 自分のイメージコンポーネントを取得
         image = gameObject.GetComponent<Image>();
 
-        transform.DOShakePosition(100f, 5f, 1, 1, false, false).SetEase(Ease.OutElastic).SetLoops(-1, LoopType.Yoyo);
+        //transform.DOShakePosition(100f, 5f, 1, 1, false, false).SetEase(Ease.OutElastic).SetLoops(-1, LoopType.Yoyo);
     }
 
     private void Update()
@@ -33,7 +33,7 @@ public class StageImageView : MonoBehaviour
         // カーソルがあっているとき
         if (matchCursor)
         {
-            childImage.gameObject.SetActive(true);
+            cursor.gameObject.SetActive(true);
 
             // タイムラインを進める
             timeLine += Time.deltaTime;
@@ -51,7 +51,7 @@ public class StageImageView : MonoBehaviour
         // カーソルがあっていないとき
         else
         {
-            childImage.gameObject.SetActive(false);
+            cursor.gameObject.SetActive(false);
 
             // タイムラインを初期化
             timeLine = 0f;
