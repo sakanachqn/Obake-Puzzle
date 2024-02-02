@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Rot",
+                    "type": "Value",
+                    "id": "e2f94538-6d44-45aa-9cbd-a81daf2f8cc6",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -119,6 +128,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6abbbb35-f9ac-4db5-ad7a-202504fdc3e4",
+                    "path": "<Gamepad>/dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -620,6 +640,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MenuSelect",
+                    "type": "Value",
+                    "id": "43817d42-5d09-4e26-9737-1bb3cbc44b7f",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -653,6 +682,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "PushBBotton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "42ef27d2-e9d2-4b39-95b8-2bbfefa86ab1",
+                    "path": "<Gamepad>/dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MenuSelect",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

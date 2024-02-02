@@ -5,14 +5,16 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    public GameObject Image;
+    public GameObject Black;
+     
 
     
     void Update()
     {
         if (ControllerManager.instance.CtrlInput.Menu.OpenMenu.WasPerformedThisFrame())
         {
-            Image.SetActive(true);
+            Black.SetActive(true);
         }
     }
 }
+

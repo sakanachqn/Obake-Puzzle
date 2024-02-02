@@ -28,7 +28,9 @@ public class ObakeAnimation : MonoBehaviour
 
     void Start()
     {
-        _obake.GetComponent<Animator>();
+        // Animatorを自身がついているオブジェクトから取得するように変更(菊池)
+        _obake = this.gameObject.transform.root.GetComponent<Animator>();
+
     }
 
     /// <summary>
@@ -42,9 +44,10 @@ public class ObakeAnimation : MonoBehaviour
     /// <summary>
     /// 歩くアニメーション
     /// </summary>
-    public void WalkAnimation()
+    public void WalkAnimation(bool tag = false)
     {
-        _obake.SetTrigger("Walk");
+        Debug.Log("walkAnim");
+        _obake.SetBool("Walk", tag);
     }
 
     /// <summary>
@@ -85,7 +88,9 @@ public class ObakeAnimation : MonoBehaviour
     public void SuctionAnimation()
     {
         _obake.SetTrigger("Suction");
+        _obake.SetBool("SuctionWhile", true);
     }
+
 
     /// <summary>
     /// 吸い込みのミスアニメーション
@@ -100,6 +105,7 @@ public class ObakeAnimation : MonoBehaviour
     /// </summary>
     public void SpittingoutAnimation()
     {
+        _obake.SetBool("SuctionWhile", false);
         _obake.SetTrigger("Spittingout");
     }
 }

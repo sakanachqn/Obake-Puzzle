@@ -7,10 +7,28 @@ using UnityEngine;
 /// </summary>
 public class ControllerManager : MonoBehaviour
 {
-    public static ControllerManager instance;
+    private static ControllerManager _instance;
+    public static ControllerManager instance
+    {
+        get {
+            if (_instance == null)
+            {
+                _instance = FindAnyObjectByType<ControllerManager>();
+
+                if (_instance == null)
+                {
+                    var obj = new GameObject("ControllerManager");
+                    _instance = obj.AddComponent<ControllerManager>();
+                }
+            }
+            return _instance; 
+        }
+    }
 
     //スティックの傾き保存用変数
     private Vector2 stickInclination = Vector2.zero;
+
+    private Vector2 dPadInclination = Vector2.zero;
 
     //デッドゾーン設定用変数
     [SerializeField]
@@ -33,6 +51,8 @@ public class ControllerManager : MonoBehaviour
     //スティックの倒れた方向保存用変数
     public Direction stickPlayerDirection = Direction.Null;
 
+    public Direction dPadDirection = Direction.Null;
+
     /// <summary>
     /// L1 or R1 ボタンの押された方
     /// </summary>
@@ -49,7 +69,7 @@ public class ControllerManager : MonoBehaviour
     {
         if (instance == null)
         {
-            instance = this;
+            _instance = this;
         }
         else Destroy(this.gameObject);
         if(CtrlInput == null)
@@ -63,6 +83,7 @@ public class ControllerManager : MonoBehaviour
     public void ControllerUpdate()
     {
         if(!PlayerController.IsNowAction)CheckPlayerStickDirection();
+        if(!PlayerController.IsNowAction) CheckPlayerDPadDirection();
         if(!PlayerController.IsNowAction)CheckPressCamRotateButton();
     }
 
@@ -82,6 +103,17 @@ public class ControllerManager : MonoBehaviour
         else if (stickInclination.x == 1) stickPlayerDirection = Direction.Right;
         else if (stickInclination.y == 1) stickPlayerDirection = Direction.Up;
         else if (stickInclination.y == -1) stickPlayerDirection = Direction.Down;
+    }
+
+    private void CheckPlayerDPadDirection()
+    {
+        dPadInclination = CtrlInput.Player.Rot.ReadValue<Vector2>();
+
+        if (dPadInclination == Vector2.zero) dPadDirection = Direction.Null;
+        else if (dPadInclination.x == -1) dPadDirection = Direction.Left;
+        else if (dPadInclination.x == 1) dPadDirection = Direction.Right;
+        else if (dPadInclination.y == 1) dPadDirection = Direction.Up;
+        else if (dPadInclination.y == -1) dPadDirection = Direction.Down;
     }
 
     //デッドゾーン設定用関数
