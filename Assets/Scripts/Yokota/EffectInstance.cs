@@ -24,7 +24,9 @@ public class EffectInstance : MonoBehaviour
 
     public void WaterEffect(Vector3 pos, Vector3 dir)
     {
-        waterEffectPrefab = Instantiate(Resources.Load<GameObject>("Effect/prefab/Water_effect"), pos, this.transform.root.transform.rotation);
+        waterEffectPrefab = Instantiate(Resources.Load<GameObject>("Effect/prefab/Water_effect"),
+            pos, 
+            this.transform.root.transform.rotation);
         effectParticle = waterEffectPrefab.GetComponent<ParticleSystem>();
         float z = 0;
         if (dir.x != 0) { z = 90 * dir.x * Mathf.Deg2Rad; }

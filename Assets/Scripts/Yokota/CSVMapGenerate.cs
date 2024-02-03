@@ -31,6 +31,7 @@ public class CSVMapGenerate : MonoBehaviour
     // 読み込んだCSVファイルをカンマ区切りで格納するList
     private List<string[]> csvDatas = new List<string[]>();
 
+    // 選ばれたステージナンバー
     private int selectedStage;
 
     /*
@@ -47,7 +48,8 @@ public class CSVMapGenerate : MonoBehaviour
     // スキルの使用可能回数の整数リスト
     public List<int> SkillCastLimit;
 
-    private int skillReadStartPoint;
+    // CSVファイルの何行目からスキルの情報が書いてあるか
+    private int skillReadStartPoint = 7;
 
     /*
     allBlocksObjについて
@@ -94,7 +96,6 @@ public class CSVMapGenerate : MonoBehaviour
         nameToObject.Add("6", steelGoal);
         nameToObject.Add("7", player);
 
-        skillReadStartPoint = 7;
         selectedStage = StageSelectController.SelectedStage;
     }
 
@@ -153,21 +154,23 @@ public class CSVMapGenerate : MonoBehaviour
             allBlocksStr.Add(blockStrList);
         }
         
+        // スキル名の読み込み
         for (int i = 0; i < csvDatas[skillReadStartPoint].Length; i++)
         {
             str = csvDatas[skillReadStartPoint][i];
+            // 文字の入っていないセルを飛ばす
             if (str == "") continue;
-            Debug.Log(str);
             SkillName.Add(str);
         }
 
         skillReadStartPoint++;
 
+        // スキルの発動回数の読み込み
         for (int i = 0; i < csvDatas[skillReadStartPoint].Length; i++)
         {
             str = csvDatas[skillReadStartPoint][i];
+            // 文字の入っていないセルを飛ばす
             if (str == "") continue;
-            Debug.Log(str);
             SkillCastLimit.Add(str.ParseLargeInteger());
         }
     }
@@ -223,6 +226,13 @@ public class CSVMapGenerate : MonoBehaviour
         zAxisObjList.Add(yAxisObjList);
     }
 
+    /// <summary>
+    /// マップの地面を市松模様化する関数
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    /// <param name="objName"></param>
     private void CreateCheckPattarn(int x, int y, int z, string objName)
     {
         if (y == 0)
@@ -268,6 +278,9 @@ public class CSVMapGenerate : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ゲームシーンを再読み込みする関数
+    /// </summary>
     public async void Regenerate()
     {
         SoundManager.Instance.Play("Select");
