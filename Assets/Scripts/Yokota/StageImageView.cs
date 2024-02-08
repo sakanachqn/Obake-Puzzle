@@ -12,20 +12,17 @@ public class StageImageView : MonoBehaviour
     // タイムライン
     private float timeLine = 0f;
 
-    private Image image;
+    // ステージのキャプチャ画像
+    private Image StageCapture;
+
+    // カーソルの画像
     [SerializeField]
-    private Image childImage;
-
-    private Vector3 initialPos;
-
-    private Tweener shakeEvent;
+    private Image cursor;
 
     private void Start()
     {
         // 自分のイメージコンポーネントを取得
-        image = gameObject.GetComponent<Image>();
-
-        transform.DOShakePosition(100f, 5f, 1, 1, false, false).SetEase(Ease.OutElastic).SetLoops(-1, LoopType.Yoyo);
+        StageCapture = gameObject.GetComponent<Image>();
     }
 
     private void Update()
@@ -33,13 +30,14 @@ public class StageImageView : MonoBehaviour
         // カーソルがあっているとき
         if (matchCursor)
         {
-            childImage.gameObject.SetActive(true);
-
             // タイムラインを進める
             timeLine += Time.deltaTime;
-            
+
+            // カーソルをアクティブに
+            cursor.gameObject.SetActive(true);
+
             // イメージのカラーを白にする
-            image.color = Color.white;
+            StageCapture.color = Color.white;
 
             // スケールを周期的に拡縮する
             gameObject.transform.localScale
@@ -51,14 +49,15 @@ public class StageImageView : MonoBehaviour
         // カーソルがあっていないとき
         else
         {
-            childImage.gameObject.SetActive(false);
+            // カーソルを非アクティブに
+            cursor.gameObject.SetActive(false);
 
             // タイムラインを初期化
             timeLine = 0f;
 
             //timeLine += Time.deltaTime;
             // イメージをグレーにする
-            image.color = Color.gray;
+            StageCapture.color = Color.gray;
             // 大きさを初期化
             gameObject.transform.localScale = Vector3.one;
         }

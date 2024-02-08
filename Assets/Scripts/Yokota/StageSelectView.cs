@@ -6,13 +6,21 @@ using UnityEngine.UI;
 
 public class StageSelectView : MonoBehaviour
 {
-    private Image[] stageImages = new Image[6];
+    // すべてのステージ選択UIを格納しておくリスト
+    private List<GameObject> stageObjs = new List<GameObject>();
 
-    private StageImageView[] stageImageViews = new StageImageView[6];
+    // すべてのステージのキャプチャ画像を格納しておくリスト
+    private List<Image> stageCaptures = new List<Image>();
 
+    // キャプチャ画像についているStageImageViewを格納するリスト
     [SerializeField]
-    private Image prefabImage;
+    private List<StageImageView> stageImageViews;
 
+    // 生成するステージ選択UIのプレハブリスト
+    [SerializeField]
+    private List<GameObject> prefabImages;
+
+    // UIを生成するキャンバス
     [SerializeField]
     private Canvas canvas;
 
@@ -22,20 +30,17 @@ public class StageSelectView : MonoBehaviour
 
     public int StageNum => stageNum;
 
-    private int leftUpSpriteNum = 1;
+    // UIがアニメーションしているかのフラグ
+    public bool isMoving = false;
 
-    private enum positionName
-    {
-        upperLeft = 0,
-        upperMiddle,
-        upperRight,
-        lowerLeft,
-        lowerMiddle,
-        lowerRight
-    }
+    // ステージ１のUIを生成するポジション
+    private Vector3 startSetPosition = new Vector3(325f, 590f);
 
-    private Dictionary<positionName, Vector3> nameToVector3 = new Dictionary<positionName, Vector3>();
+    // ひとつ前のステージUIからどれだけの間隔を開けて配置するか
+    private float positionIntervalX = 325f;
+    private float positionIntervalY = 390f;
 
+    // ステージキャプチャ画像の素材を格納しておくディクショナリ
     private Dictionary<int, Sprite> stageSprites = new Dictionary<int, Sprite>();
 
     private void Start()
@@ -45,49 +50,75 @@ public class StageSelectView : MonoBehaviour
 
     private void Init()
     {
-        nameToVector3.Add(positionName.upperLeft, new Vector3(-538, 94, 0));
-        nameToVector3.Add(positionName.lowerLeft, new Vector3(-538, -238, 0));
-        nameToVector3.Add(positionName.upperMiddle, new Vector3(0, 94, 0));
-        nameToVector3.Add(positionName.lowerMiddle, new Vector3(0, -231, 0));
-        nameToVector3.Add(positionName.upperRight, new Vector3(541, 94, 0));
-        nameToVector3.Add(positionName.lowerRight, new Vector3(541, -231, 0));
-
+        // ステージ数だけキャプチャ画像を読み込む
         for (int i = 1; i <= stageNum; i++)
         {
             stageSprites.Add(i, Resources.Load<Sprite>("UI/Stage/Ui_005_1 " + i));
         }
 
+        // ステージ数だけUIを生成する
         for (int i = 0; i < stageNum; i++)
         {
-            stageImages[i] = Instantiate(prefabImage);
-            stageImageViews[i] = stageImages[i].GetComponent<StageImageView>();
-            stageImages[i].transform.SetParent(canvas.transform, false);
-            stageImages[i].rectTransform.position
-                += nameToVector3[(positionName)i];
-            stageImages[i].sprite = stageSprites[i + 1];
+            stageObjs.Add(Instantiate(prefabImages[i % 6]));
+
+            // キャプチャ画像を貼り付けるイメージを子オブジェクトから取得する
+            var children = stageObjs[i].GetComponentsInChildren<Image>();
+            stageCaptures.Add(children[1]);
+
+            stageImageViews.Add(stageObjs[i].GetComponentInChildren<StageImageView>());
+
+            // キャンバスの子オブジェクトに設定
+            stageObjs[i].transform.SetParent(canvas.transform, false);
+
+            if (i == 0) 
+            {
+                // 基準となるステージ１のUIはスタートポジションに配置する
+                stageObjs[i].transform.position = startSetPosition;
+            }
+            else if (i % 2 == 0)
+            {
+                // 等間隔にUIを配置していく
+                stageObjs[i].transform.position 
+                    = stageObjs[i - 1].transform.position 
+                    + new Vector3(positionIntervalX, positionIntervalY, 0);
+            }
+            else
+            {
+                // 等間隔にUIを配置していく
+                stageObjs[i].transform.position 
+                    = stageObjs[i - 1].transform.position 
+                    + new Vector3(positionIntervalX, -positionIntervalY, 0);
+            }
+
+            // ステージキャプチャ画像を設定
+            stageCaptures[i].sprite = stageSprites[i + 1];
         }
     }
 
-    public void SpriteChange(int key)
+    
+    /// <summary>
+    /// 引数から左右にUIをアニメーションさせる関数
+    /// </summary>
+    /// <param name="key"></param>
+    public void MoveLeftOrRight(float key)
     {
-        if (key > 0)
+        // アニメーションフラグをあげる
+        isMoving = true;
+
+        // UIの数だけアニメーションさせる
+        for (int i = 0; i < stageObjs.Count; i++)
         {
-            leftUpSpriteNum += 2;
-            for (int i = 0; i < 6; i++)
-            {
-                stageImages[i].sprite = stageSprites[leftUpSpriteNum + i];
-            }
-        }
-        else
-        {
-            leftUpSpriteNum -= 2;
-            for (int i = 0; i < 6; i++)
-            {
-                stageImages[i].sprite = stageSprites[leftUpSpriteNum + i];
-            }
+            // アニメーションが終わった時にフラグを下す
+            stageObjs[i].transform.DOMoveX(key * -325f, 1f).
+                SetRelative(true).
+                OnComplete(() => isMoving = false) ;
         }
     }
 
+    /// <summary>
+    /// カーソルがあっているときにキャプチャ画像を明るくする関数
+    /// </summary>
+    /// <param name="CursorPos"></param>
     public void BrightUp(int CursorPos)
     {
         for (int i = 0; i < stageNum; i++)
