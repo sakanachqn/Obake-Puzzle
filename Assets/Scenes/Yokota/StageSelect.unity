@@ -827,10 +827,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 1
+  m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ReferenceResolution: {x: 800, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1032,6 +1032,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 57a894d1-219f-4fec-ba91-06ffa3c34697
     m_ActionName: TitleGimmick/Start[/DualSenseGamepadHID/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e2f94538-6d44-45aa-9cbd-a81daf2f8cc6
+    m_ActionName: Player/Rot
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 43817d42-5d09-4e26-9737-1bb3cbc44b7f
+    m_ActionName: Menu/MenuSelect
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: StageSelect
@@ -1061,9 +1069,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c276eb59f4c794892588da37d449f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabImage: {fileID: 6186444433101543557, guid: 59b5026bf01720d4585bedbfb1d410de, type: 3}
+  stageImageViews: []
+  prefabImages:
+  - {fileID: 6665223229828104195, guid: 9f512a34923eb3f478624c810d3a63e9, type: 3}
+  - {fileID: 6015114519478297522, guid: a60d5782d6caffd45b912fbffa78373f, type: 3}
+  - {fileID: 8452818185175516546, guid: 0a17704dfedbc3647844a8ee6d2a03f6, type: 3}
+  - {fileID: 2408738131677429194, guid: a2419d2ca69c4e34f8c879a6d7a1d6d9, type: 3}
+  - {fileID: 4321871645703513617, guid: d38754dcff809394f9c59793c995065f, type: 3}
+  - {fileID: 2132849561675207463, guid: 5cc036946fd369f4f8264c9ab4321365, type: 3}
   canvas: {fileID: 1873904237}
-  stageNum: 3
+  stageNum: 9
+  isMoving: 0
 --- !u!1 &2134742805
 GameObject:
   m_ObjectHideFlags: 0

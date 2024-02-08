@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class MenuController : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class MenuController : MonoBehaviour
     {
         if (ControllerManager.instance.CtrlInput.Menu.OpenMenu.WasPerformedThisFrame())
         {
-            Black.SetActive(true);
+            
         }
     }
 }
