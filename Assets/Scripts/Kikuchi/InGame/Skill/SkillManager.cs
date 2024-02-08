@@ -1,50 +1,41 @@
-using Cysharp.Threading.Tasks;
-using DG.Tweening;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class SkillManager : MonoBehaviour
 {
-    // コントローラーマネージャー
+    // コントローラーマネージャーの参照
     public ControllerManager ctrl;
-    
-    //プレイヤーコントローラー
+
+    // プレイヤーコントローラーの参照
     public PlayerController plCon;
 
-    // スキル範囲表示
+    // スキル範囲表示のためのSkillAreaDisplayクラスのインスタンス
     private SkillAreaDisplay skillArea;
 
-
+    // 吸引オブジェクトの参照
     [SerializeField]
     public GameObject suctionObj;
 
-    // 現在スキルが発動中かどうかのフラグ
+    // スキルが発動中かどうかのフラグ
     public static bool IsNowSkill = false;
     public static bool isNowSuction = false;
     public static bool IsNowEffect = false;
 
-    // 現在スキル発動位置選択中かどうか
+    // スキル発動位置選択中かどうかのフラグ
     public bool isPosSelectNow = false;
 
-    // 各スキルのクラスを用意
-    private Skill currentSkillA;
-    private Skill currentSkillB;
+    // 各スキルのクラスインスタンス
+    public Skill currentSkillA;
+    public Skill currentSkillB;
     private SkillSuction currentSkillC;
-    public SkillSuction CurrentSkillC => currentSkillC;
+    public SkillSuction CurrentSkillC => currentSkillC; 
 
-
+    // スキルタイプの定義
     [SerializeField]
     private skillType skillOneType;
     [SerializeField]
     private skillType skillTwoType;
 
-    
-
-    // スキルのタイプ
+    // スキルのタイプを定義するenum
     private enum skillType
     {
         skillA,
@@ -53,8 +44,9 @@ public class SkillManager : MonoBehaviour
         Null
     };
 
-    // 押されたボタンの種類判別用
+    // 押されたボタンの種類判別用の変数
     private skillType selectSkill = skillType.Null;
+
 
     public void SkillManagerStart()
     {
@@ -74,9 +66,6 @@ public class SkillManager : MonoBehaviour
         currentSkillB = new SkillFire(skillArea, this);
         currentSkillC = new SkillSuction(skillArea, this);
 
-        skillOneType = skillType.skillA;
-        skillTwoType = skillType.skillC;
-        
     }
 
 
@@ -129,8 +118,6 @@ public class SkillManager : MonoBehaviour
 
     }
 
-
-
     private void SkillProcess()
     {
         if (skillArea.areaViewNow)
@@ -152,8 +139,5 @@ public class SkillManager : MonoBehaviour
 
         }
     }
-
-    
-
 
 }

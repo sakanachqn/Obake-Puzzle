@@ -1,11 +1,5 @@
-using System.Threading;
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using System;
-using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,24 +14,14 @@ public class PlayerController : MonoBehaviour
     //正面方向取得用クラス格納用変数
     [SerializeField]
     private ObjectRotation objectRotation;
-    public ObjectRotation objRotate
-    {
-        get => objectRotation;
-    }
+    public ObjectRotation objRotate => objectRotation;
 
     //プレイヤー移動クラス
     private PlayerMove playerMove;
-    public PlayerMove plMove
-    {
-        get => playerMove;
-    }
+    public PlayerMove plMove => playerMove;
 
     private SkillManager skillManager;
-    public SkillManager SkillManager
-    {
-        get => skillManager;
-    }
-
+    public SkillManager SkillManager => skillManager;
 
     //プレイヤーカメラ回転クラス
     private PlayerRotate playerRotate;
@@ -54,7 +38,6 @@ public class PlayerController : MonoBehaviour
         playerRotate = GetComponent<PlayerRotate>();
         skillManager = GetComponent<SkillManager>();
     }
-
 
     // Start is called before the first frame update
     async void Start()

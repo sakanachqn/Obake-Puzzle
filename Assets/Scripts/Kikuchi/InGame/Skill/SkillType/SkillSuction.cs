@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -9,15 +7,19 @@ public class SkillSuction : Skill
 {
     public SkillSuction(SkillAreaDisplay skillAreaDisplay, SkillManager skillManager) : base(skillAreaDisplay, skillManager)
     {
-
     }
 
+    // スキル発動のメソッド（非同期）
     public override async void SkillActivate()
     {
+        // スキルが発動中であることを表すフラグをセット
         SkillManager.IsNowSkill = true;
 
+        // 待機（ディレイ）
         await UniTask.Delay(1);
-        if(Physics.Raycast(sad.transform.position, sad.transform.forward, out var hit, 1) && sm.suctionObj == null)
+
+        // レイキャストで鉄箱を検出し、吸引する
+        if (Physics.Raycast(sad.transform.position, sad.transform.forward, out var hit, 1) && sm.suctionObj == null)
         {
             if (hit.collider.tag == "IronBox")
             {
@@ -35,8 +37,10 @@ public class SkillSuction : Skill
         SkillManager.IsNowSkill = false;
     }
 
+    // 吸引したオブジェクトを逆方向に放出するメソッド
     public async void ReverseObject()
     {
+        // 吸引中であることを表すフラグをセット
         SkillManager.isNowSuction = true;
         var vec3 = sm.gameObject.transform.Find("Foward").transform.position;
         await UniTask.Delay(1);
@@ -61,19 +65,15 @@ public class SkillSuction : Skill
                 sm.plCon.plMove.WalkCount = 0;
                 sm.suctionObj = null;
 
-                //se
-
-                SkillManager.isNowSuction = false;
-            }
-        }
+        // 吸引中フラグをリセット
+        SkillManager.isNowSuction = false;
     }
 
-    private async UniTask ObjectMoveAnimation(GameObject gobj,Vector3 endPos, float endSize)
+    // オブジェクトを動かすためのアニメーションメソッド（非同期）
+    private async UniTask ObjectMoveAnimation(GameObject gobj, Vector3 endPos, float endSize)
     {
-        gobj.transform.DOMove(endPos, 0.5f);
-        await gobj.transform.DOScale(new Vector3(endSize, endSize, endSize), 0.5f);
+        gobj.transform.DOMove(endPos, 0.5f); // オブジェクトを移動
+        await gobj.transform.DOScale(new Vector3(endSize, endSize, endSize), 0.5f); // オブジェクトのスケールを変更
         return;
     }
-
-
 }
