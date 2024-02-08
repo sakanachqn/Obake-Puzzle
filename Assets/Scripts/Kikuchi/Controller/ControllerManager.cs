@@ -94,8 +94,6 @@ public class ControllerManager : MonoBehaviour
         var stickAngle = Mathf.Atan2(stickInclination.x, stickInclination.y) * Mathf.Rad2Deg;
         if (stickAngle < 0) stickAngle += 360;
 
-        Debug.Log(stickAngle);
-
         //正規化
         stickInclination = DeadZone(stickInclination);
 

@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class SkillUIChange : MonoBehaviour
 {
+
+     private static SkillUIChange instance;
+    public static SkillUIChange Instance => instance;
+
     //スキルUI保管場所
     [Header("1つ目:炎スキル、2つ目:水スキル、3つ目:吸い込みスキル")]
     [SerializeField]
@@ -19,13 +23,17 @@ public class SkillUIChange : MonoBehaviour
     private Image buttonY;
 
     //スキル使用回数
-    private int buttonXCount;
-    private int buttonYCount;
+    [HideInInspector]
+    public int buttonXCount;
+    [HideInInspector]
+    public int buttonYCount;
 
     private CSVMapGenerate CSVMapGenerate;
 
     void Start()
     {
+        if(instance == null) instance = this;
+        CSVMapGenerate = CSVMapGenerate.Instance;
         int i = 0;
 
         //CSVのスキルの名前からUIに対応したスキル画像を差し込む
@@ -61,5 +69,11 @@ public class SkillUIChange : MonoBehaviour
             //Yボタンのスキルの使用回数
             else buttonYCount = CSVMapGenerate.SkillCastLimit[1];
         }
+
+    }
+
+    private void Update()
+    {
+        
     }
 }

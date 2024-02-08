@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -41,10 +39,20 @@ public class SkillWater : Skill
         {
             if (hit.collider.tag == "IronBox" || hit.collider.tag == "WoodenBox")
             {
-                // 中略: 効果の発動処理（オブジェクトの移動、水のエフェクト、サウンド、アニメーションの再生など）
-
-                // 効果発動中フラグをリセット
+                var direc = hit.transform.position - sad.transform.position;
+                var objBack = hit.transform.position + direc;
+                if (0 > objBack.x || 0 > objBack.z || 4 < objBack.x || 4 < objBack.z) return;
+                if (Physics.Raycast(hit.transform.position, direc, out var hitTwo, 1)) return;
+                effectInstance.WaterEffect(sad.gameObject.transform.position, direc);
+                await UniTask.Delay(500);
+                SoundManager.Instance.Play("SEWater");
+                ObakeAnimation.Inctance.WaterAnimation();
+                await UniTask.Delay(1000);
+                await hit.transform.DOMove(hit.transform.position + direc, 1);
+                await UniTask.Delay(1000);
                 SkillManager.IsNowEffect = false;
+                if (sm.skillOneType == SkillManager.skillType.skillA) sm.skillOneLim--;
+                if (sm.skillTwoType == SkillManager.skillType.skillA) sm.skillTwoLim--;
             }
             else
             {

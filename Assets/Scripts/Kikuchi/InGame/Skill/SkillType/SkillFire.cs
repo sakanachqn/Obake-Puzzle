@@ -73,6 +73,8 @@ public class SkillFire : Skill
 
             // 待機（ディレイ）
             await UniTask.Delay(500);
+            if (sm.skillOneType == SkillManager.skillType.skillB) sm.skillOneLim--;
+            if (sm.skillTwoType == SkillManager.skillType.skillB) sm.skillTwoLim--;
 
             // 効果発動中フラグをリセット
             SkillManager.IsNowEffect = false;

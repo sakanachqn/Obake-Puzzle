@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class CSVMapGenerate : MonoBehaviour
 {
+    private static CSVMapGenerate instance;
+    public static CSVMapGenerate Instance => instance;
     // マップ上すべてのブロックの文字情報
     private List<List<string>> allBlocksStr = new List<List<string>>();
     // 文字からオブジェクトを取り出せるディクショナリ
@@ -81,6 +83,8 @@ public class CSVMapGenerate : MonoBehaviour
         Init();
         ReadCsv();
         MapGenerate();
+
+        if(instance == null) instance = this;
     }
 
     /// <summary>

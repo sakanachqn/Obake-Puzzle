@@ -28,6 +28,8 @@ public class SkillSuction : Skill
                 await ObjectMoveAnimation(sm.suctionObj, sm.transform.position, 0f);
                 sm.suctionObj.SetActive(false);
                 sm.plCon.plMove.isWalkCount = true;
+                if (sm.skillOneType == SkillManager.skillType.skillC) sm.skillOneLim--;
+                if (sm.skillTwoType == SkillManager.skillType.skillC) sm.skillTwoLim--;
             }
             else
             {
@@ -65,12 +67,15 @@ public class SkillSuction : Skill
                 sm.plCon.plMove.WalkCount = 0;
                 sm.suctionObj = null;
 
-        // 吸引中フラグをリセット
-        SkillManager.isNowSuction = false;
+                // 吸引中フラグをリセット
+                SkillManager.isNowSuction = false;
+            }
+
+        }
     }
 
     // オブジェクトを動かすためのアニメーションメソッド（非同期）
-    private async UniTask ObjectMoveAnimation(GameObject gobj, Vector3 endPos, float endSize)
+    async UniTask ObjectMoveAnimation(GameObject gobj, Vector3 endPos, float endSize)
     {
         gobj.transform.DOMove(endPos, 0.5f); // オブジェクトを移動
         await gobj.transform.DOScale(new Vector3(endSize, endSize, endSize), 0.5f); // オブジェクトのスケールを変更

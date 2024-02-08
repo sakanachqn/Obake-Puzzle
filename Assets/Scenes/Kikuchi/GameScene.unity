@@ -212,6 +212,7 @@ GameObject:
   - component: {fileID: 20266135}
   - component: {fileID: 20266134}
   - component: {fileID: 20266133}
+  - component: {fileID: 20266137}
   m_Layer: 5
   m_Name: UICanvas
   m_TagString: Untagged
@@ -306,6 +307,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &20266137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20266132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 550937291d61c894d910a8b855ea9448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonXUI:
+  - {fileID: 21300000, guid: e001b0f5b2b5ed54685cf933ec730f3c, type: 3}
+  - {fileID: 21300000, guid: 7297359238eb2934292e99582cba5842, type: 3}
+  - {fileID: 21300000, guid: 497e3ca89b3503340ad2ca654d5bda80, type: 3}
+  buttonYUI:
+  - {fileID: 21300000, guid: eb63d75c5330d734c825bbe5cfafed4d, type: 3}
+  - {fileID: 21300000, guid: 7f09cf2a42415234fb0da89f2262ea26, type: 3}
+  - {fileID: 21300000, guid: 9117800205b7b1e48a999383b4735daa, type: 3}
+  buttonX: {fileID: 136725982}
+  buttonY: {fileID: 543104225}
+  buttonXCount: 0
+  buttonYCount: 0
 --- !u!1 &135423466
 GameObject:
   m_ObjectHideFlags: 0

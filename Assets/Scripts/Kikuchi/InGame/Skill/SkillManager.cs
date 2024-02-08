@@ -11,6 +11,10 @@ public class SkillManager : MonoBehaviour
     // スキル範囲表示のためのSkillAreaDisplayクラスのインスタンス
     private SkillAreaDisplay skillArea;
 
+    public CSVMapGenerate csvGene;
+
+    private SkillUIChange ui;
+
     // 吸引オブジェクトの参照
     [SerializeField]
     public GameObject suctionObj;
@@ -30,13 +34,11 @@ public class SkillManager : MonoBehaviour
     public SkillSuction CurrentSkillC => currentSkillC; 
 
     // スキルタイプの定義
-    [SerializeField]
-    private skillType skillOneType;
-    [SerializeField]
-    private skillType skillTwoType;
+    public skillType skillOneType;
+    public skillType skillTwoType;
 
     // スキルのタイプを定義するenum
-    private enum skillType
+    public enum skillType
     {
         skillA,
         skillB,
@@ -47,6 +49,8 @@ public class SkillManager : MonoBehaviour
     // 押されたボタンの種類判別用の変数
     private skillType selectSkill = skillType.Null;
 
+    public int skillOneLim = 0;
+    public int skillTwoLim = 0;
 
     public void SkillManagerStart()
     {
@@ -61,10 +65,57 @@ public class SkillManager : MonoBehaviour
         plCon = GetComponent<PlayerController>();
         // スキル範囲表示クラス取得
         skillArea = GetComponent<SkillAreaDisplay>();
+
+        
+        csvGene = CSVMapGenerate.Instance;
         // 各スキルクラスを変数に格納
         currentSkillA = new SkillWater(skillArea, this);
         currentSkillB = new SkillFire(skillArea, this);
         currentSkillC = new SkillSuction(skillArea, this);
+
+        if(csvGene != null)
+        {
+            switch (csvGene.SkillName[0])
+            {
+                case "W":
+                    {
+                        skillOneType = skillType.skillA;
+                        break;
+                    }
+                case "F":
+                    {
+                        skillOneType = skillType.skillB;
+                        break;
+                    }
+                case "S":
+                    {
+                        skillOneType = skillType.skillC;
+                        break;
+                    }
+            }
+            skillOneLim = csvGene.SkillCastLimit[0];
+            switch (csvGene.SkillName[1])
+            {
+                case "W":
+                    {
+                        skillTwoType = skillType.skillA;
+                        break;
+                    }
+                case "F":
+                    {
+                        skillTwoType = skillType.skillB;
+                        break;
+                    }
+
+                case "S":
+                    {
+                        skillTwoType = skillType.skillC;
+                        break;
+                    }
+            }
+            skillTwoLim = csvGene.SkillCastLimit[1];
+
+        }
 
     }
 
@@ -75,6 +126,11 @@ public class SkillManager : MonoBehaviour
         {
             if(!IsNowSkill)
             {
+                if (skillOneLim == 0)
+                {
+                    //SE
+                    return;
+                }
                 IsNowSkill = true;
                 switch(skillOneType)
                 {
@@ -93,6 +149,11 @@ public class SkillManager : MonoBehaviour
         }
         if (ctrl.CtrlInput.Skill.SkillB.WasPressedThisFrame())
         {
+            if (skillTwoLim == 0)
+            {
+                //SE
+                return;
+            }
             if (!IsNowSkill)
             {
                 IsNowSkill = true;
@@ -116,6 +177,8 @@ public class SkillManager : MonoBehaviour
             SkillProcess();
         }
 
+        SkillUIChange.Instance.buttonXCount = skillOneLim;
+        SkillUIChange.Instance.buttonYCount = skillTwoLim;
     }
 
     private void SkillProcess()

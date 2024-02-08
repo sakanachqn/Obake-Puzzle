@@ -173,10 +173,10 @@ public class SkillAreaDisplay : MonoBehaviour
                 Destroy(kvp.Key.gameObject);
         }
 
-        foreach (var obj in hitObj)
-        {
-            obj.SetActive(true);
-        }
+        //foreach (var obj in hitObj)
+        //{
+        //    obj.SetActive(true);
+        //}
 
         // 辞書をクリアし、スキル発動中のフラグをオフに
         hitObj.Clear();
