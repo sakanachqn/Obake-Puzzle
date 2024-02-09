@@ -1,9 +1,6 @@
-using Palmmedia.ReportGenerator.Core.Common;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class CSVMapGenerate : MonoBehaviour
 {
@@ -175,7 +172,7 @@ public class CSVMapGenerate : MonoBehaviour
             str = csvDatas[skillReadStartPoint][i];
             // 文字の入っていないセルを飛ばす
             if (str == "") continue;
-            SkillCastLimit.Add(str.ParseLargeInteger());
+            SkillCastLimit.Add(int.Parse(str));
         }
     }
 

@@ -189,9 +189,13 @@ public class SkillManager : MonoBehaviour
             // コントローラーマネージャーのdPadSkillDirectionがNullでない場合
             if (ControllerManager.instance.dPadDirection != ControllerManager.Direction.Null && !isPosSelectNow)
             {
-                skillArea.GetSkillPos();
+                skillArea.GetSkillPos("DPad");
             }
-            if(ctrl.CtrlInput.Skill.Select.WasPressedThisFrame() && selectSkill == skillType.skillA)
+            if (ControllerManager.instance.stickPlayerDirection != ControllerManager.Direction.Null && !isPosSelectNow)
+            {
+                skillArea.GetSkillPos("Stick");
+            }
+            if (ctrl.CtrlInput.Skill.Select.WasPressedThisFrame() && selectSkill == skillType.skillA)
             {
                 currentSkillA.SkillActivate();
             }

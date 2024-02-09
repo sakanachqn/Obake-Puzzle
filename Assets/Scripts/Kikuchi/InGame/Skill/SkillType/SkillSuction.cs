@@ -54,7 +54,7 @@ public class SkillSuction : Skill
         {
             vec3.x = Mathf.Round(vec3.x);
             vec3.z = Mathf.Round(vec3.z);
-            if (vec3.x > 5 || vec3.x < 0 || vec3.z > 5 || vec3.z < 0)
+            if (vec3.x > 4 || vec3.x < 0 || vec3.z > 4 || vec3.z < 0)
             {
                 ObakeAnimation.Inctance.SuctionMissAnimation();
             }

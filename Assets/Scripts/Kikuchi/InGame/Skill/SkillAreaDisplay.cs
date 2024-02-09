@@ -51,6 +51,8 @@ public class SkillAreaDisplay : MonoBehaviour
     public GameObject posObj = null;
     private GameObject parent = null;
 
+    private List<Vector3> posList = new List<Vector3>();
+
     private int cloneLayer = ~7;
 
     // Start is called before the first frame update
@@ -96,6 +98,7 @@ public class SkillAreaDisplay : MonoBehaviour
                         hitObj.Add(hit.collider.gameObject);
                         //hit.collider.gameObject.SetActive(false);
                         Vector3 pos = hit.transform.position;
+                        posList.Add(pos);
                         createArea(pos);
                     }
 
@@ -104,8 +107,12 @@ public class SkillAreaDisplay : MonoBehaviour
                     {
                         Vector3 pos = hit.transform.position;
                         pos.y += 1;
+                        posList.Add(pos);
                         createArea(pos);
                     }
+
+
+
                 }
             }
         }
@@ -126,6 +133,7 @@ public class SkillAreaDisplay : MonoBehaviour
                         hitObj.Add(hit.collider.gameObject);
                         //hit.collider.gameObject.SetActive(false);
                         Vector3 pos = hit.transform.position;
+                        posList.Add(pos);
                         createArea(pos);
                     }
 
@@ -134,11 +142,14 @@ public class SkillAreaDisplay : MonoBehaviour
                     {
                         Vector3 pos = hit.transform.position;
                         pos.y += 1;
+                        posList.Add(pos);
                         createArea(pos);
                     }
                 }
             }
         }
+
+        SkillPosInit();
 
         areaViewNow = true;
         //// スキル発動位置のオブジェクトを生成
@@ -148,6 +159,28 @@ public class SkillAreaDisplay : MonoBehaviour
         //}
     }
 
+    private void SkillPosInit()
+    {
+        SkillPosCreate(transform.forward);
+        SkillPosCreate(transform.right);
+        SkillPosCreate(-transform.right);
+        SkillPosCreate(-transform.forward);
+        posList.Clear();
+    }    
+
+    private void SkillPosCreate(Vector3 direc)
+    {
+        foreach (Vector3 pos in posList)
+        {
+            if (posObj != null) return;
+            if (posObj != null) break;
+            if (pos.x == this.transform.position.x + direc.x && pos.z == this.transform.position.z + direc.z)
+            {
+                if (posObj == null) posObj = Instantiate(skillPosPrefab, pos, Quaternion.identity);
+            }
+        }
+    }
+
     private void createArea(Vector3 pos)
     {
         var temp = Instantiate(skillAreaPrefab, pos, Quaternion.identity, parent.transform);
@@ -155,6 +188,7 @@ public class SkillAreaDisplay : MonoBehaviour
         hitArea.Add(temp, mat);
         tempMat.material = changeMat;
         temp.GetComponent<AreaColorFade>().ColorFade();
+
     }
 
     /// <summary>
@@ -198,7 +232,7 @@ public class SkillAreaDisplay : MonoBehaviour
     /// スキル発動位置を取得する非同期メソッド
     /// </summary>
     /// <returns></returns>
-    public async void GetSkillPos()
+    public async void GetSkillPos(string str)
     {
         smg.isPosSelectNow = true;
 
@@ -206,9 +240,20 @@ public class SkillAreaDisplay : MonoBehaviour
 
         Vector3 rayPos;
 
-        Vector3 firstRayPos = new Vector3(this.transform.position.x + direcDic[ControllerManager.instance.dPadDirection].x,
+        Vector3 firstRayPos;
+
+        if(str == "DPad")
+        {
+            firstRayPos = new Vector3(this.transform.position.x + direcDic[ControllerManager.instance.dPadDirection].x,
                                    5,
                                    this.transform.position.z + direcDic[ControllerManager.instance.dPadDirection].z);
+        }
+        else
+        {
+            firstRayPos = new Vector3(this.transform.position.x + direcDic[ControllerManager.instance.stickPlayerDirection].x,
+                       5,
+                       this.transform.position.z + direcDic[ControllerManager.instance.stickPlayerDirection].z);
+        }
 
         var testvar = new Vector3(0, -10, 0);
 
@@ -219,12 +264,19 @@ public class SkillAreaDisplay : MonoBehaviour
         }
         else
         {
-            rayPos = new Vector3(posObj.transform.position.x + direcDic[ControllerManager.instance.dPadDirection].x,
-                      5,
-                      posObj.transform.position.z + direcDic[ControllerManager.instance.dPadDirection].z);
+            if (str == "DPad")
+            {
+                rayPos = new Vector3(posObj.transform.position.x + direcDic[ControllerManager.instance.dPadDirection].x,
+                          5,
+                          posObj.transform.position.z + direcDic[ControllerManager.instance.dPadDirection].z);
+            }
+            else
+            {
+                rayPos = new Vector3(posObj.transform.position.x + direcDic[ControllerManager.instance.stickPlayerDirection].x,
+                 5,
+                posObj.transform.position.z + direcDic[ControllerManager.instance.stickPlayerDirection].z);
+            }
         }
-
-        Debug.DrawRay(rayPos, testvar, Color.cyan, Mathf.Infinity);
 
 
         if (Physics.Raycast(rayPos, Vector3.down, out var hit, 10, cloneLayer))
@@ -247,6 +299,16 @@ public class SkillAreaDisplay : MonoBehaviour
 
         await UniTask.Delay(250);
         smg.isPosSelectNow = false;
+    }
+
+    /// <summary>
+    /// 指定された座標が枠外にあるかどうかを確認する
+    /// </summary>
+    /// <param name="point">確認する座標</param>
+    /// <returns>枠外にあればtrue、そうでなければfalse</returns>
+    public bool IsOutsideBounds(Vector2 point)
+    {
+        return point.x < 0 || point.x > 4 || point.y < 0|| point.y > 4;
     }
 
 }

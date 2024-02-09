@@ -1,32 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class StepCounter : MonoBehaviour
 {
     public int stepCountNum = 0;
 
     private static StepCounter _instance;
-    public static StepCounter Inctance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<StepCounter>();
+    public static StepCounter Inctance => _instance;
 
-                if (_instance == null)
-                {
-                    var obj = new GameObject("StepCounter");
-                    _instance = obj.AddComponent<StepCounter>();
-                }
-            }
-            return _instance;
-        }
+
+    [SerializeField]
+    private TextMeshProUGUI tmPro;
+
+    private void Awake()
+    {
+        _instance = this;
+        tmPro = GetComponent<TextMeshProUGUI>();
     }
 
     public void StepCount()
     {
         stepCountNum++;
+        tmPro.text = stepCountNum.ToString();
     }
+
+
 }

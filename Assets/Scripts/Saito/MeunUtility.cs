@@ -7,6 +7,9 @@ using Cysharp.Threading.Tasks;
 
 public class MeunUtility : MonoBehaviour
 {
+
+    public static MeunUtility Instance;
+
     bool isMenuOpen = false;
     
     [SerializeField]
@@ -29,13 +32,15 @@ public class MeunUtility : MonoBehaviour
             CtrlInput = ControllerManager.instance.CtrlInput;
         }
 
+        Instance = this;
+
        rtf = menuPanel.GetComponent<RectTransform>();
 
     }
 
     void SelectRetry()
     {
-        
+        CSVMapGenerate.Instance.Regenerate();
         Debug.Log("Retry");
     }
 
@@ -50,6 +55,7 @@ public class MeunUtility : MonoBehaviour
         await rtf.DOAnchorPosY(-1080, moveTime);
         menuBG.gameObject.SetActive(false);
         isMenuOpen = false;
+        TimeCount.instance.IsTimerStop = false;
         Debug.Log("Close");
     }
 
@@ -77,6 +83,7 @@ public class MeunUtility : MonoBehaviour
                     }
                     default:break;
             }
+            ControllerManager.instance.EnablePLInput();
         }
     }
 
@@ -97,6 +104,8 @@ public class MeunUtility : MonoBehaviour
     {
         if(CtrlInput.Menu.OpenMenu.WasPerformedThisFrame())
         {
+            TimeCount.instance.IsTimerStop = true;
+            ControllerManager.instance.DisablePLInput();
             menuBG.SetActive(true);
             await rtf.DOAnchorPosY(0, moveTime);
             isMenuOpen = true;

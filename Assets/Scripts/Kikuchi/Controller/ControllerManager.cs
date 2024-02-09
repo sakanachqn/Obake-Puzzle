@@ -161,4 +161,18 @@ public class ControllerManager : MonoBehaviour
         else camLR = LeftRight.Null;
     }
     #endregion
+
+    public void DisablePLInput()
+    {
+        CtrlInput.Player.Disable();
+        CtrlInput.Rotate.Disable();
+        CtrlInput.Skill.Disable();
+    }
+
+    public void EnablePLInput()
+    {
+        CtrlInput.Player.Enable();
+        CtrlInput.Rotate.Enable();
+        CtrlInput.Skill.Enable();
+    }
 }

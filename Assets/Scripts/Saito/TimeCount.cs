@@ -7,15 +7,17 @@ using TMPro;
 
 public class TimeCount : MonoBehaviour
 {
+    public static TimeCount instance;
 
     public int CountDownMinutes = 5;
-    private float countdownSeconds;
+    public float countdownSeconds;
     private TMP_Text timeText;
 
-    private bool gameguard = false;
+    public bool IsTimerStop = false;
 
     void Start()
     {
+        instance = this;
         timeText = GetComponent<TMP_Text>();
         countdownSeconds = CountDownMinutes * 60;
     }
@@ -23,14 +25,14 @@ public class TimeCount : MonoBehaviour
     
     void Update()
     {
-        if (gameguard) return;
+        if (IsTimerStop) return;
 
         countdownSeconds -= Time.deltaTime;
        TimeSpan timeSpan = TimeSpan.FromSeconds(countdownSeconds);
         timeText.text = timeSpan.ToString(@"mm\:ss");
         if(countdownSeconds <= 0)//0秒になったときの処理
         {
-           gameguard = true;
+           IsTimerStop = true;
         }
     }
 }

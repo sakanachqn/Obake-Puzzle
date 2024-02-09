@@ -1250,10 +1250,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ctrl: {fileID: 0}
   plCon: {fileID: 0}
+  csvGene: {fileID: 0}
   suctionObj: {fileID: 0}
   isPosSelectNow: 0
+  currentSkillA: {fileID: 0}
+  currentSkillB: {fileID: 0}
   skillOneType: 0
   skillTwoType: 1
+  skillOneLim: 0
+  skillTwoLim: 0
 --- !u!114 &7483999969501014446
 MonoBehaviour:
   m_ObjectHideFlags: 0

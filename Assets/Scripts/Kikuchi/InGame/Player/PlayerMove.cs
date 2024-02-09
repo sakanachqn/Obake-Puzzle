@@ -13,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     private PlayerController plCon;
 
     private ControllerManager ctrlManager;
+    private StepCounter stepCounter;
     [SerializeField]
     private Material material;
     private Color testRed = new Color(1f, 0, 0, 0.5f);
@@ -53,6 +54,7 @@ public class PlayerMove : MonoBehaviour
 
     public void PlayerMoveStart()
     {
+        stepCounter = StepCounter.Inctance;
         ctrlManager = ControllerManager.instance;
         material = GetComponent<SkinnedMeshRenderer>().material;
         testColor = material.color;
@@ -123,6 +125,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         ObakeAnimation.Inctance.WalkAnimation();
+        stepCounter.StepCount();
         await RotateDirection(directions[ctrlManager.stickPlayerDirection], speed);
         await this.transform.root.transform.DOMove(targetPos, speed);
         if (isWalkCount)
@@ -192,9 +195,22 @@ public class PlayerMove : MonoBehaviour
     }
 
 
+    private bool isFlag = false;
+    private async void Update()
+    {
+        if(isFlag) return;
+        if(TimeCount.instance.countdownSeconds <= 0)
+        {
+            await GoalCoroutine(this.GetCancellationTokenOnDestroy());
+        }
+    }
+
+
     private async UniTask GoalCoroutine(CancellationToken ct)
     {
+        isFlag = true;
         SoundManager.Instance.Play("ResSound");
+        TimeCount.instance.IsTimerStop = true;
         var bg = goalBG.GetComponent<Image>();
         goalBG.SetActive(true);
         await bg.DOFade(0.8f, 1);
@@ -208,7 +224,9 @@ public class PlayerMove : MonoBehaviour
         await UniTask.Delay(1500);
         goalImg.transform.Find("rank").gameObject.SetActive(true);
         await UniTask.Delay(2000);
-        await SceneFade.instance.SceneChange("ResScene");
+        goalImg.transform.Find("Textr").gameObject.SetActive(true);
+        await UniTask.WaitUntil(() => ctrlManager.CtrlInput.Menu.PushABotton.WasPressedThisFrame());
+        await SceneFade.instance.SceneChange("TitleScene");
 
     }
 
