@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using Cysharp.Threading.Tasks;
 
 public class SkillUIChange : MonoBehaviour
 {
 
-     private static SkillUIChange instance;
+    private static SkillUIChange instance;
     public static SkillUIChange Instance => instance;
 
     //スキルUI保管場所
@@ -22,6 +24,11 @@ public class SkillUIChange : MonoBehaviour
     [SerializeField]
     private Image buttonY;
 
+    [SerializeField]
+    private TextMeshProUGUI xCount;
+    [SerializeField]
+    private TextMeshProUGUI yCount;
+
     //スキル使用回数
     [HideInInspector]
     public int buttonXCount;
@@ -30,16 +37,43 @@ public class SkillUIChange : MonoBehaviour
 
     private CSVMapGenerate CSVMapGenerate;
 
-    void Start()
+    private SkillManager sm;
+
+    async void Start()
     {
         if(instance == null) instance = this;
         CSVMapGenerate = CSVMapGenerate.Instance;
-        int i = 0;
+        await UniTask.WaitUntil(() => CSVMapGenerate.IsMapGenerate);
+        sm = PlayerController.PlayerObject.GetComponent<SkillManager>();
 
+        IconChange();
+
+    }
+
+    private void Update()
+    {
+        if (sm == null)
+        {
+            sm = PlayerController.PlayerObject.GetComponent<SkillManager>();
+            IconChange();
+        }
+        yCount.text = sm.skillOneLim.ToString("F0");
+        xCount.text = sm.skillTwoLim.ToString("F0");
+    }
+
+    private void OnDestroy()
+    {
+        instance = null;
+    }
+
+    private void IconChange()
+    {
+
+        int i = 0;
         //CSVのスキルの名前からUIに対応したスキル画像を差し込む
         foreach (var name in CSVMapGenerate.SkillName)
         {
-            switch(name)
+            switch (name)
             {
                 //炎スキル
                 case "F":
@@ -60,20 +94,5 @@ public class SkillUIChange : MonoBehaviour
 
             i++;
         }
-
-        //スキルの使用回数を入れる
-        for (int j = 0; j < CSVMapGenerate.SkillCastLimit.Count; j++)
-        {
-            //Xボタンのスキルの使用回数
-            if (j == 0) buttonXCount = CSVMapGenerate.SkillCastLimit[0];
-            //Yボタンのスキルの使用回数
-            else buttonYCount = CSVMapGenerate.SkillCastLimit[1];
-        }
-
-    }
-
-    private void Update()
-    {
-        
     }
 }

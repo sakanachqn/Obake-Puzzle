@@ -37,7 +37,7 @@ public class SkillWater : Skill
         // レイキャストで鉄箱または木箱を検出し、水の効果を発動する
         if (Physics.Raycast(sad.transform.position, pos - sad.transform.position, out var hit, 1))
         {
-            if (hit.collider.tag == "IronBox" || hit.collider.tag == "WoodenBox")
+            if (hit.collider.tag == "IronBox" || hit.collider.tag == "WoodenBox" || hit.collider.tag == "Goal")
             {
                 var direc = hit.transform.position - sad.transform.position;
                 var objBack = hit.transform.position + direc;

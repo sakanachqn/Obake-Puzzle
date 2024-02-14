@@ -226,7 +226,7 @@ public class PlayerMove : MonoBehaviour
         await UniTask.Delay(2000);
         goalImg.transform.Find("Textr").gameObject.SetActive(true);
         await UniTask.WaitUntil(() => ctrlManager.CtrlInput.Menu.PushABotton.WasPressedThisFrame());
-        await SceneFade.instance.SceneChange("TitleScene");
+        await SceneFade.instance.SceneChange("StageSelect");
 
     }
 

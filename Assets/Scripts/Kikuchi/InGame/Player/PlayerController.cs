@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     public static bool IsNowAction = false;
 
     private bool isStartMethodEnd = false;
+
+    public static GameObject PlayerObject;
     
 
     private void Awake()
@@ -37,6 +39,7 @@ public class PlayerController : MonoBehaviour
         playerMove = GetComponent<PlayerMove>();
         playerRotate = GetComponent<PlayerRotate>();
         skillManager = GetComponent<SkillManager>();
+        PlayerObject = this.gameObject;
     }
 
     // Start is called before the first frame update

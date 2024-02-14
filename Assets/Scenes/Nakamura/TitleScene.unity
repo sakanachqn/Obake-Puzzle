@@ -741,7 +741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d88e3afb60caf3d4aaff1466a62ec18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obake: {fileID: 8048105444371697710, guid: 5dd012c36bd449a4baf2a5bdbef31917, type: 3}
+  obake: {fileID: 6658627255864456400, guid: a3d0010179c30a248ae8d607fd21d763, type: 3}
   startBtn: {fileID: 3157792198780402434}
   maxObakeCount: 30
   GotoMapSelect: StageSelect

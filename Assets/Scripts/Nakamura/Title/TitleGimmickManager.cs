@@ -80,7 +80,7 @@ public class TitleGimmickManager : MonoBehaviour
             //ランダム位置
             obakePosition = new Vector3(4.0f, Random.Range(2.6f, 5.0f), -0.86f);
 
-            Instantiate(obake, obakePosition, Quaternion.Euler(0, 180, 0));
+            var obk = Instantiate(obake, obakePosition, Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360)));
             obakeCount++;
         }
     }

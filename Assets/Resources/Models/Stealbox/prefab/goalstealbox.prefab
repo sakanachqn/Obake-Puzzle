@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 209279402462308965}
-  - component: {fileID: -7896077492445487284}
   - component: {fileID: 155253750396630529}
+  - component: {fileID: 6957900808260268049}
   m_Layer: 0
   m_Name: goalstealbox
   m_TagString: IronBox
@@ -36,19 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &-7896077492445487284
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 697022397175443679}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &155253750396630529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,6 +48,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca0e202a60cfae46b1fdb3bf8e7a283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &6957900808260268049
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697022397175443679}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &729216143023219779
 GameObject:
   m_ObjectHideFlags: 0
@@ -1153,7 +1153,7 @@ GameObject:
   - component: {fileID: 6115397120703716563}
   m_Layer: 0
   m_Name: Stealbox
-  m_TagString: Untagged
+  m_TagString: IronBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1908,6 +1908,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 881061481792951795, guid: 94c2764e6efcbb841b8632027064d49b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575278796508664538, guid: 94c2764e6efcbb841b8632027064d49b, type: 3}
+      propertyPath: m_Center.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -53,7 +53,7 @@ public class StageSelectView : MonoBehaviour
         // ステージ数だけキャプチャ画像を読み込む
         for (int i = 1; i <= stageNum; i++)
         {
-            stageSprites.Add(i, Resources.Load<Sprite>("UI/Stage/Ui_005_1 " + i));
+            stageSprites.Add(i, Resources.Load<Sprite>("UI/StageSelectImg/Map_00" + i));
         }
 
         // ステージ数だけUIを生成する

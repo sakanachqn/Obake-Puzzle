@@ -119,9 +119,9 @@ public class CSVMapGenerate : MonoBehaviour
 
         // スキル読み込み用に読み込むCSVファイル変えています   横田
         if (selectedStage < 10)
-            csvFile = Resources.Load("CSV/MapData/SkillReadTest_0" + selectedStage) as TextAsset;
+            csvFile = Resources.Load("CSV/MapData/MapTest_0" + selectedStage) as TextAsset;
         else
-            csvFile = Resources.Load("CSV/MapData/SkillReadTest" + selectedStage) as TextAsset;
+            csvFile = Resources.Load("CSV/MapData/MapCSV_" + selectedStage) as TextAsset;
         // 読み込んだテキストをString型にして格納
         StringReader reader = new StringReader(csvFile.text);
 
@@ -304,4 +304,9 @@ public class CSVMapGenerate : MonoBehaviour
     //    // この処理を削除する
     //    SceneManager.sceneLoaded -= GameSceneLoaded;
     //}
+
+    private void OnDestroy()
+    {
+        IsMapGenerate = false;
+    }
 }

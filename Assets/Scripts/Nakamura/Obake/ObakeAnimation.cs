@@ -87,7 +87,6 @@ public class ObakeAnimation  : MonoBehaviour
     public void SuctionAnimation()
     {
         _obake.SetTrigger("Suction");
-        _obake.SetBool("SuctionWhile", true);
     }
 
 
@@ -104,7 +103,6 @@ public class ObakeAnimation  : MonoBehaviour
     /// </summary>
     public void SpittingoutAnimation()
     {
-        _obake.SetBool("SuctionWhile", false);
         _obake.SetTrigger("Spittingout");
     }
 }
