@@ -106,6 +106,16 @@ public class PlayerMove : MonoBehaviour
                 isWalkCount = false;
             }
         }
+        if (ctrlManager.stickPlayerDirection != ControllerManager.Direction.Null && !PlayerController.IsNowAction)
+        {
+            await RotateDirection(directions[ctrlManager.stickPlayerDirection], speed);
+
+            if (SkillManager.isNowSuction)
+            {
+                plCon.SkillManager.CurrentSkillC.ReverseObject();
+                isWalkCount = false;
+            }
+        }
     }
 
     private async UniTask MoveMethod(CancellationToken token, float speed)

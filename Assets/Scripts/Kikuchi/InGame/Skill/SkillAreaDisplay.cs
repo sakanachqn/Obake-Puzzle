@@ -281,6 +281,7 @@ public class SkillAreaDisplay : MonoBehaviour
 
         if (Physics.Raycast(rayPos, Vector3.down, out var hit, 10, cloneLayer))
         {
+            //Debug.DrawRay(rayPos, testvar, Color.cyan, Mathf.Infinity);
             if (posObj == null) posObj = Instantiate(skillPosPrefab, this.transform.position, Quaternion.identity);
             Debug.Log(hit.collider.name);
             if (hit.collider.tag == "clone")
@@ -290,10 +291,29 @@ public class SkillAreaDisplay : MonoBehaviour
         }
         else
         {
+
+
             if (Physics.Raycast(firstRayPos, Vector3.down, out var hitA, 10, cloneLayer))
             {
-                Debug.DrawRay(firstRayPos, testvar, Color.red, Mathf.Infinity);
+                //Debug.DrawRay(firstRayPos, testvar, Color.red, Mathf.Infinity);
                 posObj.transform.position = hitA.collider.transform.position;
+            }
+            else
+            {
+                if (str == "DPad")
+                {
+                    rayPos = this.transform.position + new Vector3(0, 5, 0) + (direcDic[ControllerManager.instance.dPadDirection] * 2);
+                }
+                else
+                {
+                    rayPos = this.transform.position + new Vector3(0, 5, 0) + (direcDic[ControllerManager.instance.stickPlayerDirection] * 2);
+                }
+
+                if (Physics.Raycast(rayPos, Vector3.down, out var hitB, 10, cloneLayer)) 
+                {
+                    if(posObj == null)posObj = Instantiate(skillPosPrefab, hitB.collider.transform.position, Quaternion.identity);
+                    posObj.transform.position = hitB.collider.transform.position;
+                }
             }
         }
 
