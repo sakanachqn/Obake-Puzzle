@@ -45,7 +45,7 @@ public class TitleGimmickManager : MonoBehaviour
         startBtnPos = startBtn.rectTransform.localPosition;
 
         //受け皿のマテリアルをランダムに変更
-        int index = Random.Range(0,bowlMaterials.Count);
+        int index = Random.Range(0, bowlMaterials.Count);
         bowl.GetComponent<MeshRenderer>().material = bowlMaterials[index];
 
         //ボタンを揺らす(ループ)
@@ -83,5 +83,10 @@ public class TitleGimmickManager : MonoBehaviour
             var obk = Instantiate(obake, obakePosition, Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360)));
             obakeCount++;
         }
+    }
+
+    private void OnDestroy()
+    {
+        obakeCount = 0;
     }
 }
