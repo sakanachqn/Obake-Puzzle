@@ -89,11 +89,13 @@ public class SkillAreaDisplay : MonoBehaviour
                 if (Physics.Raycast(t.position, Vector3.down, out var hit, 100))
                 {
                     // "Pitfall"タグのオブジェクトにヒットした場合はスキップ
-                    if (hit.collider.tag == "Pitfall")
-                        return;
+                    if (hit.collider.tag == "Pitfall" ) return;
 
-                    // オブジェクトにヒットした場合、スキル範囲を生成
-                    if (hit.transform.position.y != 0)
+                    if (hit.collider.tag == "WoodenBox") continue;
+                    if (hit.collider.tag == "IronBox" && hit.transform.position.y != 0) continue; 
+
+                        // オブジェクトにヒットした場合、スキル範囲を生成
+                        if (hit.transform.position.y != 0)
                     {
                         hitObj.Add(hit.collider.gameObject);
                         //hit.collider.gameObject.SetActive(false);
@@ -127,8 +129,18 @@ public class SkillAreaDisplay : MonoBehaviour
                     if (hit.collider.tag == "Pitfall")
                         return;
 
+                    if (hit.transform.position.y > 1)
+                    {
+                        hitObj.Add(hit.collider.gameObject);
+                        //hit.collider.gameObject.SetActive(false);
+                        Vector3 pos = hit.transform.position;
+                        pos.y = 1;
+                        posList.Add(pos);
+                        createArea(pos);
+                    }
+                    
                     // オブジェクトにヒットした場合、スキル範囲を生成
-                    if (hit.transform.position.y != 0)
+                    if (hit.transform.position.y == 1)
                     {
                         hitObj.Add(hit.collider.gameObject);
                         //hit.collider.gameObject.SetActive(false);
